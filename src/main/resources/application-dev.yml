@@ -1,0 +1,14 @@
+#测试环境
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #用于连接本地数据库测试是否能正确运行
+    url: jdbc:mysql://192.168.93.135:13306/test_database?userSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: root
+    password: root123456
+    hikari:
+      max-lifetime: 500000  #连接的最大生命周期，表示一个连接在被关闭之前的最长使用时间。设置为30分钟（1800000毫秒）
+  data:
+    redis:
+      port: 6379
+      host: 192.168.93.135
