@@ -4,7 +4,7 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.OK;
 
 /**
- * 自定义响应需要集成这个类
+ * 自定义响应需要继承这个类
  * @author xxl
  * @since 2023/9/16
  */
