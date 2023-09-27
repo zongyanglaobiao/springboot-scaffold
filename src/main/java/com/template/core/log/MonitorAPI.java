@@ -9,5 +9,12 @@ import org.aspectj.lang.JoinPoint;
  * @since 2023/9/16
  */
 public interface MonitorAPI {
+    /**
+     * 获取点,用于回调打印controller层
+     *
+     * @param joinPoint 加入点
+     * @param request   请求
+     * @return 加入点
+     */
     JoinPoint getPoint(JoinPoint joinPoint, HttpServletRequest request);
 }
