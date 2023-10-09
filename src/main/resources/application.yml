@@ -4,7 +4,7 @@ spring:
     lazy-initialization: true  #懒加载
   profiles:
     active:
-      - config  #swagger配置
+      - swagger  #swagger配置
       - dev #数据源配置
   task:
     scheduling:
