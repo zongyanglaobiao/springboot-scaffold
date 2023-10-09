@@ -29,6 +29,7 @@
         <com.baomidou.version>3.5.3.1</com.baomidou.version>
         <pagehelper-spring-boot-starter.version>1.4.6</pagehelper-spring-boot-starter.version>
         <cn.hutool.version>5.8.20</cn.hutool.version>
+        <fastjson2.version>2.0.23</fastjson2.version>
     </properties>
     <dependencies>
         <!-- spring web        -->
@@ -95,6 +96,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!--   fastjson     -->
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>${fastjson2.version}</version>
         </dependency>
     </dependencies>
 

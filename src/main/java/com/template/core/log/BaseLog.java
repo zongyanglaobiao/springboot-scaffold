@@ -1,6 +1,7 @@
 package com.template.core.log;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.alibaba.fastjson2.JSONObject;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +57,7 @@ public class BaseLog {
         try {
             proceed = point.proceed();
         } finally {
-            log.info("[请求API：[{}]，请求参数：[{}],返回结果：[{}]]", request.getRequestURI(), Arrays.toString(point.getArgs()),proceed);
+            log.info("[请求API：{{}}，请求参数：{{}},返回结果：{{}}]", request.getRequestURI(), point.getArgs(), JSONObject.toJSONString(proceed));
         }
         return proceed;
     }
@@ -67,7 +68,7 @@ public class BaseLog {
      */
     @Before("exceptionPointCut()")
     public void exceptionLog(JoinPoint point) {
-        log.error("[请求错误API：[{}]，错误类型：[{}]，错误原因：[{}]]", request.getRequestURI(), point.getSignature().toString(), Arrays.toString(point.getArgs()));
+        log.error("[请求错误API：{{}}，错误类型：{{}}，错误原因：{{}}]", request.getRequestURI(), point.getSignature().toString(), Arrays.toString(point.getArgs()));
     }
 
 }
