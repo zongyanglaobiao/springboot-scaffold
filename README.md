@@ -60,7 +60,9 @@
 
 - **传统的MVC开发到后面会发现，项目越来越臃肿，所以包结构采用DDD开发模式。详细内容见下图**
 
-- ##### 实际DDD是一种思想`就是软件的领域开发，一个“原子”领域就是一种不开拆分业务的昵称,可以称之为业务开发`，传统的MVC以数据为基础。因此包结构有所变化，但是没有标准的说一个项目包该怎样命令，下面是简化版的包命名
+- ##### 实际DDD是一种思想`就是软件的领域开发，一个“原子”领域就是一种不开拆分业务的昵称,可以称之为业务开发`，传统的MVC以数据为基础。所以采用DDD开发模式，包结构需要有所变化，但是没有标准的命名，下面是简化版
+- ##### 开发流程：如果根据DDD思想详细流程见下图，传统的`controller <-- service <-- dao`,service层太广泛所以采用domain的领域思想，更具业务创建service
+
 ```text
 main/
 ├── java
@@ -119,16 +121,17 @@ main/
 
 **MVC VS DDD**
 
-![image-20231011141911135](./src/main/resources/img//image-20231011141911135.png)
+![image-20231011141911135](./src/main/resources/img/image-20231011141911135.png)
 
 ## CQRS实战
 
 - CQRS(Command Query Responsibility Segregation)是将Command(命令)与Query(查询)分离的一种模式。其基本思想在于：任何一个方法都可以拆分为命令和查询两部分：
 - Command：不返回任何结果(void)，但会改变对象的状态。Command是引起数据变化操作的总称，一般会执行某个动作，如：新增，更新，删除等操作。操作都封装在Command中，用户提交Commond到CommandBus，然后分发到对应的CommandHandler中执行。Command执行后通过Repository将数据持久化。事件源(Event source)CQRS，Command将特定的Event发送到EventBus，然后由特定的EventHandler处理。
 - Query：返回查询结果，不会对数据产生变化的操作，只是按照某些条件查找数据。基于Query条件，返回查询结果；为不同的场景定制不同的Facade。
-  
 
-![image-20231011142126336](./src/main/resources/img//image-20231011142126336.png)
+**DDD开发流程**
+
+![image-20231011142126336](./src/main/resources/img/image-20231011142126336.png)
 
 **标准包结构：借鉴。**
 
