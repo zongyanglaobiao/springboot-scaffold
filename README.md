@@ -56,7 +56,11 @@
 
 
 ## 包介绍
-- **文件存放请按照图中来**
+- **文件存放请按图说明来**
+
+- **传统的MVC开发到后面会发现，项目越来越臃肿，所以包结构采用DDD开发模式。详细内容见下图**
+
+- ##### 实际DDD是一种思想`就是软件的领域开发，一个“原子”领域就是一种不开拆分业务的昵称,可以称之为业务开发`，传统的MVC以数据为基础。因此包结构有所变化，但是没有标准的说一个项目包该怎样命令，下面是简化版的包命名
 ```text
 main/
 ├── java
@@ -105,3 +109,61 @@ main/
     └── script
         └── init.sql  sql脚本
 ```
+
+## DDD开发模式
+
+- 具体内容可以见[DDD领域驱动设计](https://blog.csdn.net/qq_41889508/article/details/124907312)
+  1. **MVC的开发模式**：是数据驱动，自低向上的思想，关注数据。
+  2. **DDD的开发模式**：是领域驱动，自顶向下，关注业务活动。
+
+**MVC VS DDD**
+
+![image-20231011141911135](E:/Program Files (x86)/Typora/note/img/image-20231011141911135.png)
+
+## CQRS实战
+
+- CQRS(Command Query Responsibility Segregation)是将Command(命令)与Query(查询)分离的一种模式。其基本思想在于：任何一个方法都可以拆分为命令和查询两部分：
+- Command：不返回任何结果(void)，但会改变对象的状态。Command是引起数据变化操作的总称，一般会执行某个动作，如：新增，更新，删除等操作。操作都封装在Command中，用户提交Commond到CommandBus，然后分发到对应的CommandHandler中执行。Command执行后通过Repository将数据持久化。事件源(Event source)CQRS，Command将特定的Event发送到EventBus，然后由特定的EventHandler处理。
+- Query：返回查询结果，不会对数据产生变化的操作，只是按照某些条件查找数据。基于Query条件，返回查询结果；为不同的场景定制不同的Facade。
+  
+
+![image-20231011142126336](E:/Program Files (x86)/Typora/note/img/image-20231011142126336.png)
+
+**标准包结构：借鉴。**
+
+│
+│    ├─interface   用户接口层 
+│    │    └─controller    控制器，对外提供（Restful）接口
+│    │    └─facade		  外观模式，对外提供本地接口和dubbo接口
+│    │    └─mq		      mq消息，消费者消费外部mq消息
+│    │ 
+│    ├─application 应用层
+│    │    ├─assembler     装配器
+│    │    ├─dto           数据传输对象，xxxCommand/xxxQuery/xxxVo     
+│    │    │    ├─command  接受增删改的参数
+│    │    │    ├─query    接受查询的参数
+│    │    │    ├─vo       返回给前端的vo对象
+│    │    ├─service       应用服务，负责领域的组合、编排、转发、转换和传递
+│    │    ├─repository    查询数据的仓库接口
+│    │    ├─listener      事件监听定义
+│    │ 
+│    ├─domain      领域层
+│    │    ├─entity        领域实体
+│    │    ├─valueobject   领域值对象
+│    │    ├─service       领域服务
+│    │    ├─repository    仓库接口，增删改的接口
+│    │    ├─acl  		  防腐层接口
+│    │    ├─event         领域事件
+│    │ 
+│    ├─infrastructure  基础设施层
+│    │    ├─converter     实体转换器
+│    │    ├─repository    仓库
+│    │    │    ├─impl     仓库实现
+│    │    │    ├─mapper   mybatis mapper接口
+│    │    │    ├─po       数据库orm数据对象 
+│    │    ├─ack			  实体转换器
+│    │    ├─mq            mq消息
+│    │    ├─cache         缓存
+│    │    ├─util          工具类
+│    │    
+│    
