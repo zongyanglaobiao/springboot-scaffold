@@ -66,48 +66,49 @@ main/
 ├── java
 │   └── com
 │       └── template
-│           ├── annotation        自定义注解包
-│           ├── Application.java  启动类
-│           ├── config         配置包
-│           ├── controller     controller层
-│           │   ├── exception
-│           │   │   └── ExceptionController.java  全局异常类
-│           │   ├── TestController.java   测试类
-│           │   ├── TestUseEntity.java   测试类
-│           │   └── TestUserMapper.java  测试类
-│           ├── core  核心包，这里面都是增加的功能一般不用动这个包，也不要把文件创建在这里
-│           │   ├── log   
-│           │   │   ├── BaseLog.java
-│           │   │   └── MonitorAPI.java 
+│           ├── Application.java 启动类
+│           ├── config     配置包
+│           ├── controller  接口层
+│           │   ├── exception   接口统一处理异常类
+│           │   │   └── ExceptionController.java
+│           │   ├── TestController.java  测试类
+│           │   ├── TestUseEntity.java 测试类
+│           │   └── TestUserMapper.java 测试类
+│           ├── core   核心包
+│           │   ├── log
+│           │   │   ├── BaseLog.java    controller日志监控，异常统一监控
+│           │   │   └── MonitorAPI.java  扩展接口
 │           │   ├── redis
 │           │   │   └── config  
-│           │   │       └── RedisConfig.java
+│           │   │       └── RedisConfig.java   redis序列化类
 │           │   ├── resp
 │           │   │   ├── Resp.java  全局响应类
-│           │   │   └── R.java  自定义响应需要实现这个接口
+│           │   │   └── R.java    扩展
 │           │   ├── swagger
-│           │   │   └── SwaggerConfig.java
+│           │   │   └── SwaggerConfig.java  swagger配置类
 │           │   └── web
-│           │       └── SpringMvcWebConfig.java  跨域配置
-│           ├── dictionary  字典包
-│           ├── domain   领域包，可以自定义以下包是推荐的
-│           │   ├── dto  
-│           │   ├── service
-│           │   └── vo
-│           ├── entities  ActiveRecord包，也就是实体类包
-│           ├── exception 自定义异常包
-│           ├── filter 过滤器包
-│           ├── interceptor 拦截器包
-│           ├── mapper 相当于mapper包但是这样命名更加规范
-│           └── utils  工具包
+│           │       └── SpringMvcWebConfig.java   mvc配置类
+│           ├── domain   领域层
+│           │   └── users   用于业务相关的操作都在这里
+│           │       ├── services    跟MVC的service一样的作用
+│           │       └── types   领域相关字典
+│           │       └── model   传统的MVC什么VO、DTO都在一个包现在放在这个model包下
+│           ├── infrastructure   基础设施层
+│           │   ├── exception  全局自定义异常包，领域相关异常在domain层
+│           │   ├── filter   过滤器
+│           │   ├── interceptor  拦截器
+│           │   └── repository   跟MVC的dao层一样的作用
+│           │       ├── entities  实体包
+│           │       └── mapper 映射操作接口包
+│           └── utils
 └── resources
-    ├── application-config.yml
-    ├── application-dev.yml
-    ├── application.yml    
-    ├── logback.xml  日志格式文件
-    ├── mapper  mybatis文件
+    ├── application-dev.yml   开发环境配置
+    ├── application-swagger.yml   swagger配置
+    ├── application.yml 通用配置
+    ├── logback.xml   log格式文件
+    └── img  存放img图片
     └── script
-        └── init.sql  sql脚本
+        └── init.sql
 ```
 
 ## DDD开发模式
@@ -118,7 +119,7 @@ main/
 
 **MVC VS DDD**
 
-![image-20231011141911135](E:/Program Files (x86)/Typora/note/img/image-20231011141911135.png)
+![image-20231011141911135](./src/main/resources/img//image-20231011141911135.png)
 
 ## CQRS实战
 
@@ -127,43 +128,8 @@ main/
 - Query：返回查询结果，不会对数据产生变化的操作，只是按照某些条件查找数据。基于Query条件，返回查询结果；为不同的场景定制不同的Facade。
   
 
-![image-20231011142126336](E:/Program Files (x86)/Typora/note/img/image-20231011142126336.png)
+![image-20231011142126336](./src/main/resources/img//image-20231011142126336.png)
 
 **标准包结构：借鉴。**
 
-│
-│    ├─interface   用户接口层 
-│    │    └─controller    控制器，对外提供（Restful）接口
-│    │    └─facade		  外观模式，对外提供本地接口和dubbo接口
-│    │    └─mq		      mq消息，消费者消费外部mq消息
-│    │ 
-│    ├─application 应用层
-│    │    ├─assembler     装配器
-│    │    ├─dto           数据传输对象，xxxCommand/xxxQuery/xxxVo     
-│    │    │    ├─command  接受增删改的参数
-│    │    │    ├─query    接受查询的参数
-│    │    │    ├─vo       返回给前端的vo对象
-│    │    ├─service       应用服务，负责领域的组合、编排、转发、转换和传递
-│    │    ├─repository    查询数据的仓库接口
-│    │    ├─listener      事件监听定义
-│    │ 
-│    ├─domain      领域层
-│    │    ├─entity        领域实体
-│    │    ├─valueobject   领域值对象
-│    │    ├─service       领域服务
-│    │    ├─repository    仓库接口，增删改的接口
-│    │    ├─acl  		  防腐层接口
-│    │    ├─event         领域事件
-│    │ 
-│    ├─infrastructure  基础设施层
-│    │    ├─converter     实体转换器
-│    │    ├─repository    仓库
-│    │    │    ├─impl     仓库实现
-│    │    │    ├─mapper   mybatis mapper接口
-│    │    │    ├─po       数据库orm数据对象 
-│    │    ├─ack			  实体转换器
-│    │    ├─mq            mq消息
-│    │    ├─cache         缓存
-│    │    ├─util          工具类
-│    │    
-│    
+![image-20231011143425173](./src/main/resources/img/image-20231011141911135.png)
