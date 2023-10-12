@@ -1,7 +1,7 @@
 #==========================spring设置===========================================
 spring:
   main:
-    lazy-initialization: true  #懒加载
+    lazy-initialization: false  #懒加载
   profiles:
     active:
       - swagger  #swagger配置
