@@ -59,53 +59,56 @@
 - ##### 开发流程：如果根据DDD思想详细流程见下图，传统的`controller <-- service <-- dao`,service层太广泛所以采用domain的领域思想，更具业务创建service
 
 ```text
-main/
-├── java
-│   └── com
-│       └── template
-│           ├── Application.java 启动类
-│           ├── config     配置包
-│           ├── controller  接口层
-│           │   ├── exception   接口统一处理异常类
-│           │   │   └── ExceptionController.java
-│           │   ├── TestController.java  测试类
-│           │   ├── TestUseEntity.java 测试类
-│           │   └── TestUserMapper.java 测试类
-│           ├── core   核心包
-│           │   ├── log
-│           │   │   ├── BaseLog.java    controller日志监控，异常统一监控
-│           │   │   └── MonitorAPI.java  扩展接口
-│           │   ├── redis
-│           │   │   └── config  
-│           │   │       └── RedisConfig.java   redis序列化类
-│           │   ├── resp
-│           │   │   ├── Resp.java  全局响应类
-│           │   │   └── R.java    扩展
-│           │   ├── swagger
-│           │   │   └── SwaggerConfig.java  swagger配置类
-│           │   └── web
-│           │       └── SpringMvcWebConfig.java   mvc配置类
-│           ├── domain   领域层
-│           │   └── users   用于业务相关的操作都在这里
-│           │       ├── services    跟MVC的service一样的作用
-│           │       └── types   领域相关字典
-│           │       └── model   传统的MVC什么VO、DTO都在一个包现在放在这个model包下
-│           ├── infrastructure   基础设施层
-│           │   ├── exception  全局自定义异常包，领域相关异常在domain层
-│           │   ├── filter   过滤器
-│           │   ├── interceptor  拦截器
-│           │   └── repository   跟MVC的dao层一样的作用
-│           │       ├── entities  实体包
-│           │       └── mapper 映射操作接口包
-│           └── utils
-└── resources
-    ├── application-dev.yml   开发环境配置
-    ├── application-swagger.yml   swagger配置
-    ├── application.yml 通用配置
-    ├── logback.xml   log格式文件
-    └── img  存放img图片
-    └── script
-        └── init.sql
+└── main
+    ├── java
+    │   └── com
+    │       └── template
+    │           ├── Application.java  启动类
+    │           ├── config    配置包
+    │           ├── controller   接口包
+    │           │   ├── exception   
+    │           │   │   └── ExceptionController.java 接口异常类
+    │           │   ├── TestController.java  测试框架
+    │           │   ├── TestUseEntity.java  测试框架
+    │           │   └── TestUserMapper.java  测试框架
+    │           ├── core   提供核心功能包
+    │           │   ├── log 全局日志打印包
+    │           │   │   ├── BaseLog.java
+    │           │   │   └── MonitorAPI.java
+    │           │   ├── redis  redis配置包
+    │           │   │   └── config
+    │           │   │       └── RedisConfig.java
+    │           │   ├── resp  全局响应包
+    │           │   │   ├── Resp.java
+    │           │   │   └── R.java
+    │           │   ├── swagger   swagger包
+    │           │   │   └── SwaggerConfig.java
+    │           │   └── web  mvc配置包
+    │           │       └── SpringMvcWebConfig.java
+    │           ├── domain  领域包
+    │           │   └── users   示例包
+    │           │       ├── enums   
+    │           │       ├── model  充血模型包
+    │           │       └── services  业务包
+    │           ├── exception  全局自定义异常包
+    │           ├── filter  过滤器包
+    │           ├── interceptor 拦截器包
+    │           ├── repository dao包
+    │           │   ├── entities
+    │           │   └── mapper
+    │           └── utils 工具包
+    └── resources
+        ├── application-dev.yml   开发配置yml
+        ├── application-swagger.yml  swagger配置yml
+        ├── application.yml  通用配置yml
+        ├── img
+        │   ├── image-20231011141911135.png
+        │   ├── image-20231011142126336.png
+        │   └── image-20231011143425173.png
+        ├── logback.xml
+        ├── mapper   
+        └── script
+            └── init.sql
 ```
 
 ## DDD开发模式
