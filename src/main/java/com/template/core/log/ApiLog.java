@@ -27,7 +27,7 @@ import java.util.Arrays;
 public class ApiLog {
     @Resource
     HttpServletRequest request;
-    @Pointcut("execution(* com.template.controller..* (..))  && !execution(* com.template.controller.exception..*(..))")
+    @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
     public void apiPointCut() {
     }
     @Pointcut("execution(* com.template.controller.exception..* (..))")
