@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @Slf4j
 @Indexed
-@MapperScans({@MapperScan("com.template.repository.mapper"),@MapperScan("com.template.controller")})
+@MapperScan("**.mapper")
 @SpringBootApplication
 public class Application {
 

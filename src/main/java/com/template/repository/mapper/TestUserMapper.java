@@ -1,6 +1,7 @@
-package com.template.controller;
+package com.template.repository.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.template.controller.TestUseEntity;
 
 /**
  * @author xxl
