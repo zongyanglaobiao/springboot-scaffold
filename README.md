@@ -72,8 +72,8 @@
     │           │   ├── TestUseEntity.java  测试框架
     │           │   └── TestUserMapper.java  测试框架
     │           ├── core   提供核心功能包
-    │           │   ├── log 全局日志打印包
-    │           │   │   ├── BaseLog.java
+    │           │   ├── log 全局API日志打印包
+    │           │   │   ├── ApiLog.java
     │           │   │   └── MonitorAPI.java
     │           │   ├── redis  redis配置包
     │           │   │   └── config

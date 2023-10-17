@@ -24,7 +24,7 @@ import java.util.Arrays;
 @Aspect
 @Component
 @Slf4j
-public class BaseLog {
+public class ApiLog {
     @Resource
     HttpServletRequest request;
     @Pointcut("execution(* com.template.controller..* (..))  && !execution(* com.template.controller.exception..*(..))")
