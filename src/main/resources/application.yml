@@ -18,9 +18,9 @@ spring:
       date-time: yyyy-MM-dd HH:mm:ss #日期格式化
   servlet:
     multipart:
-      max-request-size: 31457280   #文件上传大小。默认10mb，字节为单位
+      max-request-size: 30MB
       file-size-threshold: 0 #文件写入磁盘的阈值,设置为0，即上传就存储在服务器,如果是100则表示小于100会存储在内存
-      max-file-size: 31457280    #单个文件上传的最大值
+      max-file-size: 30MB    #单个文件上传的最大值
 server:
   port: 8080
 #==========================mybatis配置=======================================
