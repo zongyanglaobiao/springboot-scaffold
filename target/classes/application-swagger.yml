@@ -1,0 +1,20 @@
+#========================swagger 配置========================================
+springdoc:
+  api-docs:
+    enabled: true   #是否开启文档功能关系到swagger-ui能否开启
+    path: /v3/api-docs #swagger后端请求地址，查看swagger所有配置，同时也是配置web端的接口配置,必须写
+  swagger-ui:
+    tags-sorter: alpha  #标签排序
+    operations-sorter: alpha  #操作排序
+    path: /swagger  #自定义swagger前端请求路径，输入http：127.0.0.1:8080/swagger会自动重定向到swagger页面注意是path不是url
+  group-configs:
+    - group: 测试API
+      packages-to-scan:
+        - com.template.controller
+knife4j:   # knife4j的增强配置，不需要增强可以不配
+  enable: true  #开启访问默认路径doc.html
+  setting:
+    language: zh_cn
+    enable-request-cache: false  #不开启缓存请求
+  cors: true  #跨域请求
+  production: false   #是否是生产环境，如果设置true,doc.html就不能访问
