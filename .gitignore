@@ -48,3 +48,8 @@ test/*
 /.idea/encodings.xml
 /.idea/misc.xml
 /.idea/inspectionProfiles/Project_Default.xml
+/.idea/jarRepositories.xml
+/logs/snowy-web-app-log/log_error.log
+/logs/snowy-web-app-log/log_total.log
+/.idea/uiDesigner.xml
+/.idea/vcs.xml

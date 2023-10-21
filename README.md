@@ -26,6 +26,7 @@
 6. `mysql-connector-j`:MySQL驱动
 7. `spring-boot-starter-jdbc`:基于MySQL驱动提供jdbc简单编程
 8. `lombok`:get/set方法
+9. `Gson`:json转化、序列化工具
 
 ### 需要去官网/仓库去看版本信息
 
@@ -33,7 +34,7 @@
 2. `knife4j-openapi3-jakarta-spring-boot-starter`:基于swagger的接口测试框架
 3. `mybatis-plus-boot-starter`:用代码写SQL
 4. `pagehelper-spring-boot-starter`:分页工具
-5. `fastjson2`:序列化工具
+
 
 ## 测试说明
 
@@ -68,9 +69,9 @@
     │           ├── controller   接口包
     │           │   ├── exception   
     │           │   │   └── ExceptionController.java 接口异常类
-    │           │   ├── TestController.java  测试框架
-    │           │   ├── TestUseEntity.java  测试框架
-    │           │   └── TestUserMapper.java  测试框架
+    │           │   ├── TestController.java  测试类
+    │           │   ├── TestUseEntity.java  测试类
+    │           │   └── TestUserMapper.java  测试类
     │           ├── core   提供核心功能包
     │           │   ├── log 全局API日志打印包
     │           │   │   ├── ApiLog.java
