@@ -31,7 +31,7 @@ public class ApiLog {
     @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
     public void apiPointCut() {
     }
-    @Pointcut("execution(* com.template.controller.exception..* (..))")
+    @Pointcut("@annotation(org.springframework.web.bind.annotation.ExceptionHandler)")
     public void exceptionPointCut() {
     }
 
