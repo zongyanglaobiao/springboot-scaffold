@@ -31,11 +31,3 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl   #打印sql
   mapper-locations: "classpath:mapper/*.xml"
-#==========================分页设置===========================================
-pagehelper:
-  helper-dialect: mysql  #分页方言设置
-  properties: propertyValue
-  reasonable: true  # 是否启用合理化分页（根据页码自动计算合理的值）
-  defaultCount: true # 分页插件默认参数支持 default-count 形式，自定义扩展的参数，必须大小写一致
-  params: count=countSql  # 分页参数映射，count指定总数，可以自定义
-  support-methods-arguments: true   #支持自定义参数

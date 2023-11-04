@@ -27,7 +27,6 @@
         <!--  依赖版本      -->
         <com.github.xiaoymin.version>4.2.0</com.github.xiaoymin.version>
         <com.baomidou.version>3.5.3.1</com.baomidou.version>
-        <pagehelper-spring-boot-starter.version>1.4.6</pagehelper-spring-boot-starter.version>
         <cn.hutool.version>5.8.20</cn.hutool.version>
     </properties>
     <dependencies>
@@ -78,12 +77,6 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>${cn.hutool.version}</version>
-        </dependency>
-        <!--   分页      -->
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>${pagehelper-spring-boot-starter.version}</version>
         </dependency>
         <!--	knife4j文档	-->
         <dependency>
