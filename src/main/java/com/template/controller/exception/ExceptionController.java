@@ -1,7 +1,7 @@
 package com.template.controller.exception;
 
 import com.template.core.resp.R;
-import com.template.core.resp.Resp;
+import com.template.core.resp.RespEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -18,7 +18,7 @@ public class ExceptionController {
      * 捕捉spring boot容器所有的未知异常
      */
     @ExceptionHandler(Exception.class)
-    public Resp<?> exception(Exception exception) {
+    public RespEntity<?> exception(Exception exception) {
         return R.fail();
     }
 }

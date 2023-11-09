@@ -2,7 +2,7 @@ package com.template.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.template.core.resp.R;
-import com.template.core.resp.Resp;
+import com.template.core.resp.RespEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,7 +32,7 @@ public class TestController {
      */
     @GetMapping("/hello")
     @Operation(summary = "测试接口")
-    public Resp<String> hello() {
+    public RespEntity<String> hello() {
         return R.success();
     }
 
@@ -46,7 +46,7 @@ public class TestController {
     @GetMapping("redis")
     @Operation(summary = "测试redis")
     @Parameter(name = "key",description = "redis的key")
-    public Resp<String> redis(@RequestParam("key")String key) {
+    public RespEntity<String> redis(@RequestParam("key")String key) {
         redisTemplate.opsForValue().set("username","xxl");
         Object o = redisTemplate.opsForValue().get(key);
         log.info("查询：key=>{},value=>{}",key,o);
@@ -62,7 +62,7 @@ public class TestController {
     @GetMapping("mysql")
     @Operation(summary = "测试mysql")
     @Parameter(name = "id",description = "列id")
-    public Resp<String> mysql(@RequestParam("id")String id) {
+    public RespEntity<String> mysql(@RequestParam("id")String id) {
         TestUseEntity user = new TestUseEntity();
         //插入
         user.setId("16494");

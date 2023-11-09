@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Data
 @Accessors(chain = true)
 @Schema(description = "响应对象")
-public  class Resp<T> implements Serializable {
+public  class RespEntity<T> implements Serializable {
     @Serial
     private static final long serialVersionUID = -3917323953100432259L;
 
@@ -26,13 +26,13 @@ public  class Resp<T> implements Serializable {
     @Schema(description = "返回数据")
     private T data;
 
-    public Resp(String code, String message, T data) {
+    public RespEntity(String code, String message, T data) {
         this.code = code;
         this.message = message;
         this.data = data;
     }
 
-    public static <T> Resp<T> baseResp(String code, String message, T data) {
-        return new Resp<T>(code, message,data);
+    public static <T> RespEntity<T> base(String code, String message, T data) {
+        return new RespEntity<T>(code, message,data);
     }
 }

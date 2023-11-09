@@ -12,28 +12,28 @@ public interface R<T> {
     /**
      *  成功
      */
-    Resp<T> success(String message,T t);
-    Resp<T> success(String code,String message);
-    Resp<T> success(String message);
+    RespEntity<T> success(String message,T t);
+    RespEntity<T> success(String code,String message);
+    RespEntity<T> success(String message);
 
     /**
      *  失败
      */
-    Resp<T> fail(String message);
-    Resp<T> fail(String message,T t);
-    Resp<T> fail(String code,String message);
+    RespEntity<T> fail(String message);
+    RespEntity<T> fail(String message,T t);
+    RespEntity<T> fail(String code,String message);
 
 
 
-   static <T>   Resp<T> success(){
+   static <T>   RespEntity<T> success(){
        String reasonPhrase = OK.getReasonPhrase();
        int value = OK.value();
-       return Resp.baseResp(String.valueOf(value),reasonPhrase,null);
+       return RespEntity.base(String.valueOf(value),reasonPhrase,null);
    }
 
-   static <T> Resp<T> fail() {
+   static <T> RespEntity<T> fail() {
        String reasonPhrase = INTERNAL_SERVER_ERROR.getReasonPhrase();
        int value = INTERNAL_SERVER_ERROR.value();
-       return Resp.baseResp(String.valueOf(value),reasonPhrase,null);
+       return RespEntity.base(String.valueOf(value),reasonPhrase,null);
    }
 }
