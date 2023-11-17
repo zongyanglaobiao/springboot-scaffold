@@ -29,5 +29,5 @@ mybatis-plus:
     db-config:
       id-type: assign_id #全局主键使用雪花算法生成id
   configuration:
-    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl   #打印sql
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl   #打印sql
   mapper-locations: "classpath:mapper/*.xml"
