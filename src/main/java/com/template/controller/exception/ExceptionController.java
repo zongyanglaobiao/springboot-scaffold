@@ -1,6 +1,5 @@
 package com.template.controller.exception;
 
-import com.template.core.resp.R;
 import com.template.core.resp.RespEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,6 +18,6 @@ public class ExceptionController {
      */
     @ExceptionHandler(Exception.class)
     public RespEntity<?> exception(Exception exception) {
-        return R.fail();
+        return RespEntity.base(500,"fail",null);
     }
 }

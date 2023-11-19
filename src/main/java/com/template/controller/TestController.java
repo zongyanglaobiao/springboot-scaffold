@@ -1,7 +1,6 @@
 package com.template.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.template.core.resp.R;
 import com.template.core.resp.RespEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,7 +32,7 @@ public class TestController {
     @GetMapping("/hello")
     @Operation(summary = "测试接口")
     public RespEntity<String> hello() {
-        return R.success();
+        return RespEntity.base(200,"success",null);
     }
 
     @Resource
@@ -51,7 +50,7 @@ public class TestController {
         Object o = redisTemplate.opsForValue().get(key);
         log.info("查询：key=>{},value=>{}",key,o);
         redisTemplate.keys("*").forEach(dto -> log.info("key=>{},value=>{}",dto,redisTemplate.opsForValue().get(dto)));
-        return R.success();
+        return RespEntity.base(200,"success",null);
     }
 
     /**
@@ -77,6 +76,6 @@ public class TestController {
         //查询所有
         List<TestUseEntity> testUseEntities = user.selectList(new LambdaQueryWrapper<>());
         testUseEntities.forEach(dto -> log.info(dto.toString()));
-        return R.success();
+        return RespEntity.base(200,"success",null);
     }
 }
