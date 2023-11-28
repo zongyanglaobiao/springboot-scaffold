@@ -32,7 +32,53 @@ public  class RespEntity<T> implements Serializable {
         this.data = data;
     }
 
+    /**
+     * 基础方法
+     * @param code
+     * @param message
+     * @param data
+     * @return
+     * @param <T>
+     */
     public static <T> RespEntity<T> base(int code, String message, T data) {
         return new RespEntity<T>(code, message,data);
+    }
+
+    public static <T>  RespEntity<T> success(){
+        HttpCode success = HttpCode.SUCCESS;
+        return RespEntity.base(success.getCode(),success.getReasonPhrase(),null);
+    }
+
+    public static <T> RespEntity<T> success(String message, T t) {
+        return base(200, message, t);
+    }
+
+
+    public static <T> RespEntity<T> success(int code, String message) {
+        return base(code, message, null);
+    }
+
+
+    public static <T> RespEntity<T> success(String message) {
+        return base(200, message, null);
+    }
+
+    public static <T> RespEntity<T> fail() {
+        HttpCode serverError = HttpCode.INTERNAL_SERVER_ERROR;
+        return RespEntity.base(serverError.getCode(),serverError.getReasonPhrase(),null);
+    }
+
+    public static <T> RespEntity<T> fail(String message) {
+        return base(500, message, null);
+    }
+
+
+    public static <T> RespEntity<T> fail(String message, T t) {
+        return base(500, message, t);
+    }
+
+
+    public static <T> RespEntity<T> fail(int code, String message) {
+        return base(code, message, null);
     }
 }
