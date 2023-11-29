@@ -63,6 +63,10 @@ public  class RespEntity<T> implements Serializable {
         return base(200, message, null);
     }
 
+    public static <T> RespEntity<T> success(T data) {
+        HttpCode success = HttpCode.SUCCESS;
+        return base(200, success.getReasonPhrase(), data);
+    }
     public static <T> RespEntity<T> fail() {
         HttpCode serverError = HttpCode.INTERNAL_SERVER_ERROR;
         return RespEntity.base(serverError.getCode(),serverError.getReasonPhrase(),null);

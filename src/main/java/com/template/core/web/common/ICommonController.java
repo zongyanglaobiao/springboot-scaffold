@@ -16,7 +16,7 @@ public interface ICommonController<E,C,R,U,D> {
         return null;
     }
 
-    default  E delete(D param) {
+    default  E delete(D id) {
         return null;
     }
 

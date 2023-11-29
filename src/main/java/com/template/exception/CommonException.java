@@ -1,5 +1,8 @@
 package com.template.exception;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.io.Serial;
 
 /**
@@ -7,6 +10,8 @@ import java.io.Serial;
  * @author xxl
  * @since 2023/11/19
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class CommonException extends Exception{
     @Serial
     private static final long serialVersionUID = 6064848422851390201L;
@@ -14,9 +19,13 @@ public class CommonException extends Exception{
     private int code;
     private String msg;
 
-    public CommonException(String message, int code, String msg) {
+    public CommonException(String message, int code) {
         super(message);
         this.code = code;
-        this.msg = msg;
+        this.msg = message;
+    }
+    public CommonException(String message) {
+        this(message, 500);
     }
 }
+
