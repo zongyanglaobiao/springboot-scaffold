@@ -2,6 +2,7 @@ package com.template.core.utils;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import com.template.exception.CommonException;
@@ -26,8 +27,10 @@ public class FileUtils {
      * @throws CommonException 使用
      */
     public static String upload(InputStream file, String savePath) throws CommonException {
+        if (ObjectUtil.isNull(file) || StrUtil.isBlank(savePath)) {
+            return  null;
+        }
         //路径不存就创建
-
         File touch = FileUtil.touch(new File(savePath));
         try (BufferedOutputStream writer = new BufferedOutputStream(new FileOutputStream(touch))){
             file.transferTo(writer);
@@ -91,10 +94,11 @@ public class FileUtils {
      * @return 字符串
      */
     public static String getFileSuffix(String path){
-        if (StrUtil.isBlank(path)) {
+        final String dot = ".";
+        if (StrUtil.isBlank(path) || path.contains(dot)) {
             return null;
         }
-        return path.substring(path.lastIndexOf(".") + 1);
+        return path.substring(path.lastIndexOf(dot) + 1);
     }
 
     /**

@@ -1,18 +1,21 @@
 #  这个项目是干什么的
-- 提供单体spring-boot基础框架，让你进行快速开发。对于每次新建项目时，建包、日志、日志格式文件、数据库配置等等...通用功能的搭建太耽误我们的时间。于是就写了这个仓库，为什么不是说写了框架因为我并没有创造什么！使用的时候将他拉取下来修改文件夹名字，就搭建好了基础框架。
+- 提供单体spring-boot脚手架，进行快速开发。对于每次新建项目时，建包、日志、日志格式文件、数据库配置等等...通用功能的搭建太耽误我们的时间。使用的时候将他拉取下来修改文件夹名字，就搭建好了基础框架。
 - 其实这个仓库更像是一个web项目，但是没有业务在其中。拉取本项目到本地打开其中有样例说明
-- 记得我学习spring-boot的时候，有一句话到现在仍记得`约定大于配置`,所以我希望使用本项目的遵从我的约定，当然你也可以进行改动
-## 目前已搭建好
+- `约定大于配置`这句名言至今我仍在遵守,所以我希望使用本项目的遵从我的约定，当然你也可以进行改动
 
-1. API请求监控
-2. 全局异常日志监控
-3. 提供日志文件格式
-4. 全局响应类
-5. Redis序列化
-6. swagger通用配置
-7. knife4j框架集成
-8. 跨域配置
-9. 通用的yml配置
+## 目前已提供
+
+1. 通用异常[CommonException.java](./src/main/java/com/template/exception/CommonException.java)
+2. 统一异常返回[ExceptionController.java](./src/main/java/com/template/controller/exception/ExceptionController.java)
+3. 接口，异常日志记录[ApiLog.java](./src/main/java/com/template/core/log/ApiLog.java)
+4. redis工具类[RedisConfig.java](./src/main/java/com/template/core/redis/config/RedisConfig.java)
+5. redis序列化[RedisUtils.java](./src/main/java/com/template/core/redis/RedisUtils.java)
+6. 统一响应[RespEntity.java](./src/main/java/com/template/core/resp/RespEntity.java)
+7. swagger集成[SwaggerConfig.java](./src/main/java/com/template/core/swagger/SwaggerConfig.java)
+8. 断言封装类[AssertUtils.java](./src/main/java/com/template/core/utils/AssertUtils.java)
+9. 通用分页请求工具类[CommonPageRequestUtils.java](./src/main/java/com/template/core/utils/CommonPageRequestUtils.java)
+10. 文件下载上传类[FileUtils.java](./src/main/java/com/template/core/utils/FileUtils.java)
+11. SpringMvc相关的配置[SpringMvcWebConfig.java](./src/main/java/com/template/core/web/SpringMvcWebConfig.java)
 
 ## 目前已集成的依赖
 
@@ -26,26 +29,12 @@
 6. `mysql-connector-j`:MySQL驱动
 7. `spring-boot-starter-jdbc`:基于MySQL驱动提供jdbc简单编程
 8. `lombok`:get/set方法
-9. `Gson`:json转化、序列化工具
 
 ### 需要去官网/仓库去看版本信息
 
 1. `hutool-all`:java语法糖
 2. `knife4j-openapi3-jakarta-spring-boot-starter`:基于swagger的接口测试框架
 3. `mybatis-plus-boot-starter`:用代码写SQL
-
-
-
-## 测试说明
-
-1. 在`com.template.controller`包下有三个测试文件测试项目集成的依赖、功能能否使用。当然这样存放文件是不标准，测试结束没问题可以删除，注意exception包的文件不可以删除可以修改
-   - Redis集成测试
-   - MySQL集成测试
-   - 日志监控测试
-2. 测试接口框架：查看`localhost:8080/doc.html`
-3. 在`application-dev.yml`文件中
-   - redis：需要连接自己的
-   - mysql：需要来连接自己数据库，**script/init.sql**提供了sql脚本请务必使用，否则关于MySQL的测试可能失败
 
 ## 启动类说明
 
@@ -60,56 +49,32 @@
 - ##### 开发流程：如果根据DDD思想详细流程见下图，传统的`controller <-- service <-- dao`,service层太广泛所以采用domain的领域思想，更具业务创建service
 
 ```text
+./
 └── main
     ├── java
     │   └── com
     │       └── template
-    │           ├── Application.java  启动类
-    │           ├── config    配置包
-    │           ├── controller   接口包
-    │           │   ├── exception   
-    │           │   │   └── ExceptionController.java 接口异常类
-    │           │   ├── TestController.java  测试类
-    │           │   ├── TestUseEntity.java  测试类
-    │           │   └── TestUserMapper.java  测试类
-    │           ├── core   提供核心功能包
-    │           │   ├── log 全局API日志打印包
-    │           │   │   ├── ApiLog.java
-    │           │   │   └── MonitorAPI.java
-    │           │   ├── redis  redis配置包
-    │           │   │   └── config
-    │           │   │       └── RedisConfig.java
-    │           │   ├── resp  全局响应包
-    │           │   │   ├── Resp.java
-    │           │   │   └── R.java
-    │           │   ├── swagger   swagger包
-    │           │   │   └── SwaggerConfig.java
-    │           │   └── web  mvc配置包
-    │           │       └── SpringMvcWebConfig.java
-    │           ├── domain  领域包
-    │           │   └── users   示例包
-    │           │       ├── enums   
-    │           │       ├── model  充血模型包
-    │           │       └── services  业务包
-    │           ├── exception  全局自定义异常包
-    │           ├── filter  过滤器包
-    │           ├── interceptor 拦截器包
-    │           ├── repository dao包
-    │           │   ├── entities
-    │           │   └── mapper
+    │           ├── Application.java
+    │           ├── config
+    │           ├── controller
+    │           │   ├── exception
+    │           ├── core 脚手架提供的东西都在这里面
+    │           │   ├── log  日志监控包
+    │           │   ├── redis  redis相关
+    │           │   ├── resp  同意响应包
+    │           │   ├── swagger  swagger相关的
+    │           │   ├── utils  工具包如下载
+    │           │   └── web web相关包
+    │           ├── domain  业务层
+    │           ├── exception  异常包
+    │           ├── filter 过滤器
+    │           ├── interceptor 拦截器
+    │           ├── repository  dto层
     │           └── utils 工具包
     └── resources
-        ├── application-dev.yml   开发配置yml
-        ├── application-swagger.yml  swagger配置yml
-        ├── application.yml  通用配置yml
-        ├── img
-        │   ├── image-20231011141911135.png
-        │   ├── image-20231011142126336.png
-        │   └── image-20231011143425173.png
-        ├── logback.xml
-        ├── mapper   
-        └── script
-            └── init.sql
+        ├── application-dev.yml  数据库配置
+        ├── application.yml  通用yml配置
+        ├── logback-spring.xml  logback日志样式
 ```
 
 ## DDD开发模式
