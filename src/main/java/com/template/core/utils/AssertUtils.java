@@ -3,8 +3,6 @@ package com.template.core.utils;
 import cn.hutool.core.lang.Assert;
 import com.template.exception.CommonException;
 
-import java.util.function.Supplier;
-
 /**
  * @author xxl
  * @since 2023/11/29

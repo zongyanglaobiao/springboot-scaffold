@@ -41,7 +41,7 @@ public  class RespEntity<T> implements Serializable {
      * @param <T>
      */
     public static <T> RespEntity<T> base(int code, String message, T data) {
-        return new RespEntity<T>(code, message,data);
+        return new RespEntity<>(code, message,data);
     }
 
     public static <T>  RespEntity<T> success(){
@@ -50,7 +50,8 @@ public  class RespEntity<T> implements Serializable {
     }
 
     public static <T> RespEntity<T> success(String message, T t) {
-        return base(200, message, t);
+        HttpCode success = HttpCode.SUCCESS;
+        return base(success.getCode(), message, t);
     }
 
 
@@ -58,14 +59,13 @@ public  class RespEntity<T> implements Serializable {
         return base(code, message, null);
     }
 
-
     public static <T> RespEntity<T> success(String message) {
         return base(200, message, null);
     }
 
     public static <T> RespEntity<T> success(T data) {
         HttpCode success = HttpCode.SUCCESS;
-        return base(200, success.getReasonPhrase(), data);
+        return base(success.getCode(), success.getReasonPhrase(), data);
     }
     public static <T> RespEntity<T> fail() {
         HttpCode serverError = HttpCode.INTERNAL_SERVER_ERROR;
@@ -73,14 +73,14 @@ public  class RespEntity<T> implements Serializable {
     }
 
     public static <T> RespEntity<T> fail(String message) {
-        return base(500, message, null);
+        HttpCode serverError = HttpCode.INTERNAL_SERVER_ERROR;
+        return base(serverError.getCode(), message, null);
     }
-
 
     public static <T> RespEntity<T> fail(String message, T t) {
-        return base(500, message, t);
+        HttpCode serverError = HttpCode.INTERNAL_SERVER_ERROR;
+        return base(serverError.getCode(), message, t);
     }
-
 
     public static <T> RespEntity<T> fail(int code, String message) {
         return base(code, message, null);
