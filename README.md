@@ -10,11 +10,10 @@
 4. redis工具类[RedisConfig.java](./src/main/java/com/template/core/redis/config/RedisConfig.java)
 5. redis序列化[RedisUtils.java](./src/main/java/com/template/core/redis/RedisUtils.java)
 6. 统一响应[RespEntity.java](./src/main/java/com/template/core/resp/RespEntity.java)
-7. swagger集成[SwaggerConfig.java](./src/main/java/com/template/core/swagger/SwaggerConfig.java)
-8. 断言封装类[AssertUtils.java](./src/main/java/com/template/core/utils/AssertUtils.java)
-9. 通用分页请求工具类[CommonPageRequestUtils.java](./src/main/java/com/template/core/utils/CommonPageRequestUtils.java)
-10. 文件下载上传类[FileUtils.java](./src/main/java/com/template/core/utils/FileUtils.java)
-11. SpringMvc相关的配置[SpringMvcWebConfig.java](./src/main/java/com/template/core/web/SpringMvcWebConfig.java)
+7. 断言封装类[AssertUtils.java](./src/main/java/com/template/core/utils/AssertUtils.java)
+8. 通用分页请求工具类[CommonPageRequestUtils.java](./src/main/java/com/template/core/utils/CommonPageRequestUtils.java)
+9. 文件下载上传类[FileUtils.java](./src/main/java/com/template/core/utils/FileUtils.java)
+10. SpringMvc相关的配置[SpringMvcWebConfig.java](./src/main/java/com/template/core/web/SpringMvcWebConfig.java)
 
 ## 目前已集成的依赖
 
@@ -61,7 +60,6 @@
     │           │   ├── log  日志监控包
     │           │   ├── redis  redis相关
     │           │   ├── resp  同意响应包
-    │           │   ├── swagger  swagger相关的
     │           │   ├── utils  工具包如下载
     │           │   └── web web相关包
     │           ├── domain  业务层
