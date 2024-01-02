@@ -8,19 +8,22 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * 提供业务的的功能Service
+ * 提供通用Service功能
  * @author xxl
  * @since 2023/12/21
  */
-public interface IBusinessService<E> extends IService<E> {
+public interface ICommonService<E> extends IService<E> {
 
     /**
      * 保存/或者更新
@@ -29,7 +32,7 @@ public interface IBusinessService<E> extends IService<E> {
      */
     @Transactional(rollbackFor = RuntimeException.class)
     default <T> boolean saveOrUpdateBatch(List<T> ts, SFunction<E,?> idFunc) {
-        return ts.parallelStream().allMatch(t -> this.saveOrUpdate(Convert.convert(this.getEntityClass(), t), idFunc));
+        return this.saveOrUpdateBatch(ts,idFunc,null);
     }
 
     /**
@@ -41,11 +44,24 @@ public interface IBusinessService<E> extends IService<E> {
      *
      */
     @Transactional(rollbackFor = RuntimeException.class)
-    default <T> boolean saveOrUpdateBatch(List<T> ts, SFunction<E,?> idFunc,BiFunction<T,E,Boolean> consumer) {
+    default <T> boolean saveOrUpdateBatch(List<T> ts, SFunction<E,?> idFunc, BiFunction<T,E,Boolean> consumer) {
         return ts.parallelStream().
                 allMatch(t -> {
-                    E convert = Convert.convert(this.getEntityClass(), t);
-                    return this.saveOrUpdate(convert, idFunc) && consumer.apply(t,convert);
+                    Class<E> superClass = this.getEntityClass();
+
+                    //判断两者的Class<?>是否一致
+                    E convert;
+                    if (superClass.isAssignableFrom(t.getClass())) {
+                        convert = (E) t;
+                    }else {
+                        convert = Convert.convert(superClass, t);
+                    }
+
+                    if (consumer != null) {
+                        return this.saveOrUpdate(convert, idFunc) && consumer.apply(t,convert);
+                    }
+
+                    return this.saveOrUpdate(convert, idFunc);
                 });
     }
 
@@ -112,7 +128,7 @@ public interface IBusinessService<E> extends IService<E> {
      * @return List<T>
      * @param <T> 目标类型
      */
-    default <T> List<T> list(SFunction<E,?> condition,Object val,Class<? extends T> cls,Consumer<T> consumer) {
+    default <T> List<T> list(SFunction<E,?> condition, Object val, Class<? extends T> cls, Consumer<T> consumer) {
         return this.list(condition, Collections.singletonList(val),cls,consumer);
     }
 
@@ -141,11 +157,28 @@ public interface IBusinessService<E> extends IService<E> {
      * @return  List<T>
      * @param <T> 指定类型
      */
-    default <T> List<T> list(LambdaQueryWrapper<E> wrapper,Class<? extends T> cls,Consumer<T> consumer) {
+    default <T> List<T> list(LambdaQueryWrapper<E> wrapper, Class<? extends T> cls, Consumer<T> consumer) {
         return this.list(wrapper).parallelStream().map(e ->{
             T convert = Convert.convert(cls, e);
             consumer.accept(convert);
             return convert;
         }).collect(Collectors.toList());
+    }
+
+    /**
+     * 级联删除
+     * @param ids 主表id
+     * @param consumer 级联
+     * @return boolean
+     */
+    default <T> boolean removeBatchByIds(Collection<? extends Serializable> ids, Function<Serializable,Boolean> consumer) {
+        return  ids.stream().allMatch(t ->{
+            //&一个不管前面是否为true后面都执行
+            return this.removeById(t) && consumer.apply(t);
+        });
+    }
+
+    default LambdaQueryWrapper<E> getWrapper() {
+        return new LambdaQueryWrapper<>();
     }
 }
