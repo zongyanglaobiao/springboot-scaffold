@@ -6,6 +6,8 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
@@ -39,12 +41,12 @@ public interface ICommonService<E> extends IService<E> {
      * 保存/或者更新
      * @param ts  元数据
      * @param idFunc 查询ID
-     * @param consumer 消费者传递（原类型、转换类型）
+     * @param after 消费者传递（原类型、转换类型）在父元素更新之后
      * @return 是否
      *
      */
     @Transactional(rollbackFor = RuntimeException.class)
-    default <T> boolean saveOrUpdateBatch(List<T> ts, SFunction<E,?> idFunc, BiFunction<T,E,Boolean> consumer) {
+    default <T> boolean saveOrUpdateBatch(List<T> ts, SFunction<E,?> idFunc, BiFunction<T,E,Boolean> after) {
         return ts.parallelStream().
                 allMatch(t -> {
                     Class<E> superClass = this.getEntityClass();
@@ -57,13 +59,15 @@ public interface ICommonService<E> extends IService<E> {
                         convert = Convert.convert(superClass, t);
                     }
 
-                    if (consumer != null) {
-                        return this.saveOrUpdate(convert, idFunc) && consumer.apply(t,convert);
+                    if (after != null) {
+                        return this.saveOrUpdate(convert, idFunc) && after.apply(t,convert);
                     }
 
                     return this.saveOrUpdate(convert, idFunc);
                 });
     }
+
+
 
     /**
      * 更新或者插入
@@ -71,6 +75,7 @@ public interface ICommonService<E> extends IService<E> {
      * @param idFunc 更新的条件
      * @return 是否
      */
+    //todo 如果某个类在更新之前或者插入之前需要原始类的某些参数怎么做BiFunction<Function<T,T>,Function<E,E>,Boolean>
     @Transactional(rollbackFor = RuntimeException.class)
     default boolean saveOrUpdate(E e,SFunction<E,?> idFunc) {
         Object apply = idFunc.apply(e);
