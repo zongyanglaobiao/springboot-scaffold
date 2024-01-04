@@ -6,8 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Before;
+import jakarta.annotation.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
@@ -15,6 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -49,25 +49,43 @@ public interface ICommonService<E> extends IService<E> {
     default <T> boolean saveOrUpdateBatch(List<T> ts, SFunction<E,?> idFunc, BiFunction<T,E,Boolean> after) {
         return ts.parallelStream().
                 allMatch(t -> {
-                    Class<E> superClass = this.getEntityClass();
-
-                    //判断两者的Class<?>是否一致
-                    E convert;
-                    if (superClass.isAssignableFrom(t.getClass())) {
-                        convert = (E) t;
-                    }else {
-                        convert = Convert.convert(superClass, t);
-                    }
-
+                    E convert = convert(t);
                     if (after != null) {
                         return this.saveOrUpdate(convert, idFunc) && after.apply(t,convert);
                     }
-
                     return this.saveOrUpdate(convert, idFunc);
                 });
     }
 
+    /**
+     * 插入/更新
+     * @param ts  需要插入的数据
+     * @param idFunc 插入/更新条件
+     * @param before 插入/更新之前
+     * @param after 插入/更新之后
+     * @return boolean 全为true表示一组插入/更新都落入到数据，反之亦然
+     * @param <T> 插入数据类型
+     */
+    @Transactional(rollbackFor = RuntimeException.class)
+    default <T> boolean saveOrUpdateBatchAround(List<T> ts,SFunction<E,?> idFunc, @Nullable BiConsumer<T,E> before, @Nullable TConsumer<T,E,Boolean> after) {
+        return ts.parallelStream().
+                allMatch(t -> {
+                    E convert = convert(t);
 
+                    //更新/插入前
+                    if (before != null) {
+                        before.accept(t,convert);
+                    }
+                    boolean isSuccess = this.saveOrUpdate(convert, idFunc);
+
+                    //更新/插入后
+                    if (after != null) {
+                        after.accept(t,convert,isSuccess);
+                    }
+
+                    return isSuccess;
+                });
+    }
 
     /**
      * 更新或者插入
@@ -75,7 +93,6 @@ public interface ICommonService<E> extends IService<E> {
      * @param idFunc 更新的条件
      * @return 是否
      */
-    //todo 如果某个类在更新之前或者插入之前需要原始类的某些参数怎么做BiFunction<Function<T,T>,Function<E,E>,Boolean>
     @Transactional(rollbackFor = RuntimeException.class)
     default boolean saveOrUpdate(E e,SFunction<E,?> idFunc) {
         Object apply = idFunc.apply(e);
@@ -185,5 +202,22 @@ public interface ICommonService<E> extends IService<E> {
 
     default LambdaQueryWrapper<E> getWrapper() {
         return new LambdaQueryWrapper<>();
+    }
+
+    default <T> E  convert(T meta) {
+        Class<E> superClass = this.getEntityClass();
+
+        //判断两者的Class<?>是否一致
+        E convert;
+        if (superClass.isAssignableFrom(meta.getClass())) {
+            convert = (E) meta;
+        }else {
+            convert = Convert.convert(superClass, meta);
+        }
+        return convert;
+    }
+
+    interface TConsumer<R,T,U> {
+        void accept(R r,T t, U u);
     }
 }
