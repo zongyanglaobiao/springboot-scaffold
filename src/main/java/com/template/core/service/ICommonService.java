@@ -10,7 +10,6 @@ import jakarta.annotation.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -21,12 +20,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * 提供通用Service功能
+ * 通用service方法
  * @author xxl
- * @since 2023/12/21
+ * @since 2024/1/2
  */
 public interface ICommonService<E> extends IService<E> {
-
     /**
      * 保存/或者更新
      * @param ts 元数据
@@ -54,36 +52,6 @@ public interface ICommonService<E> extends IService<E> {
                         return this.saveOrUpdate(convert, idFunc) && after.apply(t,convert);
                     }
                     return this.saveOrUpdate(convert, idFunc);
-                });
-    }
-
-    /**
-     * 插入/更新
-     * @param ts  需要插入的数据
-     * @param idFunc 插入/更新条件
-     * @param before 插入/更新之前
-     * @param after 插入/更新之后
-     * @return boolean 全为true表示一组插入/更新都落入到数据，反之亦然
-     * @param <T> 插入数据类型
-     */
-    @Transactional(rollbackFor = RuntimeException.class)
-    default <T> boolean saveOrUpdateBatchAround(List<T> ts,SFunction<E,?> idFunc, @Nullable BiConsumer<T,E> before, @Nullable TConsumer<T,E,Boolean> after) {
-        return ts.parallelStream().
-                allMatch(t -> {
-                    E convert = convert(t);
-
-                    //更新/插入前
-                    if (before != null) {
-                        before.accept(t,convert);
-                    }
-                    boolean isSuccess = this.saveOrUpdate(convert, idFunc);
-
-                    //更新/插入后
-                    if (after != null) {
-                        after.accept(t,convert,isSuccess);
-                    }
-
-                    return isSuccess;
                 });
     }
 
@@ -187,23 +155,16 @@ public interface ICommonService<E> extends IService<E> {
         }).collect(Collectors.toList());
     }
 
-    /**
-     * 级联删除
-     * @param ids 主表id
-     * @param consumer 级联
-     * @return boolean
-     */
-    default <T> boolean removeBatchByIds(Collection<? extends Serializable> ids, Function<Serializable,Boolean> consumer) {
-        return  ids.stream().allMatch(t ->{
-            //&一个不管前面是否为true后面都执行
-            return this.removeById(t) && consumer.apply(t);
-        });
-    }
-
     default LambdaQueryWrapper<E> getWrapper() {
         return new LambdaQueryWrapper<>();
     }
 
+    /**
+     * 转换为Entity
+     * @param meta 原始类型
+     * @return E
+     * @param <T> 原始类型
+     */
     default <T> E  convert(T meta) {
         Class<E> superClass = this.getEntityClass();
 
@@ -219,5 +180,51 @@ public interface ICommonService<E> extends IService<E> {
 
     interface TConsumer<R,T,U> {
         void accept(R r,T t, U u);
+    }
+
+    /**
+     * 插入/更新AOP
+     * @param ts  需要插入的数据
+     * @param idFunc 插入/更新条件
+     * @param before 插入/更新之前
+     * @param after 插入/更新之后
+     * @return boolean 全为true表示一组插入/更新都落入到数据，反之亦然
+     * @param <T> 插入数据类型
+     */
+    @Transactional(rollbackFor = RuntimeException.class)
+    default <T> boolean saveOrUpdateBatchAround(List<T> ts, SFunction<E,?> idFunc, @Nullable BiConsumer<T,E> before, @Nullable TConsumer<T,E,Boolean> after) {
+        return ts.parallelStream().
+                allMatch(t -> {
+                    E convert = convert(t);
+
+                    //更新/插入前
+                    if (before != null) {
+                        before.accept(t,convert);
+                    }
+                    boolean isSuccess = this.saveOrUpdate(convert, idFunc);
+
+                    //更新/插入后
+                    if (after != null) {
+                        after.accept(t,convert,isSuccess);
+                    }
+
+                    return isSuccess;
+                });
+    }
+
+    /**
+     * 删除之前的操作AOP
+     * @param ids id
+     * @param before 删除之前处理
+     * @return boolean
+     */
+    @Transactional(rollbackFor = RuntimeException.class)
+    default  boolean removeBatchByIdsBefore(List<? extends Serializable> ids,Function<Serializable,Boolean> before) {
+        return   ids.stream().anyMatch(t -> {
+            if (Objects.isNull(before)) {
+                throw new RuntimeException("CommonService.removeByIdAround: before is null");
+            }
+            return before.apply(t) && this.removeById(t);
+        });
     }
 }

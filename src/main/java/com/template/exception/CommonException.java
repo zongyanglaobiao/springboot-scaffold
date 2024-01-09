@@ -12,7 +12,7 @@ import java.io.Serial;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class CommonException extends Exception{
+public class CommonException extends RuntimeException{
     @Serial
     private static final long serialVersionUID = 6064848422851390201L;
 
