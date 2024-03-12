@@ -7,6 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import com.template.exception.CommonException;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 
@@ -16,6 +17,7 @@ import java.io.*;
  * @author xxl
  * @since 2023/11/23
  */
+@Slf4j
 public class FileUtils {
 
     /**
@@ -36,7 +38,7 @@ public class FileUtils {
             file.transferTo(writer);
             file.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("FileUtils.upload文件写出失败",e);
             throw new CommonException("FileUtils：文件写出失败");
         }
         return touch.getPath();
@@ -58,7 +60,7 @@ public class FileUtils {
         try (BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(touch))){
             return inputStream.readAllBytes();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("FileUtils.download文件读入失败",e);
             throw new CommonException("FileUtils：文件读入失败");
         }
     }
@@ -81,7 +83,7 @@ public class FileUtils {
             response.setContentType("application/octet-stream;charset=UTF-8");
             IoUtil.write(response.getOutputStream(), true, download);
         } catch (CommonException | IOException e) {
-            e.printStackTrace();
+            log.error("FileUtils.webDownload下载失败", e);
             throw new CommonException("web下载失败");
         }
     }

@@ -57,7 +57,7 @@ public class ApiLog {
         try {
             proceed = point.proceed();
         } finally {
-            log.info("[请求API：{{}}，请求参数：{{}},返回结果：{{}}]", request.getRequestURI(), point.getArgs(), JSONUtil.toJsonStr(proceed));
+            log.info("[ 请求API: {} , 请求参数: {} , 返回结果: {} ]", request.getRequestURI(), point.getArgs(), JSONUtil.toJsonStr(proceed));
         }
         return proceed;
     }
@@ -68,7 +68,7 @@ public class ApiLog {
      */
     @Before("exceptionPointCut()")
     public void exceptionLog(JoinPoint point) {
-        log.error("[请求错误API：{{}}，错误类型：{{}}，错误原因：{{}}]", request.getRequestURI(), point.getSignature().toString(), Arrays.toString(point.getArgs()));
+        log.error("[ 系统错误API: {} , 错误类型: {} , 错误原因: {} ]", request.getRequestURI(), point.getSignature().toString(), Arrays.toString(point.getArgs()));
     }
 
 }
