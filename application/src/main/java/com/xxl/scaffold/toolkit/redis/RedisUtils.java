@@ -1,4 +1,4 @@
-package com.template.core.redis;
+package com.xxl.scaffold.toolkit.redis;
 
 import cn.hutool.core.convert.Convert;
 import jakarta.annotation.Resource;

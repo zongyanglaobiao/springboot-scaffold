@@ -1,4 +1,4 @@
-package com.template.core.redis.config;
+package com.xxl.scaffold.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
