@@ -5,7 +5,7 @@
 ## 目前已提供
 
 1. 通用异常[CommonException.java](./src/main/java/com/template/exception/CommonException.java)
-2. 统一异常返回[ExceptionController.java](./src/main/java/com/template/controller/exception/ExceptionController.java)
+2. 统一异常返回[ExceptionController.java](application/src/main/java/com/xxl/controller/exception/ExceptionController.java)
 3. 接口，异常日志记录[ApiLog.java](./src/main/java/com/template/core/log/ApiLog.java)
 4. redis工具类[RedisConfig.java](./src/main/java/com/template/core/redis/config/RedisConfig.java)
 5. redis序列化[RedisUtils.java](./src/main/java/com/template/core/redis/RedisUtils.java)
@@ -82,7 +82,7 @@
 
 **MVC VS DDD**
 
-![image-20231011141911135](./src/main/resources/img/image-20231011141911135.png)
+![image-20231011141911135](application/src/main/resources/img/image-20231011141911135.png)
 
 ## CQRS实战
 
@@ -92,8 +92,8 @@
 
 **DDD开发流程**
 
-![image-20231011142126336](./src/main/resources/img/image-20231011142126336.png)
+![image-20231011142126336](application/src/main/resources/img/image-20231011142126336.png)
 
 **标准包结构：借鉴。**
 
-![image-20231011143425173](./src/main/resources/img/image-20231011143425173.png)
+![image-20231011143425173](application/src/main/resources/img/image-20231011143425173.png)

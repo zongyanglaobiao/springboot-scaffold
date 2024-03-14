@@ -1,4 +1,4 @@
-package com.template.controller.exception;
+package com.xxl.scaffold.controller.exception;
 
 
 import com.template.core.resp.RespEntity;

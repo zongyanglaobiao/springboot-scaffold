@@ -61,3 +61,16 @@ knife4j:   # knife4j的增强配置，不需要增强可以不配
     enable-request-cache: false  #不开启缓存请求
   cors: true  #跨域请求
   production: false   #是否是生产环境，如果设置true,doc.html就不能访问
+
+auth-path:
+  exclude:
+    - /**/doc.html
+    - /**/*.css
+    - /**/*.js
+    - /**/*.png
+    - /**/*.jpg
+    - /**/*.ico
+    - /**/v3/**
+    - /**/doLogin
+    - /**/doRegister
+  token-name: auth

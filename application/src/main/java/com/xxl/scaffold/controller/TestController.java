@@ -1,4 +1,4 @@
-package com.template.controller;
+package com.xxl.scaffold.controller;
 
 import com.template.core.resp.RespEntity;
 import io.swagger.v3.oas.annotations.Operation;
