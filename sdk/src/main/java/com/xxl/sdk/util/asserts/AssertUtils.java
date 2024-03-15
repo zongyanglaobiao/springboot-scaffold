@@ -1,7 +1,7 @@
 package com.xxl.sdk.util.asserts;
 
 import cn.hutool.core.lang.Assert;
-import com.common.exception.ChatException;
+import com.xxl.sdk.exception.GlobalException;
 
 /**
  * 断言工具类
@@ -11,22 +11,22 @@ import com.common.exception.ChatException;
  */
 public class AssertUtils {
 
-    public static void notNull(Object obj,String msg) throws ChatException {
-        Assert.notNull(obj,  () -> new ChatException(msg));
+    public static void notNull(Object obj,String msg) throws GlobalException {
+        Assert.notNull(obj,  () -> new GlobalException(msg));
     }
 
-    public static void isNull(Object obj,String msg) throws ChatException {
-        Assert.isNull(obj,  () -> new ChatException(msg));
+    public static void isNull(Object obj,String msg) throws GlobalException {
+        Assert.isNull(obj,  () -> new GlobalException(msg));
     }
 
     /**
      * true就放行
      * @param condition 布尔表达式
      * @param msg 提示信息
-     * @throws ChatException 异常
+     * @throws GlobalException 异常
      */
-    public static void assertTrue(boolean condition,String msg) throws ChatException {
-        Assert.isTrue(condition, () -> new ChatException(msg));
+    public static void assertTrue(boolean condition,String msg) throws GlobalException {
+        Assert.isTrue(condition, () -> new GlobalException(msg));
     }
 }
 

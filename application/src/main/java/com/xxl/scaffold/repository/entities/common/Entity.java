@@ -2,6 +2,7 @@ package com.xxl.scaffold.repository.entities.common;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 
@@ -21,6 +22,9 @@ public class Entity implements Serializable {
     @Serial
     private static final long serialVersionUID = -1284347847778673827L;
 
+    @TableId
+    private String id;
+
     @JsonView({IGNORE.class})
     @TableField(value = "create_time",fill = FieldFill.INSERT)
     private Date createTime;
@@ -28,9 +32,6 @@ public class Entity implements Serializable {
     @JsonView({IGNORE.class})
     @TableField(value = "update_time",fill = FieldFill.UPDATE)
     private Date updateTime;
-
-    private String id;
-
     public interface INSERT {}
     public interface IGNORE {}
     public interface UPDATE {}
