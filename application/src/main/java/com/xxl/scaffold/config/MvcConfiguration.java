@@ -4,8 +4,10 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.xxl.sdk.log.AsyncLogger;
 import com.xxl.sdk.util.asserts.AssertUtils;
 import com.xxl.sdk.util.jwt.JWTUtils;
+import com.xxl.sdk.util.thead.TheadUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -81,6 +83,11 @@ public class MvcConfiguration implements WebMvcConfigurer, HandlerInterceptor {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
         return interceptor;
+    }
+
+    @Bean
+    public AsyncLogger logger() {
+        return new AsyncLogger(TheadUtils.createThreadPool());
     }
 
 }

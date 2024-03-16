@@ -39,8 +39,5 @@ public class Application {
         }
     }
 
-    @Bean
-    public AsyncLogger logger() {
-        return new AsyncLogger(TheadUtils.createThreadPool());
-    }
+
 }
