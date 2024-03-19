@@ -159,6 +159,7 @@
             <properties>
                 <spring.active>dev</spring.active>
                 <!--    随环境参数在此填写，自定义标签，使用@标签名@       -->
+                <save.path>D:\Temp\2024</save.path>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -168,6 +169,7 @@
             <id>prod</id>
             <properties>
                 <spring.active>prod</spring.active>
+                <save.path>/home/Temp/2024</save.path>
             </properties>
         </profile>
     </profiles>

@@ -74,3 +74,7 @@ auth-path:
     - /**/doLogin
     - /**/doRegister
   token-name: auth
+
+file:
+  save:
+    path: @save.path@
