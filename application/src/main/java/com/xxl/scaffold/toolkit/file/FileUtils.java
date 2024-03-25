@@ -95,7 +95,7 @@ public class FileUtils {
      */
     public static String getFileSuffix(String path){
         final String dot = ".";
-        if (StrUtil.isBlank(path) || path.contains(dot)) {
+        if (StrUtil.isBlank(path) || !path.contains(dot)) {
             return null;
         }
         return path.substring(path.lastIndexOf(dot) + 1);
