@@ -9,8 +9,8 @@ import lombok.Getter;
 @Getter
 public enum HttpCode {
     SUCCESS(200, "success"),
-    BAD_REQUEST(400, "bad request"),
-    NOT_FOUND(404, "not found"),
+    UNAUTHORIZED(401, "unauthorized"),
+    FORBIDDEN(403, "forbidden"),
     INTERNAL_SERVER_ERROR(500, "internal server error");
 
     private final String reasonPhrase;
