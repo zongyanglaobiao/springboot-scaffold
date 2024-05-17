@@ -12,8 +12,6 @@ import java.util.Map;
  */
 public class JWTUtils {
 
-    public final static ThreadLocal<String> LOCAL = new ThreadLocal<>();
-
     private static final String JWT_HEADER = "e10adc3949ba59abbe56e057f20f883e";
 
     /**
@@ -32,16 +30,15 @@ public class JWTUtils {
         return JWTUtil.createToken(Map.of(USER_ID, userId, EXPIRE_TIME, System.currentTimeMillis() + time), JWT_HEADER.getBytes());
     }
 
-    public static boolean verifyToken(String token) {
+
+    public static String verifyToken(String token) {
         if (JWTUtil.verify(token, JWT_HEADER.getBytes())) {
             JWT jwt = JWTUtil.parseToken(token);
             if (Long.parseLong(jwt.getPayload(EXPIRE_TIME).toString()) < System.currentTimeMillis()) {
-                throw new GlobalException("token过期");
+                throw new GlobalException("TOKEN过期");
             }
-            String userId = jwt.getPayload(USER_ID).toString();
-            LOCAL.set(userId);
-            return true;
+            return token;
         }
-        return false;
+        throw new GlobalException("TOKEN异常");
     }
 }

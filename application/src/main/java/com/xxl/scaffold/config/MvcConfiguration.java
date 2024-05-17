@@ -8,13 +8,10 @@ import com.xxl.sdk.log.AsyncLogger;
 import com.xxl.sdk.util.asserts.AssertUtils;
 import com.xxl.sdk.util.jwt.JWTUtils;
 import com.xxl.sdk.util.thead.TheadUtils;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,10 +43,13 @@ public class MvcConfiguration implements WebMvcConfigurer, HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = request.getHeader(tokenName);
-        token = StrUtil.isBlank(token) ? request.getHeader(tokenName.toLowerCase()) : token;
+        String token = StrUtil.isBlank(request.getHeader(tokenName)) ?
+                request.getHeader(tokenName.toLowerCase()) :
+                request.getHeader(tokenName);
         AssertUtils.assertTrue(!StrUtil.isBlank(token),"token不存在");
-        return JWTUtils.verifyToken(token);
+        //校验TOKEN并返回
+        JWTUtils.verifyToken(token);
+        return true;
     }
 
     @Override

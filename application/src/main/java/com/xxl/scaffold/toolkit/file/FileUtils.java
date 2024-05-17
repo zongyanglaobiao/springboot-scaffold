@@ -6,6 +6,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import com.xxl.sdk.exception.GlobalException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.*;
@@ -112,5 +113,24 @@ public class FileUtils {
             return null;
         }
         return path.substring(path.lastIndexOf("\\") + 1);
+    }
+
+    /**
+     *  获取完整的URL
+     * @param request 请求
+     * @param requestPath 请求path
+     * @return path
+     */
+    public static String getUrl(HttpServletRequest request,String requestPath) {
+        // 获取协议（如http或https）
+        String scheme = request.getScheme();
+        // 获取服务器名称（如localhost或具体域名）
+        String serverName = request.getServerName();
+        // 获取服务器端口号
+        int serverPort = request.getServerPort();
+        // 获取请求URI（如/endpoint）
+        String requestUri = request.getRequestURI();
+        // 组合成完整的请求URL
+        return scheme + "://" + serverName + ":" + serverPort + requestPath;
     }
 }
