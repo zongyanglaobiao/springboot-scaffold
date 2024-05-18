@@ -1,4 +1,4 @@
-package com.aks.scaffold.mapper.ex;
+package com.aks.scaffold.domain.common.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
