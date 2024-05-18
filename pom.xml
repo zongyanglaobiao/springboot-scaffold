@@ -122,8 +122,6 @@
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring.boot.version}</version>
                     <configuration>
-                        <!--    自己打出的包也能用 ,就是打出的包不包含BOOT-INF目录        -->
-                        <skip>true</skip>
                         <excludes>
                             <exclude>
                                 <groupId>org.projectlombok</groupId>
@@ -134,7 +132,7 @@
                     <executions>
                         <execution>
                             <goals>
-                                <!--    打包为可执行的jar包-->
+                                <!--    当使用自定义的 parent 时，我们需要自行配置maven插件的<goal>属性,子模块需要使用此插件-->
                                 <goal>repackage</goal>
                             </goals>
                         </execution>
