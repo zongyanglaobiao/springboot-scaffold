@@ -53,3 +53,5 @@ test/*
 /logs/snowy-web-app-log/log_total.log
 /.idea/uiDesigner.xml
 /.idea/vcs.xml
+/application/target/
+/sdk/target/
