@@ -5,7 +5,7 @@
 spring:
   profiles:
     active:
-      - @spring.active@
+      - dev
   task:
     scheduling:
       pool:
@@ -75,4 +75,4 @@ auth-path:
 
 file:
   save:
-    path: @save.path@
+    path: D:\\Temp\\2024

@@ -73,5 +73,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+        <!--   sdk     -->
+        <dependency>
+            <groupId>com.xxl</groupId>
+            <artifactId>sdk</artifactId>
+        </dependency>
     </dependencies>
 </project>

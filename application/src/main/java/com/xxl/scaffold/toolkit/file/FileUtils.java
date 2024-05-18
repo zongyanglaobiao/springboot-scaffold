@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -33,16 +34,26 @@ public class FileUtils {
      */
     public static String upload(InputStream file, String savePath) throws GlobalException {
         if (ObjectUtil.isNull(file) || StrUtil.isBlank(savePath)) {
-            return  null;
+            return null;
         }
-        //路径不存就创建
-        File touch = FileUtil.touch(new File(savePath));
-        try (BufferedOutputStream writer = new BufferedOutputStream(new FileOutputStream(touch))){
+        File touch = null;
+        BufferedOutputStream writer = null;
+        try {
+            //路径不存就创建
+            touch = FileUtil.touch(new File(savePath));
+            writer = new BufferedOutputStream(new FileOutputStream(touch));
             file.transferTo(writer);
             file.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new GlobalException("FileUtils：文件写出失败");
+        } catch (Exception e) {
+            throw new GlobalException("FileUtils：文件写出失败," + e.getMessage());
+        }finally {
+            if (!Objects.isNull(writer)) {
+                try {
+                    writer.close();
+                } catch (Exception e) {
+                    throw new GlobalException("FileUtils：文件写出失败," + e.getMessage());
+                }
+            }
         }
         return touch.getPath();
     }
@@ -62,9 +73,8 @@ public class FileUtils {
         }
         try (BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(touch))){
             return inputStream.readAllBytes();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new GlobalException("FileUtils：文件读入失败");
+        } catch (Exception e) {
+            throw new GlobalException("FileUtils：文件读入失败," + e.getMessage());
         }
     }
 
@@ -85,9 +95,8 @@ public class FileUtils {
             response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
             response.setContentType("application/octet-stream;charset=UTF-8");
             IoUtil.write(response.getOutputStream(), true, download);
-        } catch (GlobalException | IOException e) {
-            e.printStackTrace();
-            throw new GlobalException("web下载失败");
+        } catch (Exception  e) {
+            throw new GlobalException("WEB下载失败," + e.getMessage());
         }
     }
 
