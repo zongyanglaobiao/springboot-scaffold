@@ -1,4 +1,4 @@
-package com.xxl.scaffold.repository.entities.common;
+package com.xxl.scaffold.domain.common.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -8,7 +8,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 实体类
@@ -27,11 +27,11 @@ public class Entity implements Serializable {
 
     @JsonView({IGNORE.class})
     @TableField(value = "create_time",fill = FieldFill.INSERT)
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @JsonView({IGNORE.class})
     @TableField(value = "update_time",fill = FieldFill.UPDATE)
-    private Date updateTime;
+    private LocalDateTime updateTime;
     public interface INSERT {}
     public interface IGNORE {}
     public interface UPDATE {}
