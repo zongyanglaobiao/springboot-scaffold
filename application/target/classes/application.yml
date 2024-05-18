@@ -51,7 +51,7 @@ springdoc:
   group-configs:
     - group: 测试API
       packages-to-scan:
-        - com.xxl.scaffold.controller
+        - com.aks.scaffold.controller
 knife4j:   # knife4j的增强配置，不需要增强可以不配
   enable: true  #开启访问默认路径doc.html
   setting:

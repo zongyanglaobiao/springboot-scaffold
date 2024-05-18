@@ -6,6 +6,7 @@
     <groupId>com.james.aks</groupId>
     <artifactId>springboot-scaffold</artifactId>
     <version>${revision}</version>
+
     <packaging>pom</packaging>
 
 
