@@ -1,5 +1,6 @@
 package com.xxl.sdk.exception;
 
+import com.xxl.sdk.resp.HttpCode;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,7 +29,7 @@ public class GlobalException extends RuntimeException{
     }
 
     public GlobalException(String message) {
-        this(message, 500);
+        this(message, HttpCode.INTERNAL_SERVER_ERROR.getCode());
     }
 }
 

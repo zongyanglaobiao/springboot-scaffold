@@ -1,6 +1,6 @@
 package com.xxl.scaffold.controller;
 
-import com.template.core.resp.RespEntity;
+import com.xxl.sdk.resp.RespEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;

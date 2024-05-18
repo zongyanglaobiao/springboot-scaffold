@@ -1,7 +1,9 @@
 package com.xxl.scaffold.toolkit.file;
 
+import cn.hutool.core.io.FileMagicNumber;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
@@ -10,6 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.*;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -132,5 +136,19 @@ public class FileUtils {
         String requestUri = request.getRequestURI();
         // 组合成完整的请求URL
         return scheme + "://" + serverName + ":" + serverPort + requestPath;
+    }
+
+    /**
+     * 检查文件后缀是否满足条件
+     * @param fileName 文件名
+     * @param type 校验类型
+     */
+    public static void checkFileSuffix(String fileName, FileMagicNumber...type)  {
+        checkFileSuffix(fileName, Arrays.stream(type).map(FileMagicNumber::getExtension).toList());
+    }
+
+    public static void checkFileSuffix(String fileName, List<String> fulfilSuffix)  {
+        boolean match = fulfilSuffix.parallelStream().anyMatch(t -> t.equalsIgnoreCase(FileUtils.getFileSuffix(fileName)));
+        Assert.isTrue(match,"不支持的文件格式 = "+ FileUtils.getFileSuffix(fileName));
     }
 }

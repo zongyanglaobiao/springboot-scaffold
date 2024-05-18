@@ -1,7 +1,7 @@
 package com.xxl.scaffold.toolkit.redis;
 
 import cn.hutool.core.convert.Convert;
-import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.*;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -19,8 +19,13 @@ import java.util.function.Function;
  */
 @Component
 public class RedisUtils {
-    @Resource
-    RedisTemplate<String, Object> redisTemplate;
+
+    private  RedisTemplate<String, Object> redisTemplate;
+
+    @Autowired(required = false)
+    public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     /*========================================*/
     /*===============common===================*/

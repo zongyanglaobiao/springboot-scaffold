@@ -28,6 +28,6 @@ public class FileController {
 
     @GetMapping("download/{fileId}")
     public  void download(@PathVariable("fileId") String fileId) {
-        fileService.dowload(fileId);
+        fileService.download(fileId);
     }
 }
