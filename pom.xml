@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.xxl</groupId>
+    <groupId>com.james.aks</groupId>
     <artifactId>springboot-scaffold</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
@@ -11,6 +11,7 @@
 
     <name>springboot-scaffold</name>
     <description>spring boot脚手架</description>
+
     <modules>
         <module>application</module>
         <module>sdk</module>
@@ -63,7 +64,7 @@
                 <version>${com.github.xiaoymin.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.xxl</groupId>
+                <groupId>com.james.aks</groupId>
                 <artifactId>sdk</artifactId>
                 <version>${revision}</version>
             </dependency>
@@ -80,10 +81,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.xxl</groupId>
-            <artifactId>sdk</artifactId>
         </dependency>
     </dependencies>
 
