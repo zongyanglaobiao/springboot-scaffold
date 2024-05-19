@@ -1,8 +1,10 @@
 package com.aks.scaffold.config;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
+import com.aks.sdk.exception.GlobalException;
 import com.aks.sdk.log.AsyncLogger;
-import com.aks.sdk.util.asserts.AssertUtils;
+import com.aks.sdk.resp.HttpCode;
 import com.aks.sdk.util.jwt.JWTUtils;
 import com.aks.sdk.util.thead.TheadUtils;
 import com.baomidou.mybatisplus.annotation.DbType;
@@ -60,7 +62,7 @@ public class MvcConfiguration implements WebMvcConfigurer, HandlerInterceptor {
         String token = StrUtil.isBlank(request.getHeader(tokenName)) ?
                 request.getHeader(tokenName.toLowerCase()) :
                 request.getHeader(tokenName);
-        AssertUtils.assertTrue(!StrUtil.isBlank(token),"token不存在");
+        Assert.isTrue(!StrUtil.isBlank(token),()-> new GlobalException("TOKEN不存在", HttpCode.UNAUTHORIZED.getCode()));
         //tip:校验TOKEN并返回，如果使用此方法请使用JWTUtils生成TOKEN
         JWTUtils.verifyToken(token);
         return true;

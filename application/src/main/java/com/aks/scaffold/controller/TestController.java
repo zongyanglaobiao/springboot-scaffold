@@ -1,5 +1,6 @@
 package com.aks.scaffold.controller;
 
+import com.aks.sdk.resp.HttpCode;
 import com.aks.sdk.resp.RespEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -29,7 +30,7 @@ public class TestController {
     @GetMapping("/hello")
     @Operation(summary = "测试接口")
     public RespEntity<String> hello() {
-        return RespEntity.base(200,"success",null);
+        return RespEntity.base(HttpCode.SUCCESS.getCode(), "success",null);
     }
 
     @Resource
@@ -47,6 +48,6 @@ public class TestController {
         Object o = redisTemplate.opsForValue().get(key);
         log.info("查询：key=>{},value=>{}",key,o);
         redisTemplate.keys("*").forEach(dto -> log.info("key=>{},value=>{}",dto,redisTemplate.opsForValue().get(dto)));
-        return RespEntity.base(200,"success",null);
+        return RespEntity.base(HttpCode.SUCCESS.getCode(),"success",null);
     }
 }
