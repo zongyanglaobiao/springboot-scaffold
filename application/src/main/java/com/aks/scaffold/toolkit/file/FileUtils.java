@@ -8,6 +8,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import com.aks.sdk.exception.GlobalException;
+import com.aks.sdk.util.asserts.AssertUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -109,9 +110,7 @@ public class FileUtils {
      */
     public static String getFileSuffix(String path){
         final String dot = ".";
-        if (StrUtil.isBlank(path) || !path.contains(dot)) {
-            return null;
-        }
+        AssertUtils.assertTrue(StrUtil.isBlank(path) || !path.contains(dot),"文件后缀名不合法");
         return path.substring(path.lastIndexOf(dot) + 1);
     }
 

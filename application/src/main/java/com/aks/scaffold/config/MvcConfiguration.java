@@ -61,7 +61,7 @@ public class MvcConfiguration implements WebMvcConfigurer, HandlerInterceptor {
                 request.getHeader(tokenName.toLowerCase()) :
                 request.getHeader(tokenName);
         AssertUtils.assertTrue(!StrUtil.isBlank(token),"token不存在");
-        //校验TOKEN并返回
+        //tip:校验TOKEN并返回，如果使用此方法请使用JWTUtils生成TOKEN
         JWTUtils.verifyToken(token);
         return true;
     }
