@@ -119,8 +119,16 @@ public class FileUtils {
      * @return 字符串
      */
     public static String getFileName(String path) {
-        Assert.isTrue(!StrUtil.isBlank(path),"文件名不合法");
-        return path.substring(path.lastIndexOf("\\") + 1);
+        Assert.isTrue(!StrUtil.isBlank(path),"文件名不能为空");
+        //解决linux系统和windows系统存储路径不一样
+        int indexOf ;
+        if ((indexOf = path.lastIndexOf("\\")) != -1) {
+            return path.substring(indexOf + 1);
+        }else if ((indexOf = path.lastIndexOf("/")) != -1) {
+            return path.substring(indexOf + 1);
+        }else {
+            throw new RuntimeException("文件名获取失败");
+        }
     }
 
     /**
