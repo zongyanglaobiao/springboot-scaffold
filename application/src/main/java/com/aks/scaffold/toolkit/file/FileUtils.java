@@ -7,8 +7,6 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
-import com.aks.sdk.exception.GlobalException;
-import com.aks.sdk.util.asserts.AssertUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -31,9 +29,9 @@ public class FileUtils {
      * @param file     文件
      * @param savePath 保存路径
      * @return 字符串
-     * @throws GlobalException 使用
+     * @throws RuntimeException 使用
      */
-    public static String upload(InputStream file, String savePath) throws GlobalException {
+    public static String upload(InputStream file, String savePath) {
         if (ObjectUtil.isNull(file) || StrUtil.isBlank(savePath)) {
             return null;
         }
@@ -46,13 +44,13 @@ public class FileUtils {
             file.transferTo(writer);
             file.close();
         } catch (Exception e) {
-            throw new GlobalException("FileUtils：文件写出失败," + e.getMessage());
+            throw new RuntimeException("FileUtils：文件写出失败," + e.getMessage());
         }finally {
             if (!Objects.isNull(writer)) {
                 try {
                     writer.close();
                 } catch (Exception e) {
-                    throw new GlobalException("FileUtils：文件写出失败," + e.getMessage());
+                    throw new RuntimeException("FileUtils：文件写出失败," + e.getMessage());
                 }
             }
         }
@@ -64,18 +62,18 @@ public class FileUtils {
      *
      * @param filePath 文件路径
      * @return 字节[]
-     * @throws GlobalException 使用
+     * @throws RuntimeException 使用
      */
-    public static byte[] download(String filePath) throws GlobalException {
+    public static byte[] download(String filePath){
         //路径不存就创建
         File touch = FileUtil.touch(new File(filePath));
         if (!touch.exists()) {
-            throw new GlobalException(String.format("%s不存在",filePath));
+            throw new RuntimeException(String.format("%s不存在",filePath));
         }
         try (BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(touch))){
             return inputStream.readAllBytes();
         } catch (Exception e) {
-            throw new GlobalException("FileUtils：文件读入失败," + e.getMessage());
+            throw new RuntimeException("FileUtils：文件读入失败," + e.getMessage());
         }
     }
 
@@ -85,9 +83,9 @@ public class FileUtils {
      * @param filePath 文件路径
      * @param response 响应
      * @param fileName 文件名
-     * @throws GlobalException 使用
+     * @throws RuntimeException 使用
      */
-    public static void webDownload(String filePath, HttpServletResponse response,String fileName) throws GlobalException {
+    public static void webDownload(String filePath, HttpServletResponse response,String fileName) throws RuntimeException {
         try {
             byte[] download = download(filePath);
             response.setHeader("Content-Disposition", "attachment;filename=" + URLUtil.encode(fileName));
@@ -97,7 +95,7 @@ public class FileUtils {
             response.setContentType("application/octet-stream;charset=UTF-8");
             IoUtil.write(response.getOutputStream(), true, download);
         } catch (Exception  e) {
-            throw new GlobalException("WEB下载失败," + e.getMessage());
+            throw new RuntimeException("WEB下载失败," + e.getMessage());
         }
     }
 
@@ -110,7 +108,7 @@ public class FileUtils {
      */
     public static String getFileSuffix(String path){
         final String dot = ".";
-        AssertUtils.assertTrue(StrUtil.isBlank(path) || !path.contains(dot),"文件后缀名不合法");
+        Assert.isTrue(!StrUtil.isBlank(path) && path.contains(dot),"文件后缀名不合法");
         return path.substring(path.lastIndexOf(dot) + 1);
     }
 
@@ -121,9 +119,7 @@ public class FileUtils {
      * @return 字符串
      */
     public static String getFileName(String path) {
-        if (StrUtil.isBlank(path)) {
-            return null;
-        }
+        Assert.isTrue(!StrUtil.isBlank(path),"文件名不合法");
         return path.substring(path.lastIndexOf("\\") + 1);
     }
 
