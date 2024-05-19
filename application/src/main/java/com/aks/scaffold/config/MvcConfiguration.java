@@ -29,7 +29,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author xxl
  * @since 2023/9/16
  */
-@ConfigurationProperties(prefix = "auth-path")
+@ConfigurationProperties(prefix = "authorization")
 @Configuration
 @RequiredArgsConstructor
 @Data
@@ -37,12 +37,26 @@ public class MvcConfiguration implements WebMvcConfigurer, HandlerInterceptor {
 
     private static final String PATH = "/**";
 
+    /**
+     *  排除的路径
+     */
     private String[] exclude;
 
+    /**
+     * 是否开启验证,默认为开启
+     */
+    private boolean enable = true;
+
+    /**
+     * token key
+     */
     private String tokenName;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (!enable) {
+            return true;
+        }
         String token = StrUtil.isBlank(request.getHeader(tokenName)) ?
                 request.getHeader(tokenName.toLowerCase()) :
                 request.getHeader(tokenName);

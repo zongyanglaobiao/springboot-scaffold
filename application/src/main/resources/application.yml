@@ -60,7 +60,7 @@ knife4j:   # knife4j的增强配置，不需要增强可以不配
   cors: true  #跨域请求
   production: false   #是否是生产环境，如果设置true,doc.html就不能访问
 
-auth-path:
+authorization:
   exclude:
     - /**/doc.html
     - /**/*.css
