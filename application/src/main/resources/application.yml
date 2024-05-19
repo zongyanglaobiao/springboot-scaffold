@@ -58,7 +58,7 @@ knife4j:   # knife4j的增强配置，不需要增强可以不配
     language: zh_cn
     enable-request-cache: false  #不开启缓存请求
   cors: true  #跨域请求
-  production: false   #是否是生产环境，如果设置true,doc.html就不能访问
+  production: @knife4j.enable@   #是否是生产环境，如果设置true,doc.html就不能访问
 
 authorization:
   exclude:
