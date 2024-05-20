@@ -76,3 +76,6 @@ authorization:
 file:
   save:
     path: @save.path@
+
+log:
+  path: @log.path@

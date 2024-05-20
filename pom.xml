@@ -156,6 +156,7 @@
                 <spring.active>dev</spring.active>
                 <!--    随环境参数在此填写，自定义标签，使用@标签名@       -->
                 <save.path>D:\Temp\2024</save.path>
+                <log.path>D:\Temp\2024\logs</log.path>
                 <knife4j.enable>false</knife4j.enable>
             </properties>
             <activation>
@@ -167,6 +168,7 @@
             <properties>
                 <spring.active>prod</spring.active>
                 <save.path>/home/Temp/2024</save.path>
+                <save.path>/home/Temp/logs</save.path>
                 <knife4j.enable>true</knife4j.enable>
             </properties>
         </profile>
