@@ -94,5 +94,6 @@ file:
   save:
     path: @save.path@
 
+#日志文件存储位置
 log:
   path: @log.path@
