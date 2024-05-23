@@ -21,7 +21,9 @@ spring:
       login-timeout: 5
       # 池中维护的最小空闲连接数
       minimum-idle: 10
-      # 以下为解决 No operations allowed after connection closed 的主要配置
+      #连接测试SQL
+      connection-test-query: "SELECT 1"
+    # 以下为解决 No operations allowed after connection closed 的主要配置
     dbcp2:
       # 验证连接是否有效
       validation-query: SELECT 1
