@@ -7,7 +7,30 @@ spring:
     username: mpw:wEL7uPAuz4hbK+kwKBGeiQ==
     password: mpw:OfGZyCjRemMXVySW/DkUWA==
     hikari:
-      max-lifetime: 1800000  #连接的最大生命周期，表示一个连接在被关闭之前的最长使用时间。设置为30分钟（1800000毫秒）
+      # 连接池最大连接数，默认是 10
+      maximum-pool-size: 60
+      # 链接超时时间，默认 30000(30 秒)
+      connection-timeout: 60000
+      # 空闲连接存活最大时间，默认 600000(10 分钟)
+      idle-timeout: 60000
+      # 连接将被测试活动的最大时间量
+      validation-timeout: 3000
+      # 此属性控制池中连接的最长生命周期，值 0 表示无限生命周期，默认 1800000(30 分钟)
+      max-lifetime: 60000
+      # 连接到数据库时等待的最长时间(秒)
+      login-timeout: 5
+      # 池中维护的最小空闲连接数
+      minimum-idle: 10
+      # 以下为解决 No operations allowed after connection closed 的主要配置
+    dbcp2:
+      # 验证连接是否有效
+      validation-query: SELECT 1
+      # 指明是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个
+      test-on-borrow: false
+      # 指明连接是否被空闲连接回收器(如果有)进行检验；如果检测失败,则连接将被从池中去除。
+      test-while-idle: true
+      # 指定空闲连接检查、废弃连接清理、空闲连接池大小调整之间的操作时间间隔
+      time-between-eviction-runs-millis: 18800
   data:
     redis:
       port: 6379
