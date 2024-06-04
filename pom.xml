@@ -168,7 +168,7 @@
             <properties>
                 <spring.active>prod</spring.active>
                 <save.path>/home/Temp/2024</save.path>
-                <save.path>/home/Temp/logs</save.path>
+                <log.path>/home/Temp/logs</log.path>
                 <knife4j.enable>true</knife4j.enable>
             </properties>
         </profile>

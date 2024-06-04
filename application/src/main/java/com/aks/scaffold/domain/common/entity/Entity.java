@@ -32,6 +32,7 @@ public class Entity implements Serializable {
     @JsonView({IGNORE.class})
     @TableField(value = "update_time",fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
+
     public interface INSERT {}
     public interface IGNORE {}
     public interface UPDATE {}
