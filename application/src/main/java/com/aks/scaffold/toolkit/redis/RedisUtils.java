@@ -1,6 +1,7 @@
 package com.aks.scaffold.toolkit.redis;
 
 import cn.hutool.core.convert.Convert;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.*;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,9 +18,16 @@ import java.util.function.Function;
  * @author xxl
  * @since 2023/11/10
  */
+@Getter
 @Component
 public class RedisUtils {
 
+    /**
+     * -- GETTER --
+     *  获取 redisTemplate
+     *
+     * @return redisTemplate
+     */
     private  RedisTemplate<String, Object> redisTemplate;
 
     @Autowired(required = false)
@@ -38,15 +46,6 @@ public class RedisUtils {
      */
     public Set<String> keys() {
         return redisTemplate.keys("*");
-    }
-
-    /**
-     * 获取 redisTemplate
-     *
-     * @return redisTemplate
-     */
-    public RedisTemplate<String, Object> getRedisTemplate() {
-        return redisTemplate;
     }
 
     /**

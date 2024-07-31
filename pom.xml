@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.james.aks</groupId>
+    <groupId>com.aks</groupId>
     <artifactId>springboot-scaffold</artifactId>
     <version>${revision}</version>
 
@@ -65,7 +65,7 @@
                 <version>${com.github.xiaoymin.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.james.aks</groupId>
+                <groupId>com.aks</groupId>
                 <artifactId>sdk</artifactId>
                 <version>${revision}</version>
             </dependency>

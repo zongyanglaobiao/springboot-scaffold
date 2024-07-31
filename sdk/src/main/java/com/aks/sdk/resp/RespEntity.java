@@ -14,6 +14,7 @@ import java.io.Serializable;
 @Data
 @Accessors(chain = true)
 public  class RespEntity<T> implements Serializable {
+
     @Serial
     private static final long serialVersionUID = -3917323953100432259L;
 

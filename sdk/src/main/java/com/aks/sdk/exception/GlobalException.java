@@ -3,17 +3,22 @@ package com.aks.sdk.exception;
 import com.aks.sdk.resp.HttpCode;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serial;
+import java.util.Objects;
 
 /**
- * 带有code的用于网络使用的
- *
+ * 全局异常
+ * <p>用于网络使用的异常响应</p>
+ * <p>大部分暴露给用户的异常提示信息也需要走这个类，除了极个别的异常需要特殊处理</p>
+ * <p>打印本来的异常</p>
  * @author xxl
  * @since 2023/11/19
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Slf4j
 public class GlobalException extends RuntimeException{
 
     @Serial
@@ -23,13 +28,24 @@ public class GlobalException extends RuntimeException{
 
     private String msg;
 
-    public GlobalException(String message, int code) {
+    public GlobalException(Object ojs,Throwable throwable,int code,String message) {
         this.code = code;
         this.msg = message;
+        if (Objects.nonNull(ojs) && Objects.nonNull(throwable)) {
+            log.error("{} : ", ojs.getClass().toString().replace("class",""), throwable);
+        }
+    }
+
+    public GlobalException(Object ojs,Throwable throwable,String message) {
+        this(ojs,throwable,HttpCode.INTERNAL_SERVER_ERROR.getCode(),message);
     }
 
     public GlobalException(String message) {
-        this(message, HttpCode.INTERNAL_SERVER_ERROR.getCode());
+        this(null,null,HttpCode.INTERNAL_SERVER_ERROR.getCode(),message);
+    }
+
+    public GlobalException( String message,int code) {
+        this(null,null,code,message);
     }
 }
 

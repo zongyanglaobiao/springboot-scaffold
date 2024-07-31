@@ -5,6 +5,8 @@ import cn.hutool.jwt.JWTUtil;
 import com.aks.sdk.exception.GlobalException;
 
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * @author xxl
@@ -13,23 +15,22 @@ import java.util.Map;
 public class JWTUtils {
 
     private static final String JWT_HEADER = "e10adc3949ba59abbe56e057f20f883e";
+    private static final String EXPIRE_TIME = "expire_time";
 
     /**
-     * 毫秒为单位
+     * 毫秒为单位，保存时间为15天
      */
     public static final long HALF_A_MONTH = 1000 * 60 * 60 * 24 * 15;
 
-    private static final String EXPIRE_TIME = "expire_time";
-    private static final String USER_ID = "uid";
-
-    public static String getToken(String userId) {
-        return getToken(HALF_A_MONTH,userId);
+    public static String createToken(long time,Map<String, Object> payload) {
+        Map<String, Object> map = Objects.requireNonNull(payload);
+        map.put(EXPIRE_TIME, System.currentTimeMillis() + time);
+        return JWTUtil.createToken(map, JWT_HEADER.getBytes());
     }
 
-    public static String getToken(long time,String userId) {
-        return JWTUtil.createToken(Map.of(USER_ID, userId, EXPIRE_TIME, System.currentTimeMillis() + time), JWT_HEADER.getBytes());
+    public static String createToken(Map<String, Object> payload) {
+        return createToken(HALF_A_MONTH, payload);
     }
-
 
     public static String verifyToken(String token) {
         if (JWTUtil.verify(token, JWT_HEADER.getBytes())) {

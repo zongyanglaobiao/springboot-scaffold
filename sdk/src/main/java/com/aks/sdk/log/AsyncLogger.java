@@ -32,7 +32,7 @@ public final class AsyncLogger {
 
     public  void error(Class<?> targetClass,String msg,Object... params) {
         final Logger logger = getLogger(targetClass);
-        service.execute(()->logger.info(msg,params));
+        service.execute(()->logger.error(msg,params));
     }
 
     private Logger getLogger(Class<?> targetClass) {

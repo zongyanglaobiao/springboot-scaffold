@@ -2,7 +2,6 @@ package com.aks.scaffold.controller.exception;
 
 import com.aks.sdk.exception.GlobalException;
 import com.aks.sdk.resp.RespEntity;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,8 +13,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @since 2023/9/16
  */
 @RestControllerAdvice
-@Slf4j
 public class ExceptionController {
+
     /**
      * 捕捉spring boot容器所有的未知异常
      */
@@ -31,6 +30,6 @@ public class ExceptionController {
                     toList().
                     toString());
         }
-        return RespEntity.fail();
+        return RespEntity.fail("系统异常,请稍后再试");
     }
 }

@@ -37,11 +37,8 @@ public class TheadUtils {
                 handler);
     }
 
-
     static class ChatThreadFactory implements ThreadFactory {
-
         private static final AtomicInteger COUNT = new AtomicInteger(0);
-
         @Override
         public Thread newThread(Runnable r) {
             return new Thread(r,"chat--thread--" + COUNT.incrementAndGet());

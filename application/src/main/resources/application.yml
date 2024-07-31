@@ -89,6 +89,7 @@ authorization:
     - /**/doLogin
     - /**/doRegister
   token-name: auth
+  enable: false
 
 file:
   save:

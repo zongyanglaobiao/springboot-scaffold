@@ -1,4 +1,4 @@
-package com.aks.scaffold.toolkit.service;
+package com.aks.scaffold.domain.common.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;

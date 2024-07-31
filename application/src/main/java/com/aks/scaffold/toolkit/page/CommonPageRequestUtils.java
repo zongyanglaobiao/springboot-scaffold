@@ -1,4 +1,4 @@
-package com.aks.scaffold.toolkit.web;
+package com.aks.scaffold.toolkit.page;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
@@ -46,7 +46,7 @@ public class CommonPageRequestUtils {
                     size = PAGE_SIZE_MAX_VALUE;
                 }
             } catch (Exception e) {
-                log.error(">>> 分页条数转换异常：", e);
+                log.error(">>> 分页条数转换异常: ", e);
                 size = 20;
             }
         }
@@ -57,7 +57,7 @@ public class CommonPageRequestUtils {
             try {
                 page = Convert.toInt(pageString);
             } catch (Exception e) {
-                log.error(">>> 分页页数转换异常：", e);
+                log.error(">>> 分页页数转换异常: ", e);
                 page = 1;
             }
         }
@@ -105,7 +105,7 @@ public class CommonPageRequestUtils {
         try {
             servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         } catch (Exception e) {
-            log.error(">>> 非Web上下文无法获取Request：", e);
+            log.error(">>> 非Web上下文无法获取Request: ", e);
             throw new GlobalException("非Web上下文无法获取Request");
         }
         if (servletRequestAttributes == null) {
@@ -120,7 +120,7 @@ public class CommonPageRequestUtils {
         try {
             servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         } catch (Exception e) {
-            log.error(">>> 非Web上下文无法获取Response：", e);
+            log.error(">>> 非Web上下文无法获取Response: ", e);
             throw new GlobalException("非Web上下文无法获取Response");
         }
         if (servletRequestAttributes == null) {

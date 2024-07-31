@@ -37,6 +37,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Data
 public class MvcConfiguration implements WebMvcConfigurer, HandlerInterceptor {
 
+    /**
+     *  拦截路径
+     */
     private static final String PATH = "/**";
 
     /**
