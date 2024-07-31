@@ -55,3 +55,4 @@ test/*
 /.idea/vcs.xml
 /application/target/
 /sdk/target/
+/.idea/webServers.xml
