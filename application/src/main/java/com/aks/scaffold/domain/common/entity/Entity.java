@@ -23,6 +23,7 @@ public class Entity implements Serializable {
     private static final long serialVersionUID = -1284347847778673827L;
 
     @TableId
+    @JsonView({UPDATE.class, SaveOrUpdate.class})
     private String id;
 
     @JsonView({IGNORE.class})
@@ -32,7 +33,9 @@ public class Entity implements Serializable {
     @JsonView({IGNORE.class})
     @TableField(value = "update_time",fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
+
     public interface INSERT {}
     public interface IGNORE {}
     public interface UPDATE {}
+    public interface SaveOrUpdate {}
 }

@@ -9,18 +9,23 @@ spring:
   task:
     scheduling:
       pool:
-        size: 10 #定时任务线程池大小设置默认1设置为5
+        #定时任务线程池大小设置默认1设置为5
+        size: 10
   jackson:
     time-zone: GMT+8
-    date-format: yyyy-MM-dd HH:mm:ss #jackson时间格式化类
+    #jackson时间格式化格式
+    date-format: yyyy-MM-dd HH:mm:ss
   mvc:
     format:
-      date-time: yyyy-MM-dd HH:mm:ss #日期格式化
+      #日期格式化
+      date-time: yyyy-MM-dd HH:mm:ss
   servlet:
     multipart:
       max-request-size: 30MB
-      file-size-threshold: 0 #文件写入磁盘的阈值,设置为0，即上传就存储在服务器,如果是100则表示小于100会存储在内存
-      max-file-size: 30MB    #单个文件上传的最大值
+      #文件写入磁盘的阈值,设置为0，即上传就存储在服务器,如果是100则表示小于100会存储在内存
+      file-size-threshold: 0
+      #单个文件上传的最大值
+      max-file-size: 30MB
 server:
   port: 8080
 
@@ -31,9 +36,11 @@ server:
 mybatis-plus:
   global-config:
     db-config:
-      id-type: assign_id #全局主键使用雪花算法生成id
+      #全局主键使用雪花算法生成id
+      id-type: assign_id
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl   #打印sql
+    #打印sql
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: "classpath:**/mapping/*.xml"
 
 #=============================================================================
@@ -42,23 +49,33 @@ mybatis-plus:
 
 springdoc:
   api-docs:
-    enabled: true   #是否开启文档功能关系到swagger-ui能否开启
-    path: /v3/api-docs #swagger后端请求地址，查看swagger所有配置，同时也是配置web端的接口配置,必须写
+    #是否开启文档功能关系到swagger-ui能否开启
+    enabled: true
+    #swagger后端请求地址，查看swagger所有配置，同时也是配置web端的接口配置,必须写
+    path: /v3/api-docs
   swagger-ui:
-    tags-sorter: alpha  #标签排序
-    operations-sorter: alpha  #操作排序
-    path: /swagger  #自定义swagger前端请求路径，输入http：127.0.0.1:8080/swagger会自动重定向到swagger页面注意是path不是url
+    #标签排序
+    tags-sorter: alpha
+    #操作排序
+    operations-sorter: alpha
+    #自定义swagger前端请求路径，输入http：127.0.0.1:8080/swagger会自动重定向到swagger页面注意是path不是url
+    path: /swagger
   group-configs:
     - group: 测试API
       packages-to-scan:
         - com.aks.scaffold.controller
-knife4j:   # knife4j的增强配置，不需要增强可以不配
-  enable: true  #开启访问默认路径doc.html
+
+  # knife4j的增强配置，不需要增强可以不配
+knife4j:
+  #开启访问默认路径doc.html
+  enable: true
   setting:
     language: zh_cn
-    enable-request-cache: false  #不开启缓存请求
+    #不开启缓存请求
+    enable-request-cache: false
   cors: true  #跨域请求
-  production: @knife4j.enable@   #是否是生产环境，如果设置true,doc.html就不能访问
+  #是否是生产环境，如果设置true,doc.html就不能访问
+  production: @knife4j.enable@
 
 authorization:
   exclude:
@@ -76,3 +93,7 @@ authorization:
 file:
   save:
     path: @save.path@
+
+#日志文件存储位置
+log:
+  path: @log.path@
