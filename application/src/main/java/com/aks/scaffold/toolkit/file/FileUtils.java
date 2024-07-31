@@ -161,6 +161,6 @@ public class FileUtils {
 
     public static void checkFileSuffix(String fileName, List<String> fulfilSuffix)  {
         boolean match = fulfilSuffix.parallelStream().anyMatch(t -> t.equalsIgnoreCase(FileUtils.getFileSuffix(fileName)));
-        Assert.isTrue(match,"不支持的文件格式 = "+ FileUtils.getFileSuffix(fileName));
+        Assert.isTrue(match, FileUtils.getFileSuffix(fileName) + "不在支持的列表: " + fulfilSuffix);
     }
 }
