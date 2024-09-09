@@ -48,10 +48,6 @@ public  class RespEntity<T> implements Serializable {
         return base(code, message, null);
     }
 
-    public static <T> RespEntity<T> success(String message) {
-        return base(200, message, null);
-    }
-
     public static <T> RespEntity<T> success(T data) {
         HttpCode success = HttpCode.SUCCESS;
         return base(success.getCode(), success.getReasonPhrase(), data);
