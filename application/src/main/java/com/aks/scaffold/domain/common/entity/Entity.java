@@ -1,5 +1,6 @@
 package com.aks.scaffold.domain.common.entity;
 
+import com.aks.scaffold.constant.EntityFieldName;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -27,11 +28,11 @@ public class Entity implements Serializable {
     private String id;
 
     @JsonView({IGNORE.class})
-    @TableField(value = "create_time",fill = FieldFill.INSERT)
+    @TableField(value = EntityFieldName.CREATE_TIME,fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     @JsonView({IGNORE.class})
-    @TableField(value = "update_time",fill = FieldFill.UPDATE)
+    @TableField(value = EntityFieldName.UPDATE_TIME,fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
 
     public interface INSERT {}
