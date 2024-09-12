@@ -8,12 +8,14 @@ import com.aks.sdk.resp.HttpCode;
 import com.aks.sdk.util.jwt.JWTUtils;
 import com.aks.sdk.util.thead.TheadUtils;
 import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +37,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @RequiredArgsConstructor
 @Data
-public class MvcConfiguration implements WebMvcConfigurer, HandlerInterceptor {
+public class MvcConfiguration implements WebMvcConfigurer, HandlerInterceptor, MetaObjectHandler {
 
     /**
      *  拦截路径
@@ -79,6 +81,20 @@ public class MvcConfiguration implements WebMvcConfigurer, HandlerInterceptor {
     }
 
     /**
+     * mybatis-plus自动填充功能实现
+     * @param metaObject 元对象
+     */
+    @Override
+    public void insertFill(MetaObject metaObject) {
+
+    }
+
+    @Override
+    public void updateFill(MetaObject metaObject) {
+
+    }
+
+    /**
      * 跨域配置
      */
     @Bean
@@ -108,5 +124,6 @@ public class MvcConfiguration implements WebMvcConfigurer, HandlerInterceptor {
     public AsyncLogger logger() {
         return new AsyncLogger(TheadUtils.createThreadPool());
     }
+
 
 }

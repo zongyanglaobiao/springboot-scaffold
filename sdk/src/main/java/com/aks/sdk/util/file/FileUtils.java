@@ -40,14 +40,14 @@ public class FileUtils {
             //路径不存就创建
             touch = FileUtil.touch(new File(savePath));
         } catch (Exception e) {
-            throw new RuntimeException("FileUtils路径创建失败: " + e.getMessage());
+            throw new RuntimeException("文件路径创建失败: " + e.getMessage());
         }
 
         try(BufferedOutputStream writer = new BufferedOutputStream(new FileOutputStream(touch))) {
             file.transferTo(writer);
             file.close();
         } catch (Exception e) {
-            throw new RuntimeException("FileUtils文件写出失败: " + e.getMessage());
+            throw new RuntimeException("文件文件保存失败: " + e.getMessage());
         }
         return touch.getPath();
     }
