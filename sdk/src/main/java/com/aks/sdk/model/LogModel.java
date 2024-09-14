@@ -1,7 +1,6 @@
 package com.aks.sdk.model;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,8 +34,6 @@ public class LogModel {
     private LocalDateTime  responseTime;
 
     private String  requestIp;
-
-
 
     public void log() {
         log.info(this.toString());

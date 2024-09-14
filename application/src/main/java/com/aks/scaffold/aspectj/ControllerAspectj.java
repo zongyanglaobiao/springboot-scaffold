@@ -1,21 +1,15 @@
 package com.aks.scaffold.aspectj;
 
 import cn.hutool.json.JSONUtil;
-import com.aks.sdk.exception.GlobalException;
 import com.aks.sdk.model.LogModel;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -49,14 +43,13 @@ public class ControllerAspectj {
         } catch (Throwable e) {
             exceptionInfo = e;
             throw new RuntimeException(e);
-            //todo BUG存在SQL异常抛出SA-TOKEN异常
         } finally {
             //打印日志
             new LogModel(requestUri,
                     point.getSignature().toString(),
                     Arrays.toString(point.getArgs()),
                     Objects.isNull(proceed) ? null : JSONUtil.toJsonStr(proceed),
-                    Objects.isNull(exceptionInfo) ? null : exceptionInfo.getMessage(),
+                    Objects.isNull(exceptionInfo) ? null : exceptionInfo.toString(),
                     requestTime,
                     LocalDateTime.now(),
                     requestIp).

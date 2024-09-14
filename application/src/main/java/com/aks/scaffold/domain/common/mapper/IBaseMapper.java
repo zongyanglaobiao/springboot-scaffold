@@ -1,14 +1,18 @@
 package com.aks.scaffold.domain.common.mapper;
 
+import com.baomidou.mybatisplus.core.batch.MybatisBatch;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.transaction.annotation.Transactional;
+import com.baomidou.mybatisplus.core.toolkit.MybatisBatchUtils;
+import org.apache.ibatis.executor.BatchResult;
+import org.apache.ibatis.session.SqlSessionFactory;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Function;
 
 /**
  * 基础通用BaseMapper
@@ -17,9 +21,30 @@ import java.util.function.Function;
  */
 public interface IBaseMapper<E> extends BaseMapper<E> {
 
-    @Transactional(rollbackFor = RuntimeException.class)
-    default boolean updateBatchById(List<E> val) {
-        return val.stream().allMatch(t -> this.updateById(t) > 0);
+    default Serializable getId(E e){
+        throw new RuntimeException("未实现方法");
+    }
+
+    @Override
+    default int update(Wrapper<E> updateWrapper) {
+        return update(null, updateWrapper);
+    }
+
+    /**
+     *  根据Id选择更新还是插入
+     */
+    default int insertOrUpdateById(E e) {
+        if (Objects.isNull(getId(e))) {
+            return insert(e);
+        }else {
+            return updateById(e);
+        }
+    }
+
+    default List<BatchResult> insertBatch(Collection<E> dataList, SqlSessionFactory sqlSessionFactory) {
+        MybatisBatch.Method<E> mapperMethod = new MybatisBatch.Method<>(this.getClass());
+        // 执行批量插入注意不是否循环插入
+        return  MybatisBatchUtils.execute(sqlSessionFactory, dataList, mapperMethod.insert());
     }
 
     default LambdaQueryWrapper<E> queryWrapper() {
@@ -28,26 +53,5 @@ public interface IBaseMapper<E> extends BaseMapper<E> {
 
     default LambdaUpdateWrapper<E> updateWrapper() {
         return new LambdaUpdateWrapper<>();
-    }
-
-    default int update(Wrapper<E> updateWrapper) {
-        return update(null, updateWrapper);
-    }
-
-    /**
-     * 新增或者插入，不支持元素更新
-     *
-     * @param e 实体类
-     * @param id 获取实体的ID
-     * @return 是否更新成功
-     */
-    default int insertOrUpdate(E e, Function<E,String> id) {
-        if (Objects.isNull(id.apply(e))) {
-            //新增
-            return this.insert(e);
-        } else {
-            //跟新
-            return this.updateById(e);
-        }
     }
 }

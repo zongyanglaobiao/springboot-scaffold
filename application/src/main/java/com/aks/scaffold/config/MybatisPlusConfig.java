@@ -36,35 +36,32 @@ public class MybatisPlusConfig implements MetaObjectHandler {
             setFieldValByName(DELETE_FLAG, DELETE_FLAG_N, metaObject);
         }
 
-        //为空则设置createUser
-        Object createUser = metaObject.getValue(CREATE_USER);
-        if (ObjectUtil.isNull(createUser)) {
-            setFieldValByName(CREATE_USER, StpUtil.getLoginId(), metaObject);
-        }
-
         //为空则设置createTime
         Object createTime = metaObject.getValue(CREATE_TIME);
         if (ObjectUtil.isNull(createTime)) {
             setFieldValByName(CREATE_TIME, LocalDateTime.now(), metaObject);
         }
+
+        try {
+            //为空则设置createUser
+            Object createUser = metaObject.getValue(CREATE_USER);
+            if (ObjectUtil.isNull(createUser)) {
+                setFieldValByName(CREATE_USER, StpUtil.getLoginId(), metaObject);
+            }
+        } catch (Exception e) {
+            log.error("自动填充实体类createUser属性值失败: ", e);
+        }
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        setFieldValByName(UPDATE_USER, StpUtil.getLoginId(), metaObject);
+        try {
+            setFieldValByName(UPDATE_USER, StpUtil.getLoginId(), metaObject);
+        } catch (Exception e) {
+            log.error("自动填充实体类updateUser属性值失败: ", e);
+        }
         setFieldValByName(UPDATE_TIME, LocalDateTime.now(), metaObject);
     }
-
-    @Override
-    public MetaObjectHandler setFieldValByName(String fieldName, Object fieldVal, MetaObject metaObject) {
-        try {
-            MetaObjectHandler.super.setFieldValByName(fieldName, fieldVal, metaObject);
-        } catch (Exception e) {
-            log.warn("{}自动填充失败: {}",fieldName,e.getMessage());
-        }
-        return MetaObjectHandler.super.setFieldValByName(fieldName, fieldVal, metaObject);
-    }
-
     /**
      * Mybatis添加分页插件
      */

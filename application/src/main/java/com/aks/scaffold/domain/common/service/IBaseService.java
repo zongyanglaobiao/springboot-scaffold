@@ -25,34 +25,9 @@ import java.util.stream.Collectors;
  * @since 2024/1/2
  */
 public interface IBaseService<E> extends IService<E> {
-    /**
-     * 保存/或者更新
-     * @param ts 元数据
-     * @param idFunc 查询ID
-     */
-    @Transactional(rollbackFor = RuntimeException.class)
-    default <T> boolean saveOrUpdateBatch(List<T> ts, SFunction<E,?> idFunc) {
-        return this.saveOrUpdateBatch(ts,idFunc,null);
-    }
 
-    /**
-     * 保存/或者更新
-     * @param ts  元数据
-     * @param idFunc 查询ID
-     * @param after 消费者传递（原类型、转换类型）在父元素更新之后
-     * @return 是否
-     *
-     */
-    @Transactional(rollbackFor = RuntimeException.class)
-    default <T> boolean saveOrUpdateBatch(List<T> ts, SFunction<E,?> idFunc, BiFunction<T,E,Boolean> after) {
-        return ts.parallelStream().
-                allMatch(t -> {
-                    E convert = convert(t);
-                    if (after != null) {
-                        return this.saveOrUpdate(convert, idFunc) && after.apply(t,convert);
-                    }
-                    return this.saveOrUpdate(convert, idFunc);
-                });
+    default E getById(E e) {
+        throw new RuntimeException("未实现方法");
     }
 
     /**
@@ -65,10 +40,7 @@ public interface IBaseService<E> extends IService<E> {
     default boolean saveOrUpdate(E e,SFunction<E,?> idFunc) {
         Object apply = idFunc.apply(e);
 
-        if (apply instanceof String) {
-            apply = StrUtil.isBlank((String) apply) ? null : apply;
-        }
-
+        //判断是否存在
         E val = null;
         if (!Objects.isNull(apply)) {
             val = this.lambdaQuery().

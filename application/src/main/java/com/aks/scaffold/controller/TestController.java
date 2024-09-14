@@ -1,18 +1,15 @@
 package com.aks.scaffold.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.aks.scaffold.controller.entity.UserEntity;
 import com.aks.scaffold.controller.mapper.UserMapper;
-import com.aks.scaffold.domain.common.entity.Entity;
 import com.aks.sdk.resp.RespEntity;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.core.batch.MybatisBatch;
 import com.baomidou.mybatisplus.core.toolkit.MybatisBatchUtils;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -23,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -68,12 +64,9 @@ public class TestController {
     @GetMapping("/batch")
     @Operation(summary = "测试批量插入")
     public RespEntity<List<UserEntity>> batch() {
-        transactionTemplate.execute(t -> {
-            MybatisBatch.Method<UserEntity> mapperMethod = new MybatisBatch.Method<>(UserMapper.class);
-            // 执行批量插入
-            MybatisBatchUtils.execute(sqlSessionFactory, UserEntity.mock(), mapperMethod.insert());
-            throw new RuntimeException("批量插入出错");
-        });
+        MybatisBatch.Method<UserEntity> mapperMethod = new MybatisBatch.Method<>(UserMapper.class);
+        // 执行批量插入
+        MybatisBatchUtils.execute(sqlSessionFactory, UserEntity.mock(), mapperMethod.insert());
         return RespEntity.success(Db.list(UserEntity.class));
     }
 
@@ -92,23 +85,7 @@ public class TestController {
         return RespEntity.success();
     }
 
-    @EqualsAndHashCode(callSuper = true)
-    @TableName("sys_user")
-    @Data
-    public static class UserEntity extends Entity {
 
-        private String username;
-
-        public static List<UserEntity> mock() {
-            ArrayList<UserEntity> userEntities = new ArrayList<>();
-            for (int i = 0; i < 20; i++) {
-                UserEntity user = new UserEntity();
-                user.setUsername("用户"+i);
-                userEntities.add(user);
-            }
-            return userEntities;
-        }
-    }
 
 
 
