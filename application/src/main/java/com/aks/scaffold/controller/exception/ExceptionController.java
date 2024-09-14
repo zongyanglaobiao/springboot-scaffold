@@ -1,7 +1,9 @@
 package com.aks.scaffold.controller.exception;
 
+import cn.dev33.satoken.exception.NotLoginException;
 import com.aks.sdk.exception.GlobalException;
 import com.aks.sdk.resp.RespEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @since 2023/9/16
  */
 @RestControllerAdvice
+@Slf4j
 public class ExceptionController {
 
     /**
@@ -29,6 +32,8 @@ public class ExceptionController {
                     distinct().
                     toList().
                     toString());
+        }else if (exception instanceof NotLoginException loginException) {
+            return RespEntity.fail(loginException.getMessage());
         }
         return RespEntity.fail("系统异常,请稍后再试");
     }

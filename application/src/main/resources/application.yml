@@ -38,6 +38,9 @@ mybatis-plus:
     db-config:
       #全局主键使用雪花算法生成id
       id-type: assign_id
+      logic-delete-field: DELETE_FLAG
+      logic-delete-value: DELETED
+      logic-not-delete-value: NOT_DELETE
   configuration:
     #打印sql
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -73,25 +76,31 @@ knife4j:
     language: zh_cn
     #不开启缓存请求
     enable-request-cache: false
-  cors: true  #跨域请求
+  #跨域请求
+  cors: true
   #是否是生产环境，如果设置true,doc.html就不能访问
   production: @knife4j.enable@
 
-authorization:
-  exclude:
-    - /**/doc.html
-    - /**/*.css
-    - /**/*.js
-    - /**/*.png
-    - /**/*.jpg
-    - /**/*.ico
-    - /**/v3/**
-    - /**/doLogin
-    - /**/doRegister
-  token-name: auth
-  enable: false
+#=============================================================================
+#======================== sa-token 配置  ======================================
+#=============================================================================
+# 相关配置去查看官网文档比这个详细
+sa-token:
+  token-name: authorization
+  timeout: 1296000
+  active-timeout: -1
+  is-concurrent: false
+  is-share: false
+  token-style: uuid
+  log-level: debug
+  is-log: true
+
 
 #日志文件存储位置
 logging:
   file:
     path: @log.path@
+
+# 身份验证
+authorization:
+  enable: false

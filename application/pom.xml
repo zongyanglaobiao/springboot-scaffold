@@ -48,7 +48,7 @@
         <!--   mybatis-plus     -->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
         </dependency>
         <!--  aop      -->
         <dependency>
@@ -74,6 +74,10 @@
         <dependency>
             <groupId>com.aks</groupId>
             <artifactId>sdk</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-spring-boot3-starter</artifactId>
         </dependency>
     </dependencies>
 

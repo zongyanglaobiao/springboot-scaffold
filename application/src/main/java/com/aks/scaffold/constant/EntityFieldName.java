@@ -29,4 +29,14 @@ public interface EntityFieldName {
      * 更新时间
      */
     String UPDATE_TIME = "updateTime";
+
+    /**
+     * 软删除标志未删除
+     */
+    String DELETE_FLAG_N = "NOT_DELETED";
+
+    /**
+     * 软删除标志删除
+     */
+    String DELETE_FLAG_Y = "DELETED";
 }

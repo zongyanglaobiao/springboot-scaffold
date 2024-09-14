@@ -35,6 +35,18 @@ public class Entity implements Serializable {
     @TableField(value = EntityFieldName.UPDATE_TIME,fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
 
+    @JsonView({IGNORE.class})
+    @TableField(value = EntityFieldName.DELETE_FLAG,fill = FieldFill.INSERT)
+    private String deleteFlag;
+
+    @TableField(value = EntityFieldName.CREATE_USER,fill = FieldFill.INSERT)
+    @JsonView({IGNORE.class})
+    private String createUser;
+
+    @TableField(value = EntityFieldName.UPDATE_USER,fill = FieldFill.UPDATE)
+    @JsonView({IGNORE.class})
+    private String updateUser;
+
     public interface INSERT {}
     public interface IGNORE {}
     public interface UPDATE {}

@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @since: 2023/9/16
  * @description:  启动类
  */
-@EnableAspectJAutoProxy
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableAsync
 @EnableScheduling
 @EnableTransactionManagement

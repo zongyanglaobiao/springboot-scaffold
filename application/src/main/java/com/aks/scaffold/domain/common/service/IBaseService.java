@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * @author xxl
  * @since 2024/1/2
  */
-public interface IServiceEx<E> extends IService<E> {
+public interface IBaseService<E> extends IService<E> {
     /**
      * 保存/或者更新
      * @param ts 元数据

@@ -1,0 +1,77 @@
+package com.aks.scaffold.config;
+
+import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.reflection.MetaObject;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.time.LocalDateTime;
+
+import static com.aks.scaffold.constant.EntityFieldName.*;
+import static com.aks.scaffold.constant.EntityFieldName.UPDATE_TIME;
+
+/**
+ * @author xxl
+ * @since 2024/9/13
+ */
+@Configuration
+@Slf4j
+public class MybatisPlusConfig implements MetaObjectHandler {
+
+    /**
+     * mybatis-plus自动填充功能实现
+     * @param metaObject 元对象
+     */
+    @Override
+    public void insertFill(MetaObject metaObject) {
+        //为空则设置deleteFlag
+        Object deleteFlag = metaObject.getValue(DELETE_FLAG);
+        if (ObjectUtil.isNull(deleteFlag)) {
+            setFieldValByName(DELETE_FLAG, DELETE_FLAG_N, metaObject);
+        }
+
+        //为空则设置createUser
+        Object createUser = metaObject.getValue(CREATE_USER);
+        if (ObjectUtil.isNull(createUser)) {
+            setFieldValByName(CREATE_USER, StpUtil.getLoginId(), metaObject);
+        }
+
+        //为空则设置createTime
+        Object createTime = metaObject.getValue(CREATE_TIME);
+        if (ObjectUtil.isNull(createTime)) {
+            setFieldValByName(CREATE_TIME, LocalDateTime.now(), metaObject);
+        }
+    }
+
+    @Override
+    public void updateFill(MetaObject metaObject) {
+        setFieldValByName(UPDATE_USER, StpUtil.getLoginId(), metaObject);
+        setFieldValByName(UPDATE_TIME, LocalDateTime.now(), metaObject);
+    }
+
+    @Override
+    public MetaObjectHandler setFieldValByName(String fieldName, Object fieldVal, MetaObject metaObject) {
+        try {
+            MetaObjectHandler.super.setFieldValByName(fieldName, fieldVal, metaObject);
+        } catch (Exception e) {
+            log.warn("{}自动填充失败: {}",fieldName,e.getMessage());
+        }
+        return MetaObjectHandler.super.setFieldValByName(fieldName, fieldVal, metaObject);
+    }
+
+    /**
+     * Mybatis添加分页插件
+     */
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+        return interceptor;
+    }
+}

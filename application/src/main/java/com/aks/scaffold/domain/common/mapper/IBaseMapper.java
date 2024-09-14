@@ -11,16 +11,11 @@ import java.util.Objects;
 import java.util.function.Function;
 
 /**
- * 扩展BaseMapper
- *
- * @param <E> 实体类型
+ * 基础通用BaseMapper
+ * @author xxl
+ * @since 2024/9/13
  */
-public interface BaseMapperEx<E> extends BaseMapper<E> {
-
-    @Transactional(rollbackFor = RuntimeException.class)
-    default boolean insertBatch(List<E> val) {
-        return val.stream().allMatch(t -> this.insert(t) > 0);
-    }
+public interface IBaseMapper<E> extends BaseMapper<E> {
 
     @Transactional(rollbackFor = RuntimeException.class)
     default boolean updateBatchById(List<E> val) {
