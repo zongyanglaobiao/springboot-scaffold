@@ -59,3 +59,4 @@ test/*
 /.idea/dataSources.xml
 /application/src/test/java/com/aks/scaffold/ApplicationTest.java
 /.idea/GitCommitMessageStorage.xml
+/.idea/modules.xml
