@@ -26,9 +26,6 @@ spring:
       file-size-threshold: 0
       #单个文件上传的最大值
       max-file-size: 30MB
-server:
-  port: 8080
-
 #===========================================================================
 #==========================mybatis配置=======================================
 #============================================================================
@@ -38,8 +35,8 @@ mybatis-plus:
     db-config:
       #全局主键使用雪花算法生成id
       id-type: assign_id
-      logic-delete-field: DELETE_FLAG
-      logic-delete-value: DELETED
+      logic-delete-field: deleteFlag
+      logic-delete-value: DELETE
       logic-not-delete-value: NOT_DELETE
   configuration:
     #打印sql

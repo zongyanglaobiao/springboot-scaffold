@@ -3,6 +3,7 @@ package com.aks.scaffold.domain.common.entity;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 
@@ -36,6 +37,7 @@ public class Entity implements Serializable {
 
     @JsonView({IGNORE.class})
     @TableField(fill = FieldFill.INSERT)
+    @TableLogic
     private String deleteFlag;
 
     @TableField(fill = FieldFill.INSERT)

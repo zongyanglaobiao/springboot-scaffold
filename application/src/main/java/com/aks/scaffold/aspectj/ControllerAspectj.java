@@ -40,6 +40,7 @@ public class ControllerAspectj {
         Object proceed = null;
         try {
             proceed = point.proceed();
+            return proceed;
         } catch (Throwable e) {
             exceptionInfo = e;
             throw new RuntimeException(e);
@@ -55,6 +56,5 @@ public class ControllerAspectj {
                     requestIp).
                     log();
         }
-        return proceed;
     }
 }

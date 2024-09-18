@@ -60,3 +60,6 @@ test/*
 /application/src/test/java/com/aks/scaffold/ApplicationTest.java
 /.idea/GitCommitMessageStorage.xml
 /.idea/modules.xml
+/application/src/main/java/com/aks/scaffold/controller/entity/
+/application/src/main/java/com/aks/scaffold/controller/mapper/
+/application/src/main/java/com/aks/scaffold/controller/entity/

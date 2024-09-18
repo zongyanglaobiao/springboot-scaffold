@@ -5,6 +5,7 @@ import com.aks.scaffold.controller.entity.UserEntity;
 import com.aks.scaffold.controller.mapper.UserMapper;
 import com.aks.sdk.resp.RespEntity;
 import com.baomidou.mybatisplus.core.batch.MybatisBatch;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.MybatisBatchUtils;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.executor.BatchResult;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -37,9 +39,9 @@ public class TestController {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    private final TransactionTemplate transactionTemplate;
-
     private final SqlSessionFactory sqlSessionFactory;
+
+    private final UserMapper userMapper;
 
     /**
      * 测试接口
@@ -63,10 +65,8 @@ public class TestController {
 
     @GetMapping("/batch")
     @Operation(summary = "测试批量插入")
-    public RespEntity<List<UserEntity>> batch() {
-        MybatisBatch.Method<UserEntity> mapperMethod = new MybatisBatch.Method<>(UserMapper.class);
-        // 执行批量插入
-        MybatisBatchUtils.execute(sqlSessionFactory, UserEntity.mock(), mapperMethod.insert());
+    public RespEntity<?> batch() {
+        List<BatchResult> batchResults = userMapper.insertBatch(UserEntity.mock(), sqlSessionFactory);
         return RespEntity.success(Db.list(UserEntity.class));
     }
 

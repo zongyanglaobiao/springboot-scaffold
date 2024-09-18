@@ -33,10 +33,10 @@ public interface EntityFieldName {
     /**
      * 软删除标志未删除
      */
-    String DELETE_FLAG_N = "NOT_DELETED";
+    String DELETE_FLAG_N = "NOT_DELETE";
 
     /**
      * 软删除标志删除
      */
-    String DELETE_FLAG_Y = "DELETED";
+    String DELETE_FLAG_Y = "DELETE";
 }

@@ -49,7 +49,7 @@ public class MybatisPlusConfig implements MetaObjectHandler {
                 setFieldValByName(CREATE_USER, StpUtil.getLoginId(), metaObject);
             }
         } catch (Exception e) {
-            log.error("自动填充实体类createUser属性值失败: ", e);
+            //log.error("自动填充实体类createUser属性值失败: ", e);
         }
     }
 

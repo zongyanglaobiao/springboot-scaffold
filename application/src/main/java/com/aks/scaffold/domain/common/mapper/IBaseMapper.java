@@ -42,8 +42,8 @@ public interface IBaseMapper<E> extends BaseMapper<E> {
     }
 
     default List<BatchResult> insertBatch(Collection<E> dataList, SqlSessionFactory sqlSessionFactory) {
-        MybatisBatch.Method<E> mapperMethod = new MybatisBatch.Method<>(this.getClass());
-        // 执行批量插入注意不是否循环插入
+        MybatisBatch.Method<E> mapperMethod = new MybatisBatch.Method<>(this.getClass().getInterfaces()[0]);
+        // 执行批量插入注意不是循环插入
         return  MybatisBatchUtils.execute(sqlSessionFactory, dataList, mapperMethod.insert());
     }
 

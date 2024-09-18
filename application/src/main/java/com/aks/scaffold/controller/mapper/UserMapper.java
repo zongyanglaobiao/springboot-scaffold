@@ -1,7 +1,7 @@
 package com.aks.scaffold.controller.mapper;
 
 import com.aks.scaffold.controller.entity.UserEntity;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.aks.scaffold.domain.common.mapper.IBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,6 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2024/9/14
  */
 @Mapper
-public interface UserMapper extends BaseMapper<UserEntity> {
+public interface UserMapper extends IBaseMapper<UserEntity> {
 
 }
