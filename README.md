@@ -13,36 +13,36 @@
 
 ### application模块
 ```text
-├───java
-│   └───com
-│       └───aks
-│           └───scaffold
-│               ├───config   MVC常用配置如Token、Redis配置
-│               ├───controller
-│               │   └───exception  全局异常捕获
-│               ├───domain 业务层可以自己创建相关的mvc文件夹
-│               │   └───common
-│               │       ├───entity 通用实体类
-│               │       ├───mapper 基于MyBatisPlus的BaseMapper扩展的Mapper
-│               │       └───service 基于MyBatisPlus的IService扩展的Service
-│               ├───filter  设置UTF
-│               └───toolkit  
-│                   ├───aop 全局接口、异常打印
-│                   ├───page 分页请求工具类
-│                   └───redis redis工具类
+└───com
+    └───aks
+        └───scaffold
+            ├───aspectj 接口日志
+            ├───config  配置
+            ├───constant 常量
+            ├───controller
+            │   ├───exception 全局异常拦截
+            ├───domain
+            │   └───common
+            │       ├───entity 基础实体类
+            │       ├───mapper 基础mapper
+            │       └───service 基础service
+            ├───filter
+            └───toolkit
+                ├───page 分页
+                └───redis redis工具类
 ```
 ### sdk模块
 ```text
 └───com
     └───aks
         └───sdk
-            ├───exception  异常类
-            ├───log    异步日志工具类
-            ├───resp    统一响应类
+            ├───exception 自定义异常
+            ├───model 通用模型
+            ├───resp 响应模型
             └───util 
-                ├───asserts 断言工具类
-                ├───file 文件工具类
+                ├───asserts 断言工具
+                ├───file 文件相关工具类
                 ├───jwt jwt工具类
-                ├───md5 MD5工具类
-                └───thead 线程工具类
+                ├───md5 md5工具类
+                └───thread 线程工具类
 ```
