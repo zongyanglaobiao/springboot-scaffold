@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.MybatisBatchUtils;
 import org.apache.ibatis.executor.BatchResult;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -41,6 +43,7 @@ public interface IBaseMapper<E> extends BaseMapper<E> {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     default List<BatchResult> insertBatch(Collection<E> dataList, SqlSessionFactory sqlSessionFactory) {
         MybatisBatch.Method<E> mapperMethod = new MybatisBatch.Method<>(this.getClass().getInterfaces()[0]);
         // 执行批量插入注意不是循环插入

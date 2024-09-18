@@ -1,4 +1,4 @@
-package com.aks.sdk.util.thead;
+package com.aks.sdk.util.thread;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author xxl
  * @since 2024/2/23
  */
-public class TheadUtils {
+public class ThreadUtils {
 
     public static ThreadPoolExecutor createThreadPool() {
         // 根据您的服务器的CPU核心数来动态设置核心线程数，这里假设是CPU核心数的两倍
