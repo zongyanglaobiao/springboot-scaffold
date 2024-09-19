@@ -22,7 +22,7 @@ import static com.aks.scaffold.constant.EntityFieldName.UPDATE_TIME;
  */
 @Configuration
 @Slf4j
-public class MybatisPlusConfig implements MetaObjectHandler {
+public class MybatisPlusConfigure implements MetaObjectHandler {
 
     /**
      * mybatis-plus自动填充功能实现

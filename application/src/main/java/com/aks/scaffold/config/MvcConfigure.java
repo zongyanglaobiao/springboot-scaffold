@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 @Configuration
 @Data
 @Slf4j
-public class MvcConfig implements WebMvcConfigurer, HandlerInterceptor {
+public class MvcConfigure implements WebMvcConfigurer, HandlerInterceptor {
 
     /**
      *  拦截路径
