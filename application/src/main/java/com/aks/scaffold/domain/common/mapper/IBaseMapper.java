@@ -36,7 +36,8 @@ public interface IBaseMapper<E> extends BaseMapper<E> {
      *  根据Id选择更新还是插入
      */
     default int insertOrUpdateById(E e) {
-        if (Objects.isNull(getId(e))) {
+        Serializable id = getId(e);
+        if (Objects.isNull(id) || id instanceof String idStr && idStr.isEmpty()) {
             return insert(e);
         }else {
             return updateById(e);
