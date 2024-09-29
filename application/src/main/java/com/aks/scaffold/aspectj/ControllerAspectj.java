@@ -32,7 +32,7 @@ public class ControllerAspectj {
      * @return 接口返回结果
      */
     @Around("@within(org.springframework.web.bind.annotation.RestController)")
-    public Object apiLog(ProceedingJoinPoint point) {
+    public Object apiLog(ProceedingJoinPoint point) throws Throwable {
         String requestUri = request.getRequestURI();
         String requestIp = request.getRemoteAddr();
         LocalDateTime requestTime = LocalDateTime.now();
@@ -43,7 +43,7 @@ public class ControllerAspectj {
             return proceed;
         } catch (Throwable e) {
             exceptionInfo = e;
-            throw new RuntimeException(e);
+            throw e;
         } finally {
             //打印日志
             new LogModel(requestUri,
