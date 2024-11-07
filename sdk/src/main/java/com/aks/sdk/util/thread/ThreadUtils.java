@@ -14,17 +14,7 @@ public class ThreadUtils {
     private static final String DEFAULT_THREAD_NAME = "default--thread--";
 
     public static ThreadPoolExecutor createThreadPool() {
-        // 根据您的服务器的CPU核心数来动态设置核心线程数，这里假设是CPU核心数的两倍
-        int corePoolSize = Runtime.getRuntime().availableProcessors() * 2;
-        //最大创建线程数
-        int maximumPoolSize = corePoolSize * 2;
-        //时间单位
-        TimeUnit seconds = TimeUnit.SECONDS;
-        //存活时间
-        int keepAliveTime = 60;
-        //拒绝策略,人数过多就报错
-        ThreadPoolExecutor.AbortPolicy abortPolicy = new ThreadPoolExecutor.AbortPolicy();
-        return createThreadPool(corePoolSize,maximumPoolSize,keepAliveTime,seconds,abortPolicy,DEFAULT_THREAD_NAME);
+        return createThreadPool(DEFAULT_THREAD_NAME);
     }
 
     public static ThreadPoolExecutor createThreadPool(String threadName) {
