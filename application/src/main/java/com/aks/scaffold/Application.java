@@ -10,10 +10,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Indexed;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+
 /**
- * @author: anyone
- * @since: 2023/9/16
- * @description:  启动类
+ * @author xxl
+ * @since 2023/9/16
  */
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableAsync

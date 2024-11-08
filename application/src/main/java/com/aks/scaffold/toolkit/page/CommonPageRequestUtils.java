@@ -47,7 +47,6 @@ public class CommonPageRequestUtils {
                 }
             } catch (Exception e) {
                 log.error(">>> 分页条数转换异常: ", e);
-                size = 20;
             }
         }
 
@@ -58,7 +57,6 @@ public class CommonPageRequestUtils {
                 page = Convert.toInt(pageString);
             } catch (Exception e) {
                 log.error(">>> 分页页数转换异常: ", e);
-                page = 1;
             }
         }
         Page<T> objectPage = new Page<>(page, size);
@@ -70,10 +68,7 @@ public class CommonPageRequestUtils {
 
     /**
      * 从请求中中获取参数
-     *
-     * @author xuyuxiang
-     * @date 2021/10/14 10:44
-     **/
+     */
     public static String getParamFromRequest(String paramName) throws GlobalException {
         HttpServletRequest request = getRequest();
 

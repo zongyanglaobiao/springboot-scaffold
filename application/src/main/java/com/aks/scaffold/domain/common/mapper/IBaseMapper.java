@@ -9,7 +9,6 @@ import com.baomidou.mybatisplus.core.toolkit.MybatisBatchUtils;
 import org.apache.ibatis.executor.BatchResult;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import java.io.Serializable;
 import java.util.Collection;

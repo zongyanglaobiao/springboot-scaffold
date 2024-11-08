@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Configuration;
 import java.time.LocalDateTime;
 
 import static com.aks.scaffold.constant.EntityFieldName.*;
-import static com.aks.scaffold.constant.EntityFieldName.UPDATE_TIME;
 
 /**
  * @author xxl

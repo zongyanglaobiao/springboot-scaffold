@@ -1,6 +1,7 @@
 package com.aks.scaffold.config;
 
 import cn.dev33.satoken.stp.StpUtil;
+import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
@@ -54,7 +55,7 @@ public class MvcConfigure implements WebMvcConfigurer, HandlerInterceptor {
     private boolean enable = true;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+    public boolean preHandle(@Nullable HttpServletRequest request,@Nullable HttpServletResponse response,@Nullable Object handler) {
         if (!enable) {
             return true;
         }

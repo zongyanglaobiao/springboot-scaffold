@@ -35,7 +35,7 @@ public class FileUtils {
             return null;
         }
 
-        File touch = null;
+        File touch;
         try {
             //路径不存就创建
             touch = FileUtil.touch(new File(savePath));

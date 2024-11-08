@@ -25,8 +25,6 @@ public class RedisUtils {
     /**
      * -- GETTER --
      *  获取 redisTemplate
-     *
-     * @return redisTemplate
      */
     private  RedisTemplate<String, Object> redisTemplate;
 

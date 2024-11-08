@@ -43,18 +43,13 @@ public class ThreadUtils {
                 handler);
     }
 
-    static class DefaultThreadFactory implements ThreadFactory {
-
-        public final String threadName;
-
-        public DefaultThreadFactory(String threadName) {
-            this.threadName = threadName;
-        }
+    record DefaultThreadFactory(String threadName) implements ThreadFactory {
 
         private static final AtomicInteger COUNT = new AtomicInteger(0);
+
         @Override
-        public Thread newThread(Runnable r) {
-            return new Thread(r,threadName + COUNT.incrementAndGet());
+            public Thread newThread(Runnable r) {
+                return new Thread(r, threadName + COUNT.incrementAndGet());
+            }
         }
-    }
 }
