@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.aks</groupId>
+        <groupId>aks.com</groupId>
         <artifactId>springboot-scaffold</artifactId>
         <version>${revision}</version>
     </parent>
@@ -72,7 +72,7 @@
         </dependency>
         <!--   sdk     -->
         <dependency>
-            <groupId>com.aks</groupId>
+            <groupId>aks.com</groupId>
             <artifactId>sdk</artifactId>
         </dependency>
         <dependency>
