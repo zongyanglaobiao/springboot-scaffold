@@ -30,44 +30,44 @@ public  class RespEntity<T> implements Serializable {
         this.data = data;
     }
 
-    public static <T> RespEntity<T> base(int code, String message, T data) {
+    public static <T> RespEntity<T> build(int code, String message, T data) {
         return new RespEntity<>(code, message,data);
     }
 
     public static <T>  RespEntity<T> success(){
         HttpCode success = HttpCode.SUCCESS;
-        return RespEntity.base(success.getCode(),success.getReasonPhrase(),null);
+        return RespEntity.build(success.getCode(),success.getReasonPhrase(),null);
     }
 
     public static <T> RespEntity<T> success(String message, T t) {
         HttpCode success = HttpCode.SUCCESS;
-        return base(success.getCode(), message, t);
+        return build(success.getCode(), message, t);
     }
 
     public static <T> RespEntity<T> success(int code, String message) {
-        return base(code, message, null);
+        return build(code, message, null);
     }
 
     public static <T> RespEntity<T> success(T data) {
         HttpCode success = HttpCode.SUCCESS;
-        return base(success.getCode(), success.getReasonPhrase(), data);
+        return build(success.getCode(), success.getReasonPhrase(), data);
     }
     public static <T> RespEntity<T> fail() {
         HttpCode serverError = HttpCode.INTERNAL_SERVER_ERROR;
-        return RespEntity.base(serverError.getCode(),serverError.getReasonPhrase(),null);
+        return RespEntity.build(serverError.getCode(),serverError.getReasonPhrase(),null);
     }
 
     public static <T> RespEntity<T> fail(String message) {
         HttpCode serverError = HttpCode.INTERNAL_SERVER_ERROR;
-        return base(serverError.getCode(), message, null);
+        return build(serverError.getCode(), message, null);
     }
 
     public static <T> RespEntity<T> fail(String message, T t) {
         HttpCode serverError = HttpCode.INTERNAL_SERVER_ERROR;
-        return base(serverError.getCode(), message, t);
+        return build(serverError.getCode(), message, t);
     }
 
     public static <T> RespEntity<T> fail(int code, String message) {
-        return base(code, message, null);
+        return build(code, message, null);
     }
 }

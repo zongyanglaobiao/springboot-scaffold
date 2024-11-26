@@ -23,6 +23,7 @@ public class ExceptionController {
      */
     @ExceptionHandler(Exception.class)
     public RespEntity<?> exception(Exception exception) {
+        log.error("异常信息:{}", exception.getMessage());
         if (exception instanceof GlobalException com) {
             return RespEntity.fail(com.getCode(), com.getMsg());
         } else if (exception instanceof BindException bindException) {
