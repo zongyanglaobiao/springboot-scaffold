@@ -1,5 +1,6 @@
 package aks.com.config;
 
+import aks.com.toolkit.redis.RedisUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -35,6 +36,9 @@ public class RedisConfigure {
         redisTemplate.setValueSerializer(jackson);
         redisTemplate.setHashValueSerializer(jackson);
         redisTemplate.afterPropertiesSet();
+
+        //redis工具类
+        RedisUtils.setRedisTemplate(redisTemplate);
         return redisTemplate;
     }
 }

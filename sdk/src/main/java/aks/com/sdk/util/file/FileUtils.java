@@ -75,20 +75,19 @@ public class FileUtils {
     /**
      * 网络下载
      *
-     * @param filePath 文件路径
+     * @param dataByte 数据
      * @param response 响应
      * @param fileName 文件名
      * @throws RuntimeException 使用
      */
-    public static void webDownload(String filePath, HttpServletResponse response,String fileName) throws RuntimeException {
+    public static void webDownload(byte[] dataByte, HttpServletResponse response,String fileName) throws RuntimeException {
         try {
-            byte[] download = readFile(filePath);
             response.setHeader("Content-Disposition", "attachment;filename=" + URLUtil.encode(fileName));
-            response.addHeader("Content-Length", "" + download.length);
+            response.addHeader("Content-Length", "" + dataByte.length);
             response.setHeader("Access-Control-Allow-Origin", "*");
             response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
             response.setContentType("application/octet-stream;charset=UTF-8");
-            IoUtil.write(response.getOutputStream(), true, download);
+            IoUtil.write(response.getOutputStream(), true, dataByte);
         } catch (Exception  e) {
             throw new RuntimeException("WEB下载文件失败: " + e.getMessage());
         }

@@ -1,14 +1,12 @@
-package com.aks.scaffold.toolkit.redis;
+package aks.com.toolkit.redis;
 
 import cn.hutool.core.convert.Convert;
-import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.*;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -18,19 +16,22 @@ import java.util.function.Function;
  * @author xxl
  * @since 2023/11/10
  */
-@Getter
-@Component
 public class RedisUtils {
-
     /**
      * -- GETTER --
      *  获取 redisTemplate
      */
-    private  RedisTemplate<String, Object> redisTemplate;
+    private static RedisTemplate<String, Object> redisTemplate;
 
-    @Autowired(required = false)
-    public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
-        this.redisTemplate = redisTemplate;
+    public static void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
+        RedisUtils.redisTemplate = redisTemplate;
+    }
+
+    public static RedisTemplate<String, Object> getRedisTemplate() {
+        if (Objects.isNull(redisTemplate)) {
+            throw new RuntimeException("redisTemplate is null");
+        }
+        return RedisUtils.redisTemplate;
     }
 
     /*========================================*/
@@ -42,8 +43,8 @@ public class RedisUtils {
      *
      * @return Set<String>
      */
-    public Set<String> keys() {
-        return redisTemplate.keys("*");
+    public static Set<String> keys() {
+        return getRedisTemplate().keys("*");
     }
 
     /**
@@ -53,8 +54,8 @@ public class RedisUtils {
      * @param dbIndex 数据库下标
      * @return boolean
      */
-    public boolean move(String key,int dbIndex) {
-        return Boolean.TRUE.equals(redisTemplate.move(key, dbIndex));
+    public static boolean move(String key,int dbIndex) {
+        return Boolean.TRUE.equals(getRedisTemplate().move(key, dbIndex));
     }
 
     /**
@@ -63,8 +64,8 @@ public class RedisUtils {
      * @param key 键
      * @return boolean
      */
-    public boolean hasKey(String key) {
-        return Boolean.TRUE.equals(redisTemplate.hasKey(key));
+    public static boolean hasKey(String key) {
+        return Boolean.TRUE.equals(getRedisTemplate().hasKey(key));
     }
 
     /**
@@ -73,8 +74,8 @@ public class RedisUtils {
      * @param key 键
      * @return Long
      */
-    public Long delete(String ...key) {
-        return redisTemplate.delete(List.of(key));
+    public static Long delete(String ...key) {
+        return getRedisTemplate().delete(List.of(key));
     }
 
     /**
@@ -82,8 +83,8 @@ public class RedisUtils {
      *
      * @return RedisConnection
      */
-    public  RedisConnection getConnection() {
-        RedisConnectionFactory connectionFactory = redisTemplate.getConnectionFactory();
+    public static RedisConnection getConnection() {
+        RedisConnectionFactory connectionFactory = getRedisTemplate().getConnectionFactory();
         return  connectionFactory != null ? connectionFactory.getConnection() : null;
     }
 
@@ -94,8 +95,8 @@ public class RedisUtils {
      * @param <T> 指定类型
      * @return T
      */
-    public <T> T getCommands(Function<RedisCommands,T> function) {
-        RedisConnection connection = this.getConnection();
+    public static <T> T getCommands(Function<RedisCommands,T> function) {
+        RedisConnection connection = getConnection();
         Assert.notNull(connection,"connection is null");
         T result = function.apply(connection.commands());
         connection.close();
@@ -107,8 +108,8 @@ public class RedisUtils {
      *
      * @return Long
      */
-    public Long dbSize() {
-        return this.getCommands(RedisServerCommands::dbSize);
+    public static Long dbSize() {
+        return getCommands(RedisServerCommands::dbSize);
     }
 
     /**
@@ -117,8 +118,8 @@ public class RedisUtils {
      * @param key 键
      * @return  Long
      */
-    public Long getExpire(String key) {
-       return   redisTemplate.getExpire(key);
+    public static Long getExpire(String key) {
+       return  getRedisTemplate().getExpire(key);
     }
 
     /**
@@ -127,8 +128,8 @@ public class RedisUtils {
      * @param key 键
      * @return DataType
      */
-    public DataType type(String key) {
-        return   redisTemplate.type(key);
+    public static DataType type(String key) {
+        return getRedisTemplate().type(key);
     }
 
     /**
@@ -137,8 +138,8 @@ public class RedisUtils {
      * @param key 键
      * @return boolean
      */
-    public boolean persist(String key) {
-        return Boolean.TRUE.equals(redisTemplate.persist(key));
+    public static boolean persist(String key) {
+        return Boolean.TRUE.equals(getRedisTemplate().persist(key));
     }
 
     /**
@@ -148,7 +149,7 @@ public class RedisUtils {
      * @param time 时间
      * @return boolean
      */
-    public boolean expire(String key,long time) {
+    public static boolean expire(String key,long time) {
         return expireAndTimeunit(key,time,TimeUnit.SECONDS);
     }
 
@@ -160,8 +161,8 @@ public class RedisUtils {
      * @param timeUnit 时间单位
      * @return boolean
      */
-    public boolean expireAndTimeunit(String key,long time,TimeUnit timeUnit) {
-        return Boolean.TRUE.equals(redisTemplate.expire(key, time, timeUnit));
+    public static boolean expireAndTimeunit(String key,long time,TimeUnit timeUnit) {
+        return Boolean.TRUE.equals(getRedisTemplate().expire(key, time, timeUnit));
     }
     /*========================================*/
     /*===============String===================*/
@@ -173,8 +174,8 @@ public class RedisUtils {
      * @param key 键
      * @param value  值
      */
-    public void opsForValue(String key, Object value) {
-        redisTemplate.opsForValue().set(key, value);
+    public static void set(String key, Object value) {
+        getRedisTemplate().opsForValue().set(key, value);
     }
 
     /**
@@ -184,8 +185,8 @@ public class RedisUtils {
      * @param value 值
      * @param time  时间
      */
-    public void opsForValue(String key, Object value,long time) {
-        this.opsForValue(key, value, time, TimeUnit.SECONDS);
+    public static void set(String key, Object value,long time) {
+        set(key, value, time, TimeUnit.SECONDS);
     }
 
     /**
@@ -196,8 +197,8 @@ public class RedisUtils {
      * @param time 时间
      * @param timeUnit  时间单位
      */
-    public void opsForValue(String key, Object value, long time, TimeUnit timeUnit) {
-        redisTemplate.opsForValue().set(key, value, time, timeUnit);
+    public static void set(String key, Object value, long time, TimeUnit timeUnit) {
+        getRedisTemplate().opsForValue().set(key, value, time, timeUnit);
     }
 
     /**
@@ -206,8 +207,8 @@ public class RedisUtils {
      * @param key 键
      * @return  Object
      */
-    public <E> E get(String key,Class<E> cls) {
-        Object object = redisTemplate.opsForValue().get(key);
+    public static <E> E get(String key,Class<E> cls) {
+        Object object = getRedisTemplate().opsForValue().get(key);
         return Convert.convert(cls,object);
     }
 
@@ -218,8 +219,8 @@ public class RedisUtils {
      * @param time 时间
      * @return  Object
      */
-    public Object getAndExpire(String key, long time) {
-        return redisTemplate.opsForValue().getAndExpire(key,time,TimeUnit.SECONDS);
+    public static Object getAndExpire(String key, long time) {
+        return getRedisTemplate().opsForValue().getAndExpire(key,time,TimeUnit.SECONDS);
     }
 
     /**
@@ -230,8 +231,8 @@ public class RedisUtils {
      * @param timeUtil 时间单位
      * @return  Object
      */
-    public Object getAndExpire(String key, long time, TimeUnit timeUtil) {
-        return redisTemplate.opsForValue().getAndExpire(key,time,timeUtil);
+    public static Object getAndExpire(String key, long time, TimeUnit timeUtil) {
+        return getRedisTemplate().opsForValue().getAndExpire(key,time,timeUtil);
     }
 
 }
