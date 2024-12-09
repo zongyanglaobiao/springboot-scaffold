@@ -207,6 +207,16 @@ public class RedisUtils {
      * @param key 键
      * @return  Object
      */
+    public static Object get(String key) {
+        return getRedisTemplate().opsForValue().get(key);
+    }
+
+    /**
+     * 通过键获取某个值
+     *
+     * @param key 键
+     * @return  Object
+     */
     public static <E> E get(String key,Class<E> cls) {
         Object object = getRedisTemplate().opsForValue().get(key);
         return Convert.convert(cls,object);
