@@ -1,4 +1,4 @@
-package aks.com.filter;
+package aks.com.web.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

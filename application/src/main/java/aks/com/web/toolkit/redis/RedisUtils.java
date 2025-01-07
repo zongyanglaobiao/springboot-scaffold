@@ -1,4 +1,4 @@
-package aks.com.toolkit.redis;
+package aks.com.web.toolkit.redis;
 
 import cn.hutool.core.convert.Convert;
 import org.springframework.data.redis.connection.*;

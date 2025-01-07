@@ -1,4 +1,4 @@
-package aks.com;
+package aks.com.web;
 
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
@@ -33,6 +33,4 @@ public class Application {
             log.error("启动失败:",e);
         }
     }
-
-
 }

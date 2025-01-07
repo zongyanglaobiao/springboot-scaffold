@@ -1,4 +1,4 @@
-package aks.com.domain.common.mapper;
+package aks.com.web.domain.common.mapper;
 
 import com.baomidou.mybatisplus.core.batch.MybatisBatch;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;

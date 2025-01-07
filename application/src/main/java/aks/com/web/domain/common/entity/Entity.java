@@ -1,4 +1,4 @@
-package aks.com.domain.common.entity;
+package aks.com.web.domain.common.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

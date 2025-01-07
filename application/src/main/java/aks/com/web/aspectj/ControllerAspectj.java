@@ -1,4 +1,4 @@
-package aks.com.aspectj;
+package aks.com.web.aspectj;
 
 import cn.hutool.json.JSONUtil;
 import aks.com.sdk.model.LogModel;

@@ -1,6 +1,6 @@
-package aks.com.config;
+package aks.com.web.config;
 
-import aks.com.toolkit.redis.RedisUtils;
+import aks.com.web.toolkit.redis.RedisUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;

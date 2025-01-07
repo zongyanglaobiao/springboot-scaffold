@@ -1,4 +1,4 @@
-package aks.com.config;
+package aks.com.web.config;
 
 import cn.dev33.satoken.stp.StpUtil;
 import jakarta.annotation.Nullable;

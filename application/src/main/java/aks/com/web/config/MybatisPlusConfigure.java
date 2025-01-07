@@ -1,4 +1,4 @@
-package aks.com.config;
+package aks.com.web.config;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDateTime;
 
-import static aks.com.constant.EntityFieldName.*;
+import static aks.com.web.constant.EntityFieldName.*;
 
 
 /**

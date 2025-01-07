@@ -1,4 +1,4 @@
-package aks.com.toolkit.page;
+package aks.com.web.toolkit.page;
 
 import aks.com.sdk.exception.GlobalException;
 import cn.hutool.core.convert.Convert;

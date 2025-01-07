@@ -1,4 +1,4 @@
-package aks.com.constant;
+package aks.com.web.constant;
 
 /**
  * @author xxl

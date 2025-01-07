@@ -1,7 +1,7 @@
-package aks.com.domain.common.mapper;
+package aks.com.web.domain.common.mapper;
 
 
-import aks.com.domain.common.entity.Entity;
+import aks.com.web.domain.common.entity.Entity;
 
 import java.io.Serializable;
 
