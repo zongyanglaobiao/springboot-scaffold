@@ -1,4 +1,4 @@
-package aks.com.web.controller.exception;
+package aks.com.web.aspectj;
 
 import cn.dev33.satoken.exception.NotLoginException;
 import aks.com.sdk.exception.GlobalException;
@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 @RestControllerAdvice
 @Slf4j
-public class ExceptionController {
+public class ExceptionAspectj {
 
     /**
      * 捕捉spring boot容器所有的未知异常
      */
     @ExceptionHandler(Exception.class)
     public RespEntity<?> exception(Exception exception) {
-        log.error("异常信息:{}", exception.getMessage());
+        log.error("系统异常信息: ", exception);
         if (exception instanceof GlobalException com) {
             return RespEntity.fail(com.getCode(), com.getMsg());
         } else if (exception instanceof BindException bindException) {

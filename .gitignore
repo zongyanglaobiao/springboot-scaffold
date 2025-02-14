@@ -65,3 +65,4 @@ test/*
 /application/src/main/java/com/aks/scaffold/controller/entity/
 /application/src/main/java/com/aks/scaffold/controller/TestController.java
 /.idea/workspace.xml
+/.idea/
