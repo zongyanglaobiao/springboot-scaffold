@@ -78,6 +78,27 @@ public class ThreadUtils {
                 handler);
     }
 
+    public static ThreadPoolExecutor createIoThreadPool() {
+        //IO 密集型任务需要较多线程来处理并发请求
+        int corePoolSize = Runtime.getRuntime().availableProcessors() * 2;
+        int maximumPoolSize = corePoolSize * 2;
+        int keepAliveTime = 60;
+        TimeUnit unit = TimeUnit.SECONDS;
+        BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
+        RejectedExecutionHandler handler = new ThreadPoolExecutor.AbortPolicy();
+        return createThreadPool(corePoolSize, maximumPoolSize, keepAliveTime, unit, queue, handler, "io-thread-");
+    }
+
+    public static ThreadPoolExecutor createCpuThreadPool() {
+        // 假设 CPU 密集型任务，线程数根据 CPU 核心数调整
+        int corePoolSize = Runtime.getRuntime().availableProcessors();
+        int keepAliveTime = 0;
+        TimeUnit unit = TimeUnit.MILLISECONDS;
+        BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
+        RejectedExecutionHandler handler = new ThreadPoolExecutor.AbortPolicy();
+        return createThreadPool(corePoolSize, corePoolSize, keepAliveTime, unit, queue, handler, "cpu-thread-");
+    }
+
     record DefaultThreadFactory(String threadName) implements ThreadFactory {
 
         private static final AtomicInteger COUNT = new AtomicInteger(0);
