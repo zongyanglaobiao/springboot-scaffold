@@ -2,7 +2,7 @@ package aks.com.sdk.util.jwt;
 
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
-import aks.com.sdk.exception.GlobalException;
+import aks.com.sdk.exception.ServiceException;
 
 import java.util.Map;
 import java.util.Objects;
@@ -35,10 +35,10 @@ public class JWTUtils {
         if (JWTUtil.verify(token, JWT_HEADER.getBytes())) {
             JWT jwt = JWTUtil.parseToken(token);
             if (Long.parseLong(jwt.getPayload(EXPIRE_TIME).toString()) < System.currentTimeMillis()) {
-                throw new GlobalException("TOKEN过期");
+                throw new ServiceException("TOKEN过期");
             }
             return token;
         }
-        throw new GlobalException("TOKEN异常");
+        throw new ServiceException("TOKEN异常");
     }
 }

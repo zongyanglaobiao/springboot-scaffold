@@ -1,6 +1,6 @@
 package aks.com.web.toolkit.page;
 
-import aks.com.sdk.exception.GlobalException;
+import aks.com.sdk.exception.ServiceException;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
@@ -27,11 +27,11 @@ public class CommonPageRequestUtils {
 
     private static final Integer PAGE_SIZE_MAX_VALUE = 100;
 
-    public static <T> Page<T> defaultPage() throws GlobalException {
+    public static <T> Page<T> defaultPage() throws ServiceException {
         return defaultPage(null);
     }
 
-    public static <T> Page<T> defaultPage(List<OrderItem> orderItemList) throws GlobalException {
+    public static <T> Page<T> defaultPage(List<OrderItem> orderItemList) throws ServiceException {
 
         int size = 20;
 
@@ -69,7 +69,7 @@ public class CommonPageRequestUtils {
     /**
      * 从请求中中获取参数
      */
-    public static String getParamFromRequest(String paramName) throws GlobalException {
+    public static String getParamFromRequest(String paramName) throws ServiceException {
         HttpServletRequest request = getRequest();
 
         // 1. 尝试从请求体里面读取
@@ -95,31 +95,31 @@ public class CommonPageRequestUtils {
         return paramValue;
     }
 
-    public static HttpServletRequest getRequest() throws GlobalException {
+    public static HttpServletRequest getRequest() throws ServiceException {
         ServletRequestAttributes servletRequestAttributes;
         try {
             servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         } catch (Exception e) {
             log.error(">>> 非Web上下文无法获取Request: ", e);
-            throw new GlobalException("非Web上下文无法获取Request");
+            throw new ServiceException("非Web上下文无法获取Request");
         }
         if (servletRequestAttributes == null) {
-            throw new GlobalException("非Web上下文无法获取Request");
+            throw new ServiceException("非Web上下文无法获取Request");
         } else {
             return servletRequestAttributes.getRequest();
         }
     }
 
-    public static HttpServletResponse getResponse() throws GlobalException {
+    public static HttpServletResponse getResponse() throws ServiceException {
         ServletRequestAttributes servletRequestAttributes;
         try {
             servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         } catch (Exception e) {
             log.error(">>> 非Web上下文无法获取Response: ", e);
-            throw new GlobalException("非Web上下文无法获取Response");
+            throw new ServiceException("非Web上下文无法获取Response");
         }
         if (servletRequestAttributes == null) {
-            throw new GlobalException("非Web上下文无法获取Response");
+            throw new ServiceException("非Web上下文无法获取Response");
         } else {
             return servletRequestAttributes.getResponse();
         }

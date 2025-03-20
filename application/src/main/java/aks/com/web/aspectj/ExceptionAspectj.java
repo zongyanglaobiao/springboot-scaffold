@@ -1,7 +1,7 @@
 package aks.com.web.aspectj;
 
 import cn.dev33.satoken.exception.NotLoginException;
-import aks.com.sdk.exception.GlobalException;
+import aks.com.sdk.exception.ServiceException;
 import aks.com.sdk.resp.RespEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
@@ -24,7 +24,7 @@ public class ExceptionAspectj {
     @ExceptionHandler(Exception.class)
     public RespEntity<?> exception(Exception exception) {
         log.error("系统异常信息: ", exception);
-        if (exception instanceof GlobalException com) {
+        if (exception instanceof ServiceException com) {
             return RespEntity.fail(com.getCode(), com.getMsg());
         } else if (exception instanceof BindException bindException) {
             return RespEntity.fail(bindException.getFieldErrors().
