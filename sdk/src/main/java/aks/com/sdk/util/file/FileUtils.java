@@ -144,17 +144,4 @@ public class FileUtils {
         // 组合成完整的请求URL
         return scheme + "://" + serverName + ":" + serverPort + requestPath;
     }
-
-    public static boolean checkFileSuffix(String fileName, FileMagicNumber...type)  {
-       return  checkFileSuffix(fileName, Arrays.stream(type).map(FileMagicNumber::getExtension).toList());
-    }
-
-    /**
-     * 检查文件后缀是否满足条件
-     * @param fileName 文件名
-     * @param fulfilSuffix 校验类型
-     */
-    public static boolean checkFileSuffix(String fileName, List<String> fulfilSuffix)  {
-        return  fulfilSuffix.parallelStream().anyMatch(t -> t.equalsIgnoreCase(FileUtils.getFileSuffix(fileName)));
-    }
 }
