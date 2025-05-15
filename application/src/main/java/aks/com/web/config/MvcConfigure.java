@@ -1,9 +1,7 @@
 package aks.com.web.config;
 
+import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.stp.StpUtil;
-import jakarta.annotation.Nullable;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -12,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -29,7 +26,7 @@ import java.util.stream.Stream;
 @Configuration
 @Data
 @Slf4j
-public class MvcConfigure implements WebMvcConfigurer, HandlerInterceptor {
+public class MvcConfigure implements WebMvcConfigurer {
 
     /**
      *  拦截路径
@@ -55,19 +52,13 @@ public class MvcConfigure implements WebMvcConfigurer, HandlerInterceptor {
     private boolean enable = true;
 
     @Override
-    public boolean preHandle(@Nullable HttpServletRequest request,@Nullable HttpServletResponse response,@Nullable Object handler) {
-        if (!enable) {
-            return true;
-        }
-        StpUtil.checkLogin();
-        return true;
-    }
-
-    @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        InterceptorRegistration authInterceptorRegistration = registry.addInterceptor(this);
-        authInterceptorRegistration.addPathPatterns(PATH);
-        authInterceptorRegistration.excludePathPatterns(whiteList);
+        if (enable) {
+            //check login
+            InterceptorRegistration authInterceptorRegistration = registry.addInterceptor(new SaInterceptor(handler -> StpUtil.checkLogin()));
+            authInterceptorRegistration.addPathPatterns(PATH);
+            authInterceptorRegistration.excludePathPatterns(whiteList);
+        }
     }
 
     /**

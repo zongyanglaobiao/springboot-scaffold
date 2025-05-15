@@ -33,7 +33,7 @@
         <mybatis-plus-spring-boot3-starter.version>3.5.7</mybatis-plus-spring-boot3-starter.version>
         <sa-token-spring-boot3-starter>1.39.0</sa-token-spring-boot3-starter>
         <cn.hutool.version>5.8.23</cn.hutool.version>
-        <sa-token-spring-boot3-starter.version>1.39.0</sa-token-spring-boot3-starter.version>
+        <sa-token-spring-boot3-starter.version>1.42.0</sa-token-spring-boot3-starter.version>
         <!-- 插件版本   -->
         <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
     </properties>
@@ -76,10 +76,10 @@
                 <artifactId>sa-token-spring-boot3-starter</artifactId>
                 <version>${sa-token-spring-boot3-starter.version}</version>
             </dependency>
-            <!-- Sa-Token 整合 jwt -->
+            <!-- Sa-Token 整合 redis -->
             <dependency>
                 <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-jwt</artifactId>
+                <artifactId>sa-token-redis-template</artifactId>
                 <version>${sa-token-spring-boot3-starter.version}</version>
             </dependency>
         </dependencies>

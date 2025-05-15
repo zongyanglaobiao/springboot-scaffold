@@ -81,7 +81,7 @@
         </dependency>
         <dependency>
             <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-jwt</artifactId>
+            <artifactId>sa-token-redis-template</artifactId>
         </dependency>
     </dependencies>
 

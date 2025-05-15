@@ -96,8 +96,6 @@ sa-token:
   token-style: uuid
   log-level: debug
   is-log: true
-  # 集成jwt的机密key
-  jwt-secret-key: aaaa
 
 #日志文件存储位置
 logging:
