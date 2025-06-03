@@ -1,6 +1,5 @@
 package aks.com.sdk.util.file;
 
-import cn.hutool.core.io.FileMagicNumber;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -10,8 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 

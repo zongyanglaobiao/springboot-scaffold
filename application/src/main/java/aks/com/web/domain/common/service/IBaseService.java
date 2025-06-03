@@ -1,4 +1,4 @@
-package com.aks.scaffold.domain.common.service;
+package aks.com.web.domain.common.service;
 
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.service.IService;
