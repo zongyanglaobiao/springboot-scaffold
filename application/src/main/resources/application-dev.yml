@@ -3,7 +3,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     #用于连接本地数据库测试是否能正确运行
-    url: jdbc:mysql://122.51.115.127:3306/chat-hub?userSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    url: jdbc:mysql://124.223.46.163:3306/test_database?userSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
     username: root
     password: root123456
     hikari:
@@ -36,8 +36,9 @@ spring:
   data:
     redis:
       port: 6379
-      host: localhost
+      host: 124.223.46.163
       database: 0
+      password: root123456
       lettuce:
         pool:
           # 连接池最大连接数

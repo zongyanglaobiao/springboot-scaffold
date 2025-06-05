@@ -54,7 +54,7 @@ public class MvcConfigure implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         if (enable) {
-            //check login
+            //check login 也可以使用 SaServletFilter
             InterceptorRegistration authInterceptorRegistration = registry.addInterceptor(new SaInterceptor(handler -> StpUtil.checkLogin()));
             authInterceptorRegistration.addPathPatterns(PATH);
             authInterceptorRegistration.excludePathPatterns(whiteList);

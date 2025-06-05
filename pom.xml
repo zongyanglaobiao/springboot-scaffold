@@ -31,7 +31,6 @@
         <spring.boot.version>3.1.12</spring.boot.version>
         <com.github.xiaoymin.version>4.2.0</com.github.xiaoymin.version>
         <mybatis-plus-spring-boot3-starter.version>3.5.7</mybatis-plus-spring-boot3-starter.version>
-        <sa-token-spring-boot3-starter>1.39.0</sa-token-spring-boot3-starter>
         <cn.hutool.version>5.8.23</cn.hutool.version>
         <sa-token-spring-boot3-starter.version>1.42.0</sa-token-spring-boot3-starter.version>
         <!-- 插件版本   -->
