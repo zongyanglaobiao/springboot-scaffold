@@ -13,14 +13,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 /**
  * @author xxl
  * @since 2024/11/28
  */
 public class ExcelUtils {
-
 
     /**
      * 通过 Hutool 导出数据到 Excel 并写入到 HTTP 响应流

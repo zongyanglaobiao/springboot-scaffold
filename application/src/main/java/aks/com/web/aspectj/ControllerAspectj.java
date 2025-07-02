@@ -31,7 +31,7 @@ public class ControllerAspectj {
      * @param point 切点
      * @return 接口返回结果
      */
-    @Around("@within(org.springframework.web.bind.annotation.RestController)")
+    @Around("@within(org.springframework.web.bind.annotation.RequestMapping)")
     public Object apiLog(ProceedingJoinPoint point) throws Throwable {
         String requestUri = request.getRequestURI();
         String requestIp = request.getRemoteAddr();

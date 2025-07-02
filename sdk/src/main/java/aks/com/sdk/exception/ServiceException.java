@@ -27,11 +27,9 @@ public class ServiceException extends RuntimeException{
 
     private int code;
 
-    private String msg;
-
     public ServiceException(Object ojs, Throwable throwable, int code, String message) {
+        super(message);
         this.code = code;
-        this.msg = message;
         if (Objects.nonNull(ojs) && Objects.nonNull(throwable)) {
             log.error("{} : ", ojs.getClass().toString().replace("class",""), throwable);
         }

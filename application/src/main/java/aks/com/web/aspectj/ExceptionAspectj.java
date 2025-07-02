@@ -25,7 +25,7 @@ public class ExceptionAspectj {
     public RespEntity<?> exception(Exception exception) {
         log.error("系统异常信息: ", exception);
         if (exception instanceof ServiceException com) {
-            return RespEntity.fail(com.getCode(), com.getMsg());
+            return RespEntity.fail(com.getCode(), com.getMessage());
         } else if (exception instanceof BindException bindException) {
             return RespEntity.fail(bindException.getFieldErrors().
                     stream().
