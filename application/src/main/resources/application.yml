@@ -50,7 +50,7 @@ mybatis-plus:
 springdoc:
   api-docs:
     #是否开启文档功能关系到swagger-ui能否开启
-    enabled: true
+    enabled: @swagger.enable@
     #swagger后端请求地址，查看swagger所有配置，同时也是配置web端的接口配置,必须写
     path: /v3/api-docs
   swagger-ui:
@@ -105,3 +105,5 @@ logging:
 # 身份验证
 authorization:
   enable: false
+  white-list:
+    -

@@ -169,6 +169,7 @@
                 <!--    随环境参数在此填写，自定义标签，使用@标签名@       -->
                 <log.path>D:\Temp\2024\logs</log.path>
                 <knife4j.enable>false</knife4j.enable>
+                <swagger.enable>true</swagger.enable>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -178,8 +179,9 @@
             <id>prod</id>
             <properties>
                 <spring.active>prod</spring.active>
-                <log.path>/home/Temp/logs</log.path>
+                <log.path>/Applications/jetbrains/IDEA/github/springboot-scaffold/logs</log.path>
                 <knife4j.enable>true</knife4j.enable>
+                <swagger.enable>false</swagger.enable>
             </properties>
         </profile>
     </profiles>
