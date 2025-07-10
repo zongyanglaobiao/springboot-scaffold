@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author xxl
  * @since 2024/2/23
  */
-public class ThreadUtils {
+public class ThreadPoolUtils {
 
     public static final String DEFAULT_THREAD_NAME;
 
