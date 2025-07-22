@@ -105,5 +105,3 @@ logging:
 # 身份验证
 authorization:
   enable: false
-  white-list:
-    -

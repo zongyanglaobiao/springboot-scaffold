@@ -2,6 +2,7 @@ package aks.com.web.config;
 
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.stp.StpUtil;
+import io.micrometer.common.lang.NonNullApi;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -26,6 +27,7 @@ import java.util.stream.Stream;
 @Configuration
 @Data
 @Slf4j
+@NonNullApi
 public class MvcConfigure implements WebMvcConfigurer {
 
     /**

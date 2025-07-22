@@ -35,6 +35,7 @@ public class ControllerAspectj {
     public Object apiLog(ProceedingJoinPoint point) throws Throwable {
         String requestUri = request.getRequestURI();
         String requestIp = request.getRemoteAddr();
+        String requestMethod = request.getMethod();
         LocalDateTime requestTime = LocalDateTime.now();
         Throwable exceptionInfo = null;
         Object proceed = null;
@@ -53,8 +54,9 @@ public class ControllerAspectj {
                     Objects.isNull(exceptionInfo) ? null : exceptionInfo.toString(),
                     requestTime,
                     LocalDateTime.now(),
-                    requestIp).
-                    log();
+                    requestIp,
+                    requestMethod).
+                    log(false);
         }
     }
 }

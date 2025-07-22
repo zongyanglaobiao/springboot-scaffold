@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author xxl
  * @since 2024/9/14
  */
-public interface EntityIBaseMapper <E extends Entity> extends IBaseMapper<E> {
+public interface EntityBaseMapper<E extends Entity> extends IBaseMapper<E> {
 
     @Override
     default Serializable getId(E e) {
