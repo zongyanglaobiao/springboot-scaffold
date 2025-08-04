@@ -13,6 +13,7 @@ public class ThreadLocalUtils {
 
     private static final ThreadLocal<Object> THREAD_LOCAL = ThreadLocal.withInitial(() -> null);
 
+    @SuppressWarnings("unchecked")
     public static <E> E get() {
         try {
             return (E) THREAD_LOCAL.get();
