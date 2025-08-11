@@ -1,8 +1,10 @@
 package aks.com.web.aspectj;
 
-import cn.dev33.satoken.exception.NotLoginException;
 import aks.com.sdk.exception.ServiceException;
 import aks.com.sdk.resp.RespEntity;
+import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.SaTokenContextException;
+import cn.hutool.http.webservice.SoapRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -18,12 +20,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class ExceptionAspectj {
 
+    private static final String LOGIN_ERROR = "authentication failed";
+
     /**
      * 捕捉spring boot容器所有的未知异常
      */
     @ExceptionHandler(Exception.class)
     public RespEntity<?> exception(Exception exception) {
-        log.error("系统异常信息: ", exception);
+        log.error("system error: ", exception);
         if (exception instanceof ServiceException com) {
             return RespEntity.fail(com.getCode(), com.getMessage());
         } else if (exception instanceof BindException bindException) {
@@ -33,9 +37,13 @@ public class ExceptionAspectj {
                     distinct().
                     toList().
                     toString());
-        }else if (exception instanceof NotLoginException loginException) {
-            return RespEntity.fail(loginException.getMessage());
+        } else if (exception instanceof IllegalArgumentException illegalArgumentException) {
+            return RespEntity.fail(illegalArgumentException.getMessage());
+        } else if (exception instanceof NotLoginException) {
+            return RespEntity.fail(LOGIN_ERROR);
+        } else if (exception instanceof SaTokenContextException) {
+            return RespEntity.fail(LOGIN_ERROR);
         }
-        return RespEntity.fail("系统异常,请稍后再试");
+        return RespEntity.fail("system abnormality please try again later");
     }
 }

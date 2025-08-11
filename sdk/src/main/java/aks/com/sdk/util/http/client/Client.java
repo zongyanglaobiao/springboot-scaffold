@@ -15,7 +15,9 @@ public interface Client<Req, Resp> {
     /**
      * 回调请求前的请求对象
      */
-    void beforeExecute(Consumer<Req> consumer);
+    default void beforeExecute(Consumer<Req> consumer){
+        throw new UnsupportedOperationException("Not implemented");
+    }
 
     /**
      * 执行请求
@@ -27,5 +29,7 @@ public interface Client<Req, Resp> {
     /**
      * 回调请求后的响应对象
      */
-    void afterExecute(Consumer<Resp> consumer);
+    default void afterExecute(Consumer<Resp> consumer) {
+        throw new UnsupportedOperationException("Not implemented");
+    }
 }

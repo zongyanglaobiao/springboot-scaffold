@@ -11,6 +11,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -43,11 +44,14 @@ public interface IBaseMapper<E> extends BaseMapper<E> {
         }
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    default List<BatchResult> insertBatch(Collection<E> dataList, SqlSessionFactory sqlSessionFactory) {
+    @Transactional(rollbackFor = RuntimeException.class)
+    default int insertBatch(Collection<E> dataList, SqlSessionFactory sqlSessionFactory) {
         MybatisBatch.Method<E> mapperMethod = new MybatisBatch.Method<>(this.getClass().getInterfaces()[0]);
         // 执行批量插入注意不是循环插入
-        return  MybatisBatchUtils.execute(sqlSessionFactory, dataList, mapperMethod.insert());
+        List<BatchResult> results = MybatisBatchUtils.execute(sqlSessionFactory, dataList, mapperMethod.insert());
+        return results.stream()
+                .flatMapToInt(r -> Arrays.stream(r.getUpdateCounts()))
+                .sum();
     }
 
     default LambdaQueryWrapper<E> queryWrapper() {
