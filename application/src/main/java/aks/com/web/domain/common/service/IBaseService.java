@@ -1,13 +1,22 @@
 package aks.com.web.domain.common.service;
 
 import aks.com.sdk.exception.ServiceException;
+import aks.com.web.domain.common.entity.Entity;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.batch.MybatisBatch;
+import com.baomidou.mybatisplus.core.toolkit.MybatisBatchUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.executor.BatchResult;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -17,7 +26,7 @@ import java.util.function.Function;
  * @author xxl
  * @since 2024/1/2
  */
-public interface IBaseService<E> extends IService<E> {
+public interface IBaseService<E extends Entity> extends IService<E> {
     /**
      * in查询
      * @param condition  查询条件
@@ -54,6 +63,32 @@ public interface IBaseService<E> extends IService<E> {
      */
     default E getByIdThrowIfNull(Serializable id) {
         return getByIdThrowIfNull(id,"data not exist");
+    }
+
+    /**
+     * 批量保存而不是循环插入
+     */
+    @Transactional(rollbackFor = RuntimeException.class)
+    default boolean saveBatch(Collection<E> dataList, SqlSessionFactory sqlSessionFactory) {
+        MybatisBatch.Method<E> mapperMethod = new MybatisBatch.Method<>(this.getClass().getInterfaces()[0]);
+        // 执行批量插入注意不是循环插入
+        List<BatchResult> results = MybatisBatchUtils.execute(sqlSessionFactory, dataList, mapperMethod.insert());
+        return results.stream()
+                .flatMapToInt(r -> Arrays.stream(r.getUpdateCounts()))
+                .sum() == dataList.size();
+    }
+
+
+    /**
+     * 根据 ID 更新 / 没有 id 则保存
+     * @param entity 实体类
+     * @return  boolean
+     */
+    default boolean saveOrUpdateById(E entity) {
+        if (StrUtil.isBlank(entity.getId())) {
+            return save(entity);
+        }
+        return updateById(entity);
     }
 
     /**
@@ -102,7 +137,7 @@ public interface IBaseService<E> extends IService<E> {
         }
 
         public <V> QueryBuilder<T> notEmpty(List<V> values, SFunction<T, ?> column, ColumnValueApplier<T, List<V>> fn) {
-            if (Objects.nonNull(values)) {
+            if (Objects.nonNull(values) && !values.isEmpty()) {
                 fn.apply(wrapper, column, values);
             }
             return this;

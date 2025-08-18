@@ -75,6 +75,10 @@ public class FileTypeUtils {
     @Getter
     public enum FileTypeEnum {
         /**
+         * jpg
+         */
+        JPG("JPG", "FFD8FF"),
+        /**
          * JPEG
          */
         JPEG("JPEG", "FFD8FF"),

@@ -1,5 +1,6 @@
 package aks.com.web.toolkit.file;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -7,8 +8,11 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 
@@ -17,6 +21,7 @@ import java.util.Objects;
  * @author xxl
  * @since 2023/11/23
  */
+@Slf4j
 public class FileUtils {
 
     /**
@@ -140,5 +145,46 @@ public class FileUtils {
         String requestUri = request.getRequestURI();
         // 组合成完整的请求URL
         return scheme + "://" + serverName + ":" + serverPort + requestPath;
+    }
+
+    /**
+     * 创建文件路徑
+     * @param path 保存路径
+     * @param dirName 目录名称
+     * @param fileName 文件名稱, 例如：20250623180510_Test.xlsx其中Test.xlsx
+     * @return 返回绝对路径
+     */
+    public static String generateTimestampedFilePath(String path,String dirName,String fileName) {
+        if (StrUtil.isBlank(path) || StrUtil.isBlank(fileName)){
+            return null;
+        }
+
+        try {
+            // 获取当前日期目录和时间戳
+            String dateDir = DateUtil.format(DateUtil.date(), "yyyy-MM-dd");
+            String timestamp = DateUtil.format(DateUtil.date(), "yyyyMMddHHmmss");
+            // 拼接最终文件名
+            fileName = timestamp + "_" + fileName;
+            // 使用 Path 安全拼接路径（自动适配 Windows/Mac/Linux）共享文件夹个可x
+            Path futhPath;
+            if (StrUtil.isNotBlank(dirName)) {
+                futhPath = Paths.get(path, dirName, dateDir, fileName);
+            } else {
+                futhPath = Paths.get(path, dateDir, fileName);
+            }
+            // 自动创建目录（到父目录为止）
+            FileUtil.mkdir(futhPath.toFile().getParentFile());
+            // 返回最终绝对路径
+            String absolutePath = futhPath.toAbsolutePath().toString();
+            log.info("generate file path => {}", absolutePath);
+            return absolutePath;
+        } catch (Exception e) {
+            log.error("generate file path error => ", e);
+            return null;
+        }
+    }
+
+    public static String generateTimestampedFilePath(String path,String fileName) {
+        return generateTimestampedFilePath(path, null, fileName);
     }
 }
