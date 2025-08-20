@@ -24,7 +24,6 @@ public class DefaultClient implements Client<HttpRequest,HttpResponse> {
 
     private Consumer<HttpRequest> beforeExecute;
     private Consumer<HttpResponse> afterExecute;
-    private static final int SUCCESS_CODE = 200;
 
     @Override
     public void beforeExecute(Consumer<HttpRequest> consumer) {
@@ -63,7 +62,7 @@ public class DefaultClient implements Client<HttpRequest,HttpResponse> {
             log.info("execute response --> {}", resp);
 
             //json转化
-            if (Objects.nonNull(resp) && resp.getStatus() == SUCCESS_CODE) {
+            if (Objects.nonNull(resp) && resp.isOk()) {
                 return JSONUtil.toBean(resp.body(), request.getResponseClass());
             }
             t.setError(Objects.isNull(resp) ? resp : resp.body());
