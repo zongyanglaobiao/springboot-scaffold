@@ -1,11 +1,12 @@
 package aks.com.web.config;
 
+import aks.com.web.config.properties.SystemConfigProperties;
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.stp.StpUtil;
 import io.micrometer.common.lang.NonNullApi;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -15,51 +16,32 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.stream.Stream;
-
 /**
- * mvc配置
+ * 拦截器配置
  *
  * @author xxl
  * @since 2023/9/16
  */
-@ConfigurationProperties(prefix = "authorization")
-@Configuration
 @Data
 @Slf4j
 @NonNullApi
-public class MvcConfigure implements WebMvcConfigurer {
+@Configuration
+@EnableConfigurationProperties(SystemConfigProperties.class)
+public class InterceptorConfigure implements WebMvcConfigurer {
 
     /**
-     *  拦截路径
+     * 系统中所有的自定义配置应当写在CheckinProperties中
      */
-    private static final String PATH = "/**";
-
-    /**
-     *  白名单
-     */
-    private String[] whiteList = new String[]{
-            "/**/doc.html",
-            "/**/*.css",
-            "/**/*.js",
-            "/**/*.png",
-            "/**/*.jpg",
-            "/**/*.ico",
-            "/**/v3/**"
-    };
-
-    /**
-     * 是否开启验证,默认为开启
-     */
-    private boolean enable = true;
+    private final SystemConfigProperties properties;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        if (enable) {
+        SystemConfigProperties.Authorization authorization = properties.getAuthorization();
+        if (authorization.isEnable()) {
             //check login 也可以使用 SaServletFilter
             InterceptorRegistration authInterceptorRegistration = registry.addInterceptor(new SaInterceptor(handler -> StpUtil.checkLogin()));
-            authInterceptorRegistration.addPathPatterns(PATH);
-            authInterceptorRegistration.excludePathPatterns(whiteList);
+            authInterceptorRegistration.addPathPatterns(authorization.getPath());
+            authInterceptorRegistration.excludePathPatterns(authorization.getExcludePath());
         }
     }
 
@@ -77,9 +59,5 @@ public class MvcConfigure implements WebMvcConfigurer {
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
-    }
-
-    public void setWhiteList(String[] whiteList) {
-        this.whiteList = Stream.concat(Stream.of(whiteList), Stream.of(this.whiteList)).toArray(String[]::new);
     }
 }

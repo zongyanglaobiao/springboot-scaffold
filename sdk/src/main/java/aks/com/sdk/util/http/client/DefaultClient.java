@@ -65,7 +65,7 @@ public class DefaultClient implements Client<HttpRequest,HttpResponse> {
             if (Objects.nonNull(resp) && resp.isOk()) {
                 return JSONUtil.toBean(resp.body(), request.getResponseClass());
             }
-            t.setError(Objects.isNull(resp) ? resp : resp.body());
+            t.setError(Objects.isNull(resp) ? null : resp.body());
             return t;
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException exception){
             log.error("execute reflect error --> ", exception);

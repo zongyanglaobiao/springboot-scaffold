@@ -4,7 +4,6 @@ import aks.com.sdk.exception.ServiceException;
 import aks.com.sdk.resp.RespEntity;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.SaTokenContextException;
-import cn.hutool.http.webservice.SoapRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExceptionAspectj {
 
     private static final String LOGIN_ERROR = "authentication failed";
+    private static final String SYSTEM_ERROR = "system abnormality please try again later";
 
     /**
      * 捕捉spring boot容器所有的未知异常
@@ -40,10 +40,10 @@ public class ExceptionAspectj {
         } else if (exception instanceof IllegalArgumentException illegalArgumentException) {
             return RespEntity.fail(illegalArgumentException.getMessage());
         } else if (exception instanceof NotLoginException) {
-            return RespEntity.fail(LOGIN_ERROR);
+            return RespEntity.fail(401,LOGIN_ERROR);
         } else if (exception instanceof SaTokenContextException) {
-            return RespEntity.fail(LOGIN_ERROR);
+            return RespEntity.fail(401,LOGIN_ERROR);
         }
-        return RespEntity.fail("system abnormality please try again later");
+        return RespEntity.fail(SYSTEM_ERROR);
     }
 }

@@ -101,7 +101,3 @@ sa-token:
 logging:
   file:
     path: @log.path@
-
-# 身份验证
-authorization:
-  enable: false

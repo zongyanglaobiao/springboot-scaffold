@@ -101,10 +101,10 @@ public class CommonPageRequestUtils {
             servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         } catch (Exception e) {
             log.error(">>> 非Web上下文无法获取Request: ", e);
-            throw new ServiceException("非Web上下文无法获取Request");
+            throw new RuntimeException("非Web上下文无法获取Request");
         }
         if (servletRequestAttributes == null) {
-            throw new ServiceException("非Web上下文无法获取Request");
+            throw new RuntimeException("非Web上下文无法获取Request");
         } else {
             return servletRequestAttributes.getRequest();
         }
@@ -116,10 +116,10 @@ public class CommonPageRequestUtils {
             servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         } catch (Exception e) {
             log.error(">>> 非Web上下文无法获取Response: ", e);
-            throw new ServiceException("非Web上下文无法获取Response");
+            throw new RuntimeException("非Web上下文无法获取Response");
         }
         if (servletRequestAttributes == null) {
-            throw new ServiceException("非Web上下文无法获取Response");
+            throw new RuntimeException("非Web上下文无法获取Response");
         } else {
             return servletRequestAttributes.getResponse();
         }

@@ -33,8 +33,8 @@ public class FileTypeUtils {
      * @return 16进制字符串
      */
     private static String bytes2hex(byte[] src) {
-        StringBuilder stringBuilder = new StringBuilder("");
-        if (src == null || src.length <= 0) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (src == null || src.length == 0) {
             return null;
         }
         for (byte b : src) {

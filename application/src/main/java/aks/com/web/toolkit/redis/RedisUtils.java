@@ -55,7 +55,7 @@ public class RedisUtils {
      * @return boolean
      */
     public static boolean move(String key,int dbIndex) {
-        return Boolean.TRUE.equals(getRedisTemplate().move(key, dbIndex));
+        return getRedisTemplate().move(key, dbIndex);
     }
 
     /**
@@ -65,7 +65,7 @@ public class RedisUtils {
      * @return boolean
      */
     public static boolean hasKey(String key) {
-        return Boolean.TRUE.equals(getRedisTemplate().hasKey(key));
+        return getRedisTemplate().hasKey(key);
     }
 
     /**
@@ -139,7 +139,7 @@ public class RedisUtils {
      * @return boolean
      */
     public static boolean persist(String key) {
-        return Boolean.TRUE.equals(getRedisTemplate().persist(key));
+        return getRedisTemplate().persist(key);
     }
 
     /**
@@ -162,7 +162,7 @@ public class RedisUtils {
      * @return boolean
      */
     public static boolean expireAndTimeunit(String key,long time,TimeUnit timeUnit) {
-        return Boolean.TRUE.equals(getRedisTemplate().expire(key, time, timeUnit));
+        return getRedisTemplate().expire(key, time, timeUnit);
     }
     /*========================================*/
     /*===============String===================*/

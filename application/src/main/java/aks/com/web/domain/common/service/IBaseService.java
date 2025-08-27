@@ -9,7 +9,6 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.executor.BatchResult;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -114,39 +113,32 @@ public interface IBaseService<E extends Entity> extends IService<E> {
 
     /**
      * 参数多且允许为空时，MyBatis-Plus 查询条件判断代码会变得非常冗长，特别是对 wrapper.ge(...)、wrapper.like(...) 等调用需手动判空。
+     *
      * @author jamesaks
      * @since 2025/8/6
      */
-    @RequiredArgsConstructor
-    class QueryBuilder<T> {
-
-        private final LambdaQueryChainWrapper<T> wrapper;
-
-        public <V> QueryBuilder<T> notNull(V value, SFunction<T, ?> column, ColumnValueApplier<T, V> fn) {
-            if (Objects.nonNull(value)) {
-                fn.apply(wrapper, column, value);
+    record QueryBuilder<T>(LambdaQueryChainWrapper<T> wrapper) {
+            public <V> QueryBuilder<T> notNull(V value, SFunction<T, ?> column, ColumnValueApplier<T, V> fn) {
+                if (Objects.nonNull(value)) {
+                    fn.apply(wrapper, column, value);
+                }
+                return this;
             }
-            return this;
-        }
 
-        public QueryBuilder<T> notBlack(String value, SFunction<T, String> column, ColumnValueApplier<T, String> fn) {
-            if (Objects.nonNull(value)) {
-                fn.apply(wrapper, column, value);
+            public QueryBuilder<T> notBlack(String value, SFunction<T, String> column, ColumnValueApplier<T, String> fn) {
+                if (Objects.nonNull(value)) {
+                    fn.apply(wrapper, column, value);
+                }
+                return this;
             }
-            return this;
-        }
 
-        public <V> QueryBuilder<T> notEmpty(List<V> values, SFunction<T, ?> column, ColumnValueApplier<T, List<V>> fn) {
-            if (Objects.nonNull(values) && !values.isEmpty()) {
-                fn.apply(wrapper, column, values);
+            public <V> QueryBuilder<T> notEmpty(List<V> values, SFunction<T, ?> column, ColumnValueApplier<T, List<V>> fn) {
+                if (Objects.nonNull(values) && !values.isEmpty()) {
+                    fn.apply(wrapper, column, values);
+                }
+                return this;
             }
-            return this;
         }
-
-        public LambdaQueryChainWrapper<T> build() {
-            return wrapper;
-        }
-    }
 
     @FunctionalInterface
     interface ColumnValueApplier<T, V> {

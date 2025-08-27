@@ -1,6 +1,6 @@
 package aks.com.sdk.exception;
 
-import aks.com.sdk.resp.HttpCode;
+import aks.com.sdk.resp.DefaultErrorMessage;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
@@ -36,11 +36,11 @@ public class ServiceException extends RuntimeException{
     }
 
     public ServiceException(Object ojs, Throwable throwable, String message) {
-        this(ojs,throwable,HttpCode.INTERNAL_SERVER_ERROR.getCode(),message);
+        this(ojs,throwable, DefaultErrorMessage.INTERNAL_SERVER_ERROR.code(),message);
     }
 
     public ServiceException(String message) {
-        this(null,null,HttpCode.INTERNAL_SERVER_ERROR.getCode(),message);
+        this(null,null,DefaultErrorMessage.INTERNAL_SERVER_ERROR.code(),message);
     }
 
     public ServiceException(String message, int code) {

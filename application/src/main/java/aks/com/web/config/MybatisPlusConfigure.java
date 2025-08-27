@@ -62,6 +62,7 @@ public class MybatisPlusConfigure implements MetaObjectHandler {
         }
         setFieldValByName(UPDATE_TIME, LocalDateTime.now(), metaObject);
     }
+
     /**
      * Mybatis添加分页插件
      */
