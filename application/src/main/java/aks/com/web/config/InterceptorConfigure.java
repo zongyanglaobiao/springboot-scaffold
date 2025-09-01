@@ -30,7 +30,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class InterceptorConfigure implements WebMvcConfigurer {
 
     /**
-     * 系统中所有的自定义配置应当写在CheckinProperties中
+     * 系统中所有的自定义配置应当写在Properties中
      */
     private final SystemConfigProperties properties;
 
