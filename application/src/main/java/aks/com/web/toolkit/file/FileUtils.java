@@ -22,7 +22,7 @@ import java.util.Objects;
  * @since 2023/11/23
  */
 @Slf4j
-public class FileUtils {
+public final class FileUtils {
 
     /**
      * 保存文件

@@ -18,7 +18,7 @@ import java.util.function.Consumer;
  * @author xxl
  * @since 2024/11/28
  */
-public class ExcelUtils {
+public final class ExcelUtils {
 
     /**
      * 通过 Hutool 导出数据到 Excel 并写入到 HTTP 响应流

@@ -5,6 +5,7 @@ import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.stp.StpUtil;
 import io.micrometer.common.lang.NonNullApi;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -22,10 +23,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author xxl
  * @since 2023/9/16
  */
-@Data
 @Slf4j
 @NonNullApi
 @Configuration
+@RequiredArgsConstructor
 @EnableConfigurationProperties(SystemConfigProperties.class)
 public class InterceptorConfigure implements WebMvcConfigurer {
 

@@ -9,7 +9,7 @@ import aks.com.sdk.exception.ServiceException;
  * @author xxl
  * @since 2023/11/29
  */
-public class AssertUtils {
+public final class AssertUtils {
 
     public static void notNull(Object obj,String msg) throws ServiceException {
         Assert.notNull(obj,  () -> new ServiceException(msg));

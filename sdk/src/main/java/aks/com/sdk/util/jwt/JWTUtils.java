@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author xxl
  * @since 2024/2/28
  */
-public class JWTUtils {
+public final class JWTUtils {
 
     private static final String JWT_HEADER = "e10adc3949ba59abbe56e057f20f883e";
     private static final String EXPIRE_TIME = "expire_time";

@@ -9,7 +9,7 @@ import java.util.Objects;
  * @since 2024/12/9
  */
 @Slf4j
-public class ThreadLocalUtils {
+public final class ThreadLocalUtils {
 
     private static final ThreadLocal<Object> THREAD_LOCAL = ThreadLocal.withInitial(() -> null);
 

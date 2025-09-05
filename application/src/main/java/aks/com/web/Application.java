@@ -1,5 +1,6 @@
 package aks.com.web;
 
+import cn.hutool.extra.spring.EnableSpringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Indexed
 @MapperScan("**.mapper")
 @SpringBootApplication
+@EnableSpringUtil
 public class Application {
     public static void main(String[] args) {
         try {

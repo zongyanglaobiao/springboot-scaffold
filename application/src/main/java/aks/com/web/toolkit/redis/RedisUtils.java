@@ -16,7 +16,7 @@ import java.util.function.Function;
  * @author xxl
  * @since 2023/11/10
  */
-public class RedisUtils {
+public final class RedisUtils {
     /**
      * -- GETTER --
      *  获取 redisTemplate

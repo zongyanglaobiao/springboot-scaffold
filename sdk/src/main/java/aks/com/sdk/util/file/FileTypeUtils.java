@@ -10,7 +10,7 @@ import java.io.InputStream;
  * @author jamesaks
  * @since 2025/4/7
  */
-public class FileTypeUtils {
+public final class FileTypeUtils {
 
     /**
      * 获取文件头

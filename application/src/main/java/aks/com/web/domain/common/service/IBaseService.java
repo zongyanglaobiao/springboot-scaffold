@@ -91,20 +91,6 @@ public interface IBaseService<E extends Entity> extends IService<E> {
     }
 
     /**
-     * 转换为指定 Page
-     */
-    default <I,O> Page<O> convertPage(Page<I> page, Function<List<I>,List<O>> func) {
-        Page<O> tPage = new Page<>();
-        if (Objects.isNull( page)) {
-            return tPage;
-        }
-        tPage.setRecords(func.apply(page.getRecords()));
-        tPage.setTotal(page.getTotal());
-        tPage.setSize(page.getSize());
-        return tPage;
-    }
-
-    /**
      * 查询条件构造器
      */
     default QueryBuilder<E> queryBuilder() {

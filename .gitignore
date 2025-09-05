@@ -1,10 +1,16 @@
-HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+*.log
+
+### Eclipse ###
 .apt_generated
 .classpath
 .factorypath
@@ -12,13 +18,6 @@ target/
 .settings
 .springBeans
 .sts4-cache
-
-### IntelliJ IDEA ###
-.idea/
-.test/
-*.iws
-*.iml
-*.ipr
 
 ### NetBeans ###
 /nbproject/private/
@@ -33,38 +32,5 @@ build/
 ### VS Code ###
 .vscode/
 
-.mvn/
-test/
-test/*
-# But not empty folders
-!*/
-
-
-
-
-
-/.idea/.gitignore
-/.idea/compiler.xml
-/.idea/encodings.xml
-/.idea/misc.xml
-/.idea/inspectionProfiles/Project_Default.xml
-/.idea/jarRepositories.xml
-/logs/snowy-web-app-log/log_error.log
-/logs/snowy-web-app-log/log_total.log
-/.idea/uiDesigner.xml
-/.idea/vcs.xml
-/application/target/
-/sdk/target/
-/.idea/webServers.xml
-/.idea/dataSources.xml
-/application/src/test/java/com/aks/scaffold/ApplicationTest.java
-/.idea/GitCommitMessageStorage.xml
-/.idea/modules.xml
-/application/src/main/java/com/aks/scaffold/controller/entity/
-/application/src/main/java/com/aks/scaffold/controller/mapper/
-/application/src/main/java/com/aks/scaffold/controller/entity/
-/application/src/main/java/com/aks/scaffold/controller/TestController.java
-/.idea/workspace.xml
-/.idea/
-
-*.log
+### Mac OS ###
+.DS_Store

@@ -20,7 +20,8 @@ import java.util.List;
  * @since 2023/11/23
  */
 @Slf4j
-public class CommonPageRequestUtils {
+public final class CommonPageRequestUtils {
+
     private static final String PAGE_SIZE_PARAM_NAME = "size";
 
     private static final String PAGE_PARAM_NAME = "current";
@@ -31,7 +32,7 @@ public class CommonPageRequestUtils {
         return defaultPage(null);
     }
 
-    public static <T> Page<T> defaultPage(List<OrderItem> orderItemList) throws ServiceException {
+    public static <T> Page<T> defaultPage(List<OrderItem> orderItemList)  {
 
         int size = 20;
 
@@ -69,7 +70,7 @@ public class CommonPageRequestUtils {
     /**
      * 从请求中中获取参数
      */
-    public static String getParamFromRequest(String paramName) throws ServiceException {
+    public static String getParamFromRequest(String paramName) {
         HttpServletRequest request = getRequest();
 
         // 1. 尝试从请求体里面读取
@@ -95,7 +96,7 @@ public class CommonPageRequestUtils {
         return paramValue;
     }
 
-    public static HttpServletRequest getRequest() throws ServiceException {
+    public static HttpServletRequest getRequest() {
         ServletRequestAttributes servletRequestAttributes;
         try {
             servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -110,7 +111,7 @@ public class CommonPageRequestUtils {
         }
     }
 
-    public static HttpServletResponse getResponse() throws ServiceException {
+    public static HttpServletResponse getResponse(){
         ServletRequestAttributes servletRequestAttributes;
         try {
             servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
