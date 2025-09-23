@@ -2,23 +2,20 @@ package aks.com.web.domain.common.service;
 
 import aks.com.sdk.exception.ServiceException;
 import aks.com.web.domain.common.entity.Entity;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.batch.MybatisBatch;
 import com.baomidou.mybatisplus.core.toolkit.MybatisBatchUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.executor.BatchResult;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Function;
+import java.util.*;
+import java.util.function.Supplier;
 
 /**
  * 通用service方法
@@ -33,6 +30,9 @@ public interface IBaseService<E extends Entity> extends IService<E> {
      * @return List<E>
      */
     default List<E> list(SFunction<E,?> condition,List<?> val) {
+        if (val.isEmpty()) {
+            return new ArrayList<>();
+        }
         return this.lambdaQuery().in(condition,val).list();
     }
 
@@ -43,6 +43,9 @@ public interface IBaseService<E extends Entity> extends IService<E> {
      * @return List<E>
      */
     default List<E> list(SFunction<E,?> condition,Object ...val) {
+        if (val.length == 0) {
+            return new ArrayList<>();
+        }
         return this.lambdaQuery().in(condition,val).list();
     }
 
@@ -50,9 +53,16 @@ public interface IBaseService<E extends Entity> extends IService<E> {
      * 获取数据不存在则抛出异常
      */
     default E getByIdThrowIfNull(Serializable id, String errMsg) {
+        return getByIdThrowIfNull(id, () -> new ServiceException(errMsg));
+    }
+
+    /**
+     * 获取数据不存在则抛出异常
+     */
+    default <T extends RuntimeException> E getByIdThrowIfNull(Serializable id, Supplier<T> supplier) {
         E entity = IService.super.getById(id);
         if (Objects.isNull(entity)) {
-            throw new ServiceException(errMsg);
+            throw supplier.get();
         }
         return entity;
     }
@@ -65,16 +75,22 @@ public interface IBaseService<E extends Entity> extends IService<E> {
     }
 
     /**
+     * 每次默认保存批数每次 values 1000
+     */
+    int DEFAULT_BATCH_SIZE =  1000;
+    /**
      * 批量保存而不是循环插入
      */
     @Transactional(rollbackFor = RuntimeException.class)
     default boolean saveBatch(Collection<E> dataList, SqlSessionFactory sqlSessionFactory) {
-        MybatisBatch.Method<E> mapperMethod = new MybatisBatch.Method<>(this.getClass().getInterfaces()[0]);
-        // 执行批量插入注意不是循环插入
-        List<BatchResult> results = MybatisBatchUtils.execute(sqlSessionFactory, dataList, mapperMethod.insert());
-        return results.stream()
-                .flatMapToInt(r -> Arrays.stream(r.getUpdateCounts()))
-                .sum() == dataList.size();
+        return CollUtil.split(dataList, DEFAULT_BATCH_SIZE).stream().allMatch(splitDataList -> {
+            MybatisBatch.Method<E> mapperMethod = new MybatisBatch.Method<>(this.getBaseMapper().getClass().getInterfaces()[0]);
+            // 执行批量插入注意不是循环插入
+            List<BatchResult> results = MybatisBatchUtils.execute(sqlSessionFactory, splitDataList, mapperMethod.insert());
+            //清空
+            splitDataList.clear();
+            return Objects.nonNull(results) && !results.isEmpty();
+        });
     }
 
 

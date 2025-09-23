@@ -1,6 +1,5 @@
 package aks.com.web.toolkit.page;
 
-import aks.com.sdk.exception.ServiceException;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
@@ -28,7 +27,7 @@ public final class CommonPageRequestUtils {
 
     private static final Integer PAGE_SIZE_MAX_VALUE = 100;
 
-    public static <T> Page<T> defaultPage() throws ServiceException {
+    public static <T> Page<T> defaultPage()  {
         return defaultPage(null);
     }
 
