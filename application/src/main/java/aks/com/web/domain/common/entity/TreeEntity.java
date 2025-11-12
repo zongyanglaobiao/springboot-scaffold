@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * 基础树结构实体类
  * @author jamesaks
  * @since 2025/8/5
  */

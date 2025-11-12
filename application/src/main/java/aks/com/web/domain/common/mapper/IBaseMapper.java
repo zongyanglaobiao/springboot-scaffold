@@ -22,7 +22,7 @@ import java.util.Objects;
  * @author xxl
  * @since 2024/9/13
  */
-public interface IBaseMapper<E extends Entity> extends BaseMapper<E> {
+public interface IBaseMapper<E> extends BaseMapper<E> {
 
     default Serializable getId(E e){
         throw new RuntimeException("未实现方法");

@@ -1,9 +1,12 @@
 package aks.com.sdk.util.thread;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
- *
+ * 任务结果集合包装类
  * @author jamesaks
  * @since 2025/9/22
  */
@@ -19,11 +22,34 @@ public record TaskResults(List<TaskResult> results) {
      * 获取指定类型的任务结果, 不包括失败任务
      */
     public <T> List<T> getValues(Class<T> type) {
-        return results.stream()
+        return results.parallelStream()
                 .filter(TaskResult::isSuccess)
-                .filter(r -> type.isAssignableFrom(r.value.getClass()))
-                .map(r -> type.cast(r.value))
+                .flatMap(r -> {
+                    Object value = r.value;
+                    if (value == null) {
+                        return Stream.empty();
+                    }
+                    // 如果本身就是 List
+                    if (value instanceof Collection<?> list) {
+                        return list.stream()
+                                .filter(Objects::nonNull)
+                                .filter(type::isInstance)
+                                .map(type::cast);
+                    }
+                    // 单个值
+                    if (type.isInstance(value)) {
+                        return Stream.of(type.cast(value));
+                    }
+                    return Stream.empty();
+                })
                 .toList();
+    }
+
+    /**
+     * 获取单个任务结果
+     */
+    public <T> T getValue(Class<T> type) {
+        return getValues(type).stream().findFirst().orElseThrow(() -> new RuntimeException("not found result"));
     }
 
     /**

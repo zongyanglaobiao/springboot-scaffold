@@ -180,8 +180,10 @@
             <properties>
                 <spring.active>prod</spring.active>
                 <log.path>/Applications/jetbrains/IDEA/github/springboot-scaffold/logs</log.path>
-                <knife4j.enable>true</knife4j.enable>
-                <swagger.enable>false</swagger.enable>
+<!--                <knife4j.enable>true</knife4j.enable>-->
+<!--                <swagger.enable>false</swagger.enable>-->
+                <knife4j.enable>false</knife4j.enable>
+                <swagger.enable>true</swagger.enable>
             </properties>
         </profile>
     </profiles>

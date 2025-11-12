@@ -1,50 +1,35 @@
 package aks.com.sdk.util.thread;
 
-import cn.hutool.core.lang.Assert;
-
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.function.Supplier;
 
 /**
- *
+ * 多线程任务工具类
  * @author jamesaks
  * @since 2025/9/13
  */
 public final class TaskRunnerUtils {
 
-    private static volatile ThreadPoolExecutor THREAD_POOL;
-
-    private static ThreadPoolExecutor getThreadPool() {
-        if (THREAD_POOL == null) {
-            synchronized (TaskRunnerUtils.class) {
-                if (THREAD_POOL == null) {
-                    THREAD_POOL = ThreadPoolUtils.createCpuThreadPool();
-                }
-            }
-        }
-        return THREAD_POOL;
-    }
-
     public static TaskResults runTasksAndCollect(List<Supplier<?>> tasks) {
-        return runTasksAndCollect(tasks,true);
+        return runTasksAndCollect(tasks, true);
     }
 
-        /**
-         * 并行执行多类型任务
-         * @param tasks 任务列表
-         * @param isThrowException 有异常时是否抛出异常 true抛出
-         */
-    public static TaskResults runTasksAndCollect(List<Supplier<?>> tasks,boolean isThrowException) {
-        checkEmpty(tasks);
+    /**
+     * 并行执行多类型任务
+     *
+     * @param tasks            任务列表
+     * @param isThrowException 有异常时是否抛出异常 true抛出
+     */
+    public static TaskResults runTasksAndCollect(List<Supplier<?>> tasks, boolean isThrowException) {
+        checkIsEmpty(tasks);
 
         //构建任务
         List<CompletableFuture<TaskResults.TaskResult>> taskFutureList = tasks
                 .stream()
                 .map(task -> CompletableFuture
-                        .supplyAsync(task, getThreadPool())
+                        .supplyAsync(task)
                         //以下两行代码可以使用 handle
                         .thenApply(TaskResults.TaskResult::success)
                         .exceptionally(throwable -> {
@@ -75,13 +60,13 @@ public final class TaskRunnerUtils {
     /**
      * 并行执行多个任务
      */
-    public static <T> List<T> supplyAsync(List<Supplier<T>> tasks) {
-        checkEmpty(tasks);
+    public static <T> List<T> runTask(List<Supplier<T>> tasks) {
+        checkIsEmpty(tasks);
 
         //构建任务
         List<CompletableFuture<T>> taskFutureList = tasks
                 .stream()
-                .map(task -> CompletableFuture.supplyAsync(task, getThreadPool()))
+                .map(CompletableFuture::supplyAsync)
                 .toList();
 
         try {
@@ -100,7 +85,7 @@ public final class TaskRunnerUtils {
         }
     }
 
-    private static void checkEmpty(List<?> list) {
+    private static void checkIsEmpty(List<?> list) {
         if (list == null || list.isEmpty()) {
             throw new IllegalArgumentException("list is empty");
         }

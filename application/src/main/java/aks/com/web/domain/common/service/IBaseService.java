@@ -115,7 +115,7 @@ public interface IBaseService<E extends Entity> extends IService<E> {
 
     /**
      * 参数多且允许为空时，MyBatis-Plus 查询条件判断代码会变得非常冗长，特别是对 wrapper.ge(...)、wrapper.like(...) 等调用需手动判空。
-     *
+     * mybatis-plus 自带这个功能
      * @author jamesaks
      * @since 2025/8/6
      */

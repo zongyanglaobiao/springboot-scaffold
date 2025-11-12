@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Objects;
 
 /**
+ * 线程本地变量
  * @author xxl
  * @since 2024/12/9
  */
