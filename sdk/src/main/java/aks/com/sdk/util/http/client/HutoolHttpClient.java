@@ -21,25 +21,28 @@ import java.util.stream.Collectors;
  * @since 2025/5/22
  */
 @Slf4j
-@Setter
-public class HutoolHttpClient extends AbstractHttpClient {
+public class HutoolHttpClient extends AbstractHttpClient<HttpRequest,HttpResponse> {
 
     /**
      * hutool 工具类默认 -1 永不超时，注意这会拖死系统
      */
-    private static final int DEFAULT_TIMEOUT = 5000;
+    @Setter
+    private int defaultTimeout = 5000;
+
 
     @Override
-    protected <T extends Response> T doExecute(Request<T> request) {
+    protected <T extends Response> T doExecute(Request<T> request, HttpClientHook<HttpRequest, HttpResponse> hook) {
         T instance = getRespInstance(request);
 
         // 改为同步执行
         HttpRequest httpRequest = buildRequest(request);
-        //请求日志
-        log.info("execute request --> {}", httpRequest);
+        hook.beforeExecute(httpRequest);
         try (HttpResponse resp = httpRequest.execute(true)) {
-            //响应日志
-            log.info("execute response --> {}", resp);
+            //返回自定义的解析逻辑
+            T result = hook.afterExecute(resp);
+            if (Objects.nonNull(result)) {
+                return result;
+            }
 
             //请求体
             String body = resp.body();
@@ -67,7 +70,7 @@ public class HutoolHttpClient extends AbstractHttpClient {
             case PUT -> req = HttpRequest.put(url);
             default -> throw new RuntimeException("Unsupported request methods");
         }
-        req.timeout(DEFAULT_TIMEOUT);
+        req.timeout(defaultTimeout);
         if (Objects.nonNull(body)) {
             req.body(body);
         }
