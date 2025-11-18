@@ -9,34 +9,35 @@ import java.util.Map;
 
 /**
  * 请求参数类
+ *
  * @author jamesaks
  * @since 2025/5/22
  */
 @Data
 public abstract class Request<T extends Response> implements Serializable {
 
-   /**
-    * 请求路径
-    */
-   private transient String url;
+    /**
+     * 请求路径
+     */
+    private transient String url;
 
-   /**
-    * 请求头部信息
-    */
-   private transient Map<String,Object> headers;
+    /**
+     * 请求头部信息
+     */
+    private transient Map<String, Object> headers;
 
-   /**
-    * 请求方法
-    */
-   private transient RequestMethod method;
+    /**
+     * 请求方法
+     */
+    private transient RequestMethod method;
 
-   /**
-    * 请求体
-    */
-   private transient String body;
+    /**
+     * 请求体
+     */
+    private transient String body;
 
-   /**
-    * 指定响应实体类
-    */
-   public abstract Class<T> getResponseClass();
+    /**
+     * 指定响应实体类
+     */
+    public abstract Class<T> getResponseClass();
 }

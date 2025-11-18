@@ -10,7 +10,7 @@ import aks.com.sdk.util.http.client.response.Response;
  * @author jamesaks
  * @since 2025/5/22
  */
-public interface HttpClient {
+public interface Client {
     /**
      * 执行请求
      *

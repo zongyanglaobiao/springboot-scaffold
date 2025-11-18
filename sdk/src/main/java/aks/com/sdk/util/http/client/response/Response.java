@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 /**
  * 响应抽象类
+ *
  * @author jamesaks
  * @since 2025/5/22
  */

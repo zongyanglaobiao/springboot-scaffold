@@ -5,6 +5,7 @@ import aks.com.sdk.util.http.client.response.Response;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 抽象客户端
@@ -13,12 +14,12 @@ import java.util.Objects;
  * @since 2025/11/11
  */
 @Slf4j
-public abstract class AbstractHttpClient<Req, Resp> implements HttpClient {
+public abstract class AbstractClient<Req, Resp> implements Client {
 
     /**
      * 执行请求并获取结果
      *
-     * @see #execute(Request, HttpClientHook)
+     * @see #execute(Request, ClientHook)
      */
     @Override
     public <T extends Response> T execute(Request<T> request) {
@@ -32,25 +33,25 @@ public abstract class AbstractHttpClient<Req, Resp> implements HttpClient {
      * @param hook    请求执行钩子
      * @param <T>     响应结果类型
      * @return 响应结果
-     * @see #doExecute(Request, HttpClientHook)
+     * @see #doExecute(Request, ClientHook)
      */
-    public <T extends Response> T execute(Request<T> request, HttpClientHook<Req, Resp> hook) {
+    public <T extends Response> T execute(Request<T> request, ClientHook<Req, Resp, T> hook) {
         T instance = getRespInstance(request);
         try {
             //实现hook防止为null
-            return doExecute(request, new HttpClientHook<>() {
+            return doExecute(request, new ClientHook<>() {
                 @Override
                 public void beforeExecute(Req request) {
-                    log.info("execute request --> {}", request);
                     if (Objects.nonNull(hook)) {
                         hook.beforeExecute(request);
                     }
+                    log.info("execute request --> {}", request);
                 }
 
                 @Override
-                public <R> R afterExecute(Resp response) {
+                public Optional<T> afterExecute(Resp response) {
                     log.info("execute response --> {}", response);
-                    return Objects.nonNull(hook) ? hook.afterExecute(response) : null;
+                    return Objects.nonNull(hook) ? hook.afterExecute(response) : Optional.empty();
                 }
             });
         } catch (Exception e) {
@@ -64,14 +65,14 @@ public abstract class AbstractHttpClient<Req, Resp> implements HttpClient {
     /**
      * 最终实现请求并返回解析结果，这里默认权限是{@code protected},子类实现后不建议重写权限，{@code doExecute}只实现请求逻辑，其余的不需要管，如日志...
      * <p>
-     * {@link #execute(Request, HttpClientHook) 被顶层调用}
      *
      * @param request 请求参数
      * @param hook    请求执行钩子
      * @param <T>     响应结果类型
      * @return 响应结果
+     * @see #execute(Request, ClientHook)
      */
-    protected abstract <T extends Response> T doExecute(Request<T> request, HttpClientHook<Req, Resp> hook);
+    protected abstract <T extends Response> T doExecute(Request<T> request, ClientHook<Req, Resp, T> hook);
 
     /**
      * 获取响应结果实例
@@ -101,24 +102,28 @@ public abstract class AbstractHttpClient<Req, Resp> implements HttpClient {
     /**
      * 请求执行钩子
      *
-     * @param <Req> 请求对象
+     * @param <Req>  请求对象
      * @param <Resp> 响应对象
+     * @param <T>    转换对象
      */
-    public interface HttpClientHook<Req, Resp> {
+    public interface ClientHook<Req, Resp, T extends Response> {
 
         /**
          * 执行请求前
+         *
          * @param request 请求对象
          */
-        void beforeExecute(Req request);
+        default void beforeExecute(Req request) {
+        }
 
         /**
          * 执行请求后
          *
          * @param response 响应对象
          * @return 响应结果
-         * @param <T> 最终解析响应返回的对象
          */
-        <T> T afterExecute(Resp response);
+        default Optional<T> afterExecute(Resp response) {
+            return Optional.empty();
+        }
     }
 }

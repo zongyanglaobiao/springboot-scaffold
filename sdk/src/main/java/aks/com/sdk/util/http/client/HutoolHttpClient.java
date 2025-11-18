@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
  * @since 2025/5/22
  */
 @Slf4j
-public class HutoolHttpClient extends AbstractHttpClient<HttpRequest,HttpResponse> {
+public class HutoolHttpClient extends AbstractClient<HttpRequest,HttpResponse> {
 
     /**
      * hutool 工具类默认 -1 永不超时，注意这会拖死系统
@@ -29,9 +30,8 @@ public class HutoolHttpClient extends AbstractHttpClient<HttpRequest,HttpRespons
     @Setter
     private int defaultTimeout = 5000;
 
-
     @Override
-    protected <T extends Response> T doExecute(Request<T> request, HttpClientHook<HttpRequest, HttpResponse> hook) {
+    protected <T extends Response> T doExecute(Request<T> request, ClientHook<HttpRequest, HttpResponse,T> hook) {
         T instance = getRespInstance(request);
 
         // 改为同步执行
@@ -39,9 +39,9 @@ public class HutoolHttpClient extends AbstractHttpClient<HttpRequest,HttpRespons
         hook.beforeExecute(httpRequest);
         try (HttpResponse resp = httpRequest.execute(true)) {
             //返回自定义的解析逻辑
-            T result = hook.afterExecute(resp);
-            if (Objects.nonNull(result)) {
-                return result;
+            Optional<T> optional = hook.afterExecute(resp);
+            if (optional.isPresent()) {
+                return optional.get();
             }
 
             //请求体
