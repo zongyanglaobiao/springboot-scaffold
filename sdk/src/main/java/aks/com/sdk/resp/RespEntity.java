@@ -20,13 +20,13 @@ public class RespEntity<T> implements Serializable {
 
     private int code;
 
-    private String message;
+    private String msg;
 
     private T data;
 
     private RespEntity(int code, String message, T data) {
         this.code = code;
-        this.message = message;
+        this.msg = message;
         this.data = data;
     }
 
