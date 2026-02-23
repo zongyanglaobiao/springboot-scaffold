@@ -3,11 +3,13 @@ package aks.com.sdk.resp;
 import lombok.RequiredArgsConstructor;
 
 /**
+ * 默认错误类
+ *
  * @author xxl
  * @since 2023/11/23
  */
 @RequiredArgsConstructor
-public enum DefaultErrorMessage implements ErrorMessage{
+public enum DefaultErrorMessage implements ErrorMessage {
 
     SUCCESS(200, "success"),
     UNAUTHORIZED(401, "unauthorized"),
