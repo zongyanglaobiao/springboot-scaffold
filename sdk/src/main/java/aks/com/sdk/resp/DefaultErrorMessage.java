@@ -3,6 +3,7 @@ package aks.com.sdk.resp;
 import lombok.RequiredArgsConstructor;
 
 /**
+ * 默认错误信息
  *
  * @author xxl
  * @since 2023/11/23

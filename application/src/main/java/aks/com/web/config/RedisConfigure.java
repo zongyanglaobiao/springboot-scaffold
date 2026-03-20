@@ -1,7 +1,5 @@
 package aks.com.web.config;
 
-import aks.com.web.toolkit.redis.RedisUtils;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -37,9 +35,6 @@ public class RedisConfigure {
         redisTemplate.setValueSerializer(jackson);
         redisTemplate.setHashValueSerializer(jackson);
         redisTemplate.afterPropertiesSet();
-
-        //redis工具类
-        RedisUtils.setRedisTemplate(redisTemplate);
         return redisTemplate;
     }
 }
