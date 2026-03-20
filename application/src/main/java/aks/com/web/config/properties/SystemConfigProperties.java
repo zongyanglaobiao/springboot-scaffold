@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 /**
  * 系统自定义配置,都应该放在这个配置文件中
+ *
  * @author jamesaks
  * @since 2025/8/4
  */
@@ -17,14 +18,14 @@ public class SystemConfigProperties {
     private Authorization authorization;
 
     @Data
-    public static class Authorization{
+    public static class Authorization {
         /**
-         *  拦截路径
+         * 拦截路径
          */
         private String path = "/**";
 
         /**
-         *  白名单
+         * 白名单
          */
         private String[] excludePath = new String[]{
                 "/**/doc.html",

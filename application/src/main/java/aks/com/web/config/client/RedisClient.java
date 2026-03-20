@@ -1,6 +1,7 @@
 package aks.com.web.config.client;
 
 import cn.hutool.core.convert.Convert;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.connection.*;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -20,16 +21,13 @@ import java.util.function.Function;
  */
 @RequiredArgsConstructor
 @Component
-public final class RedisClient {
+@Getter
+public class RedisClient {
     /**
      * -- GETTER --
      * 获取 redisTemplate
      */
     private final RedisTemplate<String, Object> redisTemplate;
-
-    public RedisTemplate<String, Object> getRedisTemplate() {
-        return redisTemplate;
-    }
 
     /*========================================*/
     /*===============common===================*/
