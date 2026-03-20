@@ -4,8 +4,7 @@
 
 spring:
   profiles:
-    active:
-      - @spring.active@
+    active: @spring.active@
   task:
     scheduling:
       pool:
