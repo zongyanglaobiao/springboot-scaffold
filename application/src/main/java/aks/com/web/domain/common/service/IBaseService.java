@@ -14,39 +14,45 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
  * 通用service方法
+ *
  * @author xxl
  * @since 2024/1/2
  */
 public interface IBaseService<E extends Entity> extends IService<E> {
     /**
      * in查询
-     * @param condition  查询条件
-     * @param val 元数据
+     *
+     * @param condition 查询条件
+     * @param val       元数据
      * @return List<E>
      */
-    default List<E> list(SFunction<E,?> condition,List<?> val) {
+    default List<E> list(SFunction<E, ?> condition, List<?> val) {
         if (val.isEmpty()) {
             return new ArrayList<>();
         }
-        return this.lambdaQuery().in(condition,val).list();
+        return this.lambdaQuery().in(condition, val).list();
     }
 
     /**
      * in查询
-     * @param condition  查询条件
-     * @param val 元数据
+     *
+     * @param condition 查询条件
+     * @param val       元数据
      * @return List<E>
      */
-    default List<E> list(SFunction<E,?> condition,Object ...val) {
+    default List<E> list(SFunction<E, ?> condition, Object... val) {
         if (val.length == 0) {
             return new ArrayList<>();
         }
-        return this.lambdaQuery().in(condition,val).list();
+        return this.lambdaQuery().in(condition, val).list();
     }
 
     /**
@@ -71,13 +77,14 @@ public interface IBaseService<E extends Entity> extends IService<E> {
      * 获取数据不存在则抛出异常
      */
     default E getByIdThrowIfNull(Serializable id) {
-        return getByIdThrowIfNull(id,"data not exist");
+        return getByIdThrowIfNull(id, "data not exist");
     }
 
     /**
      * 每次默认保存批数每次 values 1000
      */
-    int DEFAULT_BATCH_SIZE =  1000;
+    int DEFAULT_BATCH_SIZE = 1000;
+
     /**
      * 批量保存而不是循环插入
      */
@@ -96,8 +103,9 @@ public interface IBaseService<E extends Entity> extends IService<E> {
 
     /**
      * 根据 ID 更新 / 没有 id 则保存
+     *
      * @param entity 实体类
-     * @return  boolean
+     * @return boolean
      */
     default boolean saveOrUpdateById(E entity) {
         if (StrUtil.isBlank(entity.getId())) {
@@ -116,31 +124,32 @@ public interface IBaseService<E extends Entity> extends IService<E> {
     /**
      * 参数多且允许为空时，MyBatis-Plus 查询条件判断代码会变得非常冗长，特别是对 wrapper.ge(...)、wrapper.like(...) 等调用需手动判空。
      * mybatis-plus 自带这个功能
+     *
      * @author jamesaks
      * @since 2025/8/6
      */
     record QueryBuilder<T>(LambdaQueryChainWrapper<T> wrapper) {
-            public <V> QueryBuilder<T> notNull(V value, SFunction<T, ?> column, ColumnValueApplier<T, V> fn) {
-                if (Objects.nonNull(value)) {
-                    fn.apply(wrapper, column, value);
-                }
-                return this;
+        public <V> QueryBuilder<T> notNull(V value, SFunction<T, ?> column, ColumnValueApplier<T, V> fn) {
+            if (Objects.nonNull(value)) {
+                fn.apply(wrapper, column, value);
             }
-
-            public QueryBuilder<T> notBlack(String value, SFunction<T, String> column, ColumnValueApplier<T, String> fn) {
-                if (Objects.nonNull(value)) {
-                    fn.apply(wrapper, column, value);
-                }
-                return this;
-            }
-
-            public <V> QueryBuilder<T> notEmpty(List<V> values, SFunction<T, ?> column, ColumnValueApplier<T, List<V>> fn) {
-                if (Objects.nonNull(values) && !values.isEmpty()) {
-                    fn.apply(wrapper, column, values);
-                }
-                return this;
-            }
+            return this;
         }
+
+        public QueryBuilder<T> notBlack(String value, SFunction<T, String> column, ColumnValueApplier<T, String> fn) {
+            if (Objects.nonNull(value)) {
+                fn.apply(wrapper, column, value);
+            }
+            return this;
+        }
+
+        public <V> QueryBuilder<T> notEmpty(List<V> values, SFunction<T, ?> column, ColumnValueApplier<T, List<V>> fn) {
+            if (Objects.nonNull(values) && !values.isEmpty()) {
+                fn.apply(wrapper, column, values);
+            }
+            return this;
+        }
+    }
 
     @FunctionalInterface
     interface ColumnValueApplier<T, V> {
